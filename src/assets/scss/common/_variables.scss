@@ -1,0 +1,97 @@
+/** Import Bootstrap functions */
+@import "~bootstrap/scss/functions";
+
+$theme-colors: (
+  primary: #525ddc
+);
+
+$bigfarm-brown:         #4c3208;
+$bigfarm-brown-darker:  #261f13;
+
+$bigfarm-brown-light:   #ffe9cc;
+$bigfarm-brown-dark:    #b08a58;
+
+$bigfarm-brown-fill:    #8a5112;
+
+$bigfarm-text-outline:   #f2d08b;
+
+$bigfarm-beta:  #f851e8;
+
+// Overlay
+$bigfarm-overlay-shade: rgba(0, 0, 0, 0.5);
+
+// Window
+$bigfarm-window-border-radius: 4px;
+
+$bigfarm-border-radius:        6px;
+$bigfarm-border-width-outer:   2px;
+$bigfarm-border-width-inner:   4px;
+
+$bigfarm-bevel1-dark:   #ac6c23;
+$bigfarm-bevel1-light:  #fff;
+
+$bigfarm-window-inner-shadow: rgba(112, 52, 0, 0.42);
+
+// Button
+$bigfarm-button-shadow: rgba(51, 31, 0, 0.4);
+$bigfarm-button-text-shadow: #43808c;
+
+$bigfarm-button-border: #593200;
+$bigfarm-button-inner-shadow: #0077b3;
+$bigfarm-button-highlight: rgba(217, 251, 255, 0.65);
+
+$bigfarm-button-gradient1-p1: rgba(22, 168, 217, 1);
+$bigfarm-button-gradient1-p2: rgba(89, 227, 255, 1);
+
+$bigfarm-button-gradient2-p1: rgba(187, 226, 242, 1);
+$bigfarm-button-gradient2-p2: rgba(0, 164, 198, 0);
+
+$bigfarm-button-gradient3-p1: rgba(0, 94, 140, 1);
+$bigfarm-button-gradient3-p2: rgba(0, 119, 140, 1);
+
+$bigfarm-button-gradient-v2-01-p1: rgba(184, 130, 52, 1);
+$bigfarm-button-gradient-v2-01-p2: rgba(235, 206, 153, 1);
+$bigfarm-button-gradient-v2-01-p3: rgba(198, 148, 79, 1);
+$bigfarm-button-gradient-v2-01-p4: rgba(246, 221, 181, 1);
+$bigfarm-button-gradient-v2-01-p5: rgba(160, 108, 32, 1);
+$bigfarm-button-gradient-v2-01-p6: rgba(209, 173, 106, 1);
+
+$bigfarm-button-gradient-v2-02-p1: rgba(242, 215, 168, 1);
+$bigfarm-button-gradient-v2-02-p2: rgba(235, 202, 158, 1);
+
+// Gradients
+$bigfarm-gradient-p1:   rgba(242, 182, 92, 0.53); // hell, link
+$bigfarm-gradient-p2:   rgba(222, 153, 75, 0.53);
+
+$bigfarm-gradient-green-light-p1: rgba(79, 145, 23, 1); // dunkel unten
+$bigfarm-gradient-green-light-p2: rgba(146, 204, 61, 1);
+
+$bigfarm-gradient-green-dark-p1: rgba(51, 102, 1, 1); // dunkel unten
+$bigfarm-gradient-green-dark-p2: rgba(76, 151, 0, 1);
+
+$bigfarm-gradient-beige-light-p1: rgba(232, 212, 175, 1); // links oben
+$bigfarm-gradient-beige-light-p2: rgba(201, 176, 137, 1); // rechts unten
+
+$bigfarm-gradient-window-bevel-light-p1: #cc965a; // dunkel, unten
+$bigfarm-gradient-window-bevel-light-p2: #f0cf9c; // 77%
+$bigfarm-gradient-window-bevel-light-p3: #fadfb6;
+
+$bigfarm-gradient-beige-dark-p1: #dea754;
+$bigfarm-gradient-beige-dark-p2: #bf8441;
+
+$bigfarm-shadow-large:  rgba(77, 46, 0, 0.2);
+$bigfarm-shadow-small:  rgba(51, 31, 0, 0.35);
+$bigfarm-accent-small:  #e6f6ff;
+
+$bigfarm-blue:          #5fcbec;
+
+/** Bootstrap navbar fix (https://git.io/fADqW) */
+$navbar-dark-toggler-icon-bg: none;
+$navbar-light-toggler-icon-bg: none;
+
+// Grid
+$grid-gutter-width:     10px !default;
+
+// Fonts
+$font-arial-rounded:    Arial, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+$font-family-base:      $font-arial-rounded !default;
