@@ -38,13 +38,74 @@ $bigfarm-button-text-shadow: #43808c;
 
 $bigfarm-button-border: #593200;
 $bigfarm-button-inner-shadow: #0077b3;
-$bigfarm-button-highlight: rgba(217, 251, 255, 0.65);
+$bigfarm-button-inner-shadow-hover: #207485;
+$bigfarm-button-inner-shadow-bottom-active: #73d2e6;
+$bigfarm-button-inner-shadow-top-active: #00404d;
 
+$bigfarm-button-highlight: rgba(217, 251, 255, 1);
+$bigfarm-button-highlight-hover: rgba(115, 210, 230, 1);
 $bigfarm-button-gradient1-p1: rgba(22, 168, 217, 1);
 $bigfarm-button-gradient1-p2: rgba(89, 227, 255, 1);
-
-$bigfarm-button-gradient2-p1: rgba(187, 226, 242, 1);
+$bigfarm-button-gradient1-p1-hover: rgba(0, 143, 191, 1);
+$bigfarm-button-gradient1-p2-hover: rgba(20, 163, 204, 1);
+$bigfarm-button-gradient1-p1-active: rgba(0, 105, 140, 1);
+$bigfarm-button-gradient1-p2-active: rgba(0, 158, 204, 1);
+$bigfarm-button-gradient2-p1: rgba(179, 242, 252, 1);
 $bigfarm-button-gradient2-p2: rgba(0, 164, 198, 0);
+$bigfarm-button-gradient2-p1-hover: rgba(204, 246, 255, 0.5);
+$bigfarm-button-gradient2-p2-hover: rgba(0, 164, 198, 0);
+
+/* -------------- */
+
+// bigfarm__button_orange / orange button theme
+$bigfarm-button-orange-text-shadow: #b34712;
+$bigfarm-button-orange-inner-shadow: #b34712;
+$bigfarm-button-orange-highlight: #ffbbab;
+$bigfarm-button-orange-gradient1-p1: rgba(228, 92, 23, 1);
+$bigfarm-button-orange-gradient1-p2: rgba(255, 122, 26, 1);
+$bigfarm-button-orange-gradient2-p1: rgba(242, 161, 121, 1);
+$bigfarm-button-orange-gradient2-p2: rgba(242, 104, 24, 0);
+
+// bigfarm__button_orange::hover
+$bigfarm-button-orange-inner-shadow-hover: #a63c08;
+$bigfarm-button-orange-highlight-hover: #f2b5aa;
+$bigfarm-button-orange-gradient1-p1-hover: rgba(204, 82, 21, 1);
+$bigfarm-button-orange-gradient1-p2-hover: rgba(230, 97, 0, 1);
+$bigfarm-button-orange-gradient2-p1-hover: rgba(230, 138, 92, 1);
+$bigfarm-button-orange-gradient2-p2-hover: rgba(217, 86, 11, 0);
+
+// bigfarm__button_orange::active
+$bigfarm-button-orange-inner-shadow-bottom-active: #e67b2e;
+$bigfarm-button-orange-inner-shadow-top-active: #913c00;
+$bigfarm-button-orange-gradient1-p1-active: rgba(204, 86, 0, 1);
+$bigfarm-button-orange-gradient1-p2-active: rgba(153, 51, 0, 1);
+
+/* -------------- */
+
+// bigfarm__button_green / green button theme
+$bigfarm-button-green-text-shadow: #3d6615;
+$bigfarm-button-green-inner-shadow: #67991f;
+$bigfarm-button-green-highlight: #f2ffd9;
+$bigfarm-button-green-gradient1-p1: rgba(107, 179, 45, 1);
+$bigfarm-button-green-gradient1-p2: rgba(146, 204, 61, 1);
+$bigfarm-button-green-gradient2-p1: rgba(224, 242, 170, 1);
+$bigfarm-button-green-gradient2-p2: rgba(127, 191, 53, 0);
+
+// bigfarm__button_green::hover
+$bigfarm-button-green-inner-shadow-hover: #51800c;
+$bigfarm-button-green-highlight-hover: #c7e68a;
+$bigfarm-button-green-gradient1-p1-hover: rgba(87, 153, 31, 1);
+$bigfarm-button-green-gradient1-p2-hover: rgba(121, 179, 36, 1);
+$bigfarm-button-green-gradient2-p1-hover: rgba(195, 217, 130, 1);
+$bigfarm-button-green-gradient2-p2-hover: rgba(103, 163, 32, 0);
+
+// bigfarm__button_green::active
+$bigfarm-button-green-inner-shadow-bottom-active: #9ebf39;
+$bigfarm-button-green-inner-shadow-top-active: #3d6615;
+$bigfarm-button-green-gradient1-p1-active: rgba(103, 153, 31, 1);
+$bigfarm-button-green-gradient1-p2-active: rgba(45, 89, 9, 1);
+
+/* -------------- */
 
 $bigfarm-button-gradient3-p1: rgba(0, 94, 140, 1);
 $bigfarm-button-gradient3-p2: rgba(0, 119, 140, 1);
