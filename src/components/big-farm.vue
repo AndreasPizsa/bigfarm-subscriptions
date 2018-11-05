@@ -44,8 +44,9 @@
                                   : 'subscription_packageAlliance_title'
                                 )
                             }}</h2>
-                            <div class="bigfarm__hero_visual" :style="{
-                                      'background-image': `url(${subscriptions.base.assetsBaseUrl}${plan.id})`
+                            <div class="bigfarm__hero_visual" :class="plan.id" :style="{
+                                    'background-image': 'url(' + require(`@/assets/images/hero-${plan.id}.jpg`) + ')',
+                                    'background-size': 'cover'
                                   }"
                               ></div>
                             <div class="bigfarm__shade_brown fullwidth">
@@ -74,28 +75,13 @@
 
                             <div v-if="userSubscriptionByType(plan.id).id === 'allianceSubscription'">
                                 <div class="bigfarm__scroll_container mt-1" >
-                                  <swiper :options="sliderPacksOptions" ref="sliderPacks" class="bigfarm__pack_contents">
-                                      <swiper-slide
-                                          v-for="(pack, index) in normalPacks"
-                                          :key="`${pack.text}-${index}`"
-                                      >
-                                          <div class="bigfarm__pack_single">
-                                              <div class="dummy-img">
-                                                  <img alt="" :src="require(`@/assets/images/${pack.image}`)" v-if="pack.image"/>
-                                              </div>
+                                  <div class="bigfarm__pack_single" v-for="(perkId, index) in alliancePackPerks">
+                                      <div class="dummy-img">
+                                          <img alt="" :src="`${subscriptions.base.assetsBaseUrl}${perkId}`"/>
+                                      </div>
 
-                                              <div class="description">{{ pack.text }}</div>
-                                          </div><!-- /.bigfarm__pack -->
-                                      </swiper-slide>
-
-                                      <div class="bigfarm__slider_controls" slot="pagination">
-                                          <a href="#" class="bigfarm__slider_first" @click.prevent="slideToFirst">First</a>
-                                          <a href="#" class="bigfarm__slider_prev"  @click.prevent="slidePrev">Prev</a>
-                                          <a href="#" class="bigfarm__slider_next"  @click.prevent="slideNext">Next</a>
-                                          <a href="#" class="bigfarm__slider_last"  @click.prevent="slideToLast">Last</a>
-                                      </div><!-- /.bigfarm__slider_controls -->
-
-                                  </swiper>
+                                      <div class="description">{{ t(textKeyForItemId(perkId).title) }}</div>
+                                  </div><!-- /.bigfarm__pack -->
                                 </div>
 
                                 <hr class="fullwidth mt-2 mb-2" />
@@ -119,7 +105,7 @@
                                         : 'subscription_currentlyNotBooked_title'
                                       )
                                   }}
-                                  <span>{{ plan.validUntil | moment("L") }}</span>
+                                  <span v-if="isUserSubscriptionActiveByType(plan.id)">{{ plan.validUntil | moment("L") }}</span>
                                 </h3>
                               </div>
                             </div>
@@ -188,90 +174,29 @@
                     <div class="bigfarm__pack bigfarm__pack_v2 bigfarm__cooperative_bonus_list mt-0">
                       <div class="bigfarm__infoheader">
                         <div class="bigfarm__icon_back" @click="goToPage(1)"><img :src="require('@/assets/images/bigfarm__icon_back.svg')" alt="Back" /></div>
-                        <h5>Progress of values if multiple members have booked the alliance subscription</h5>
+                        <h5>{{ t('subscription_allianceProgress') }}</h5>
                       </div>
 
-                    <table class="bigfarm__table">
-                      <thead>
-                        <tr>
-                          <th colspan="2">Bonuses</th>
-                          <th>1</th>
-                          <th>2</th>
-                          <th>3</th>
-                          <th>5</th>
-                          <th>10</th>
-                          <th>15</th>
-                          <th>20</th>
-                          <th>30</th>
-                          <th>40</th>
-                          <th>50</th>
-                          <th>60</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td><div class="thumbnail"></div></td>
-                          <td><h3>Edge Plant Production</h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod</p></td>
-                          <td><img :src="require('@/assets/images/bigfarm__x.svg')" alt="X" /></td>
-                          <td><img :src="require('@/assets/images/bigfarm__x.svg')" alt="X" /></td>
-                          <td><img :src="require('@/assets/images/bigfarm__x.svg')" alt="X" /></td>
-                          <td><img :src="require('@/assets/images/bigfarm__x.svg')" alt="X" /></td>
-                          <td><img :src="require('@/assets/images/bigfarm__x.svg')" alt="X" /></td>
-                          <td><img :src="require('@/assets/images/bigfarm__x.svg')" alt="X" /></td>
-                          <td>+xxx%</td>
-                          <td>+xxx%</td>
-                          <td>+xxx%</td>
-                          <td>+xxx%</td>
-                          <td>+xxx%</td>
-                        </tr>
-                        <tr>
-                          <td><div class="thumbnail"></div></td>
-                          <td><h3>Edge Plant Production</h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod</p></td>
-                          <td><img :src="require('@/assets/images/bigfarm__x.svg')" alt="X" /></td>
-                          <td><img :src="require('@/assets/images/bigfarm__x.svg')" alt="X" /></td>
-                          <td><img :src="require('@/assets/images/bigfarm__x.svg')" alt="X" /></td>
-                          <td><img :src="require('@/assets/images/bigfarm__x.svg')" alt="X" /></td>
-                          <td>+xxx%</td>
-                          <td>+xxx%</td>
-                          <td>+xxx%</td>
-                          <td>+xxx%</td>
-                          <td>+xxx%</td>
-                          <td>+xxx%</td>
-                          <td>+xxx%</td>
-                        </tr>
-                        <tr>
-                          <td><div class="thumbnail"></div></td>
-                          <td><h3>Edge Plant Production</h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod</p></td>
-                          <td><img :src="require('@/assets/images/bigfarm__x.svg')" alt="X" /></td>
-                          <td><img :src="require('@/assets/images/bigfarm__x.svg')" alt="X" /></td>
-                          <td><img :src="require('@/assets/images/bigfarm__x.svg')" alt="X" /></td>
-                          <td>+xxx%</td>
-                          <td>+xxx%</td>
-                          <td>+xxx%</td>
-                          <td>+xxx%</td>
-                          <td>+xxx%</td>
-                          <td>+xxx%</td>
-                          <td>+xxx%</td>
-                          <td>+xxx%</td>
-                        </tr>
-                        <tr>
-                          <td><div class="thumbnail"></div></td>
-                          <td><h3>Edge Plant Production</h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod</p></td>
-                          <td><img :src="require('@/assets/images/bigfarm__x.svg')" alt="X" /></td>
-                          <td>+xxx%</td>
-                          <td>+xxx%</td>
-                          <td>+xxx%</td>
-                          <td>+xxx%</td>
-                          <td>+xxx%</td>
-                          <td>+xxx%</td>
-                          <td>+xxx%</td>
-                          <td>+xxx%</td>
-                          <td>+xxx%</td>
-                          <td>+xxx%</td>
-                        </tr>
-                      </tbody>
-                    </table>
-
+                      <table class="bigfarm__table">
+                        <thead>
+                          <tr>
+                            <th colspan="2">{{ t('subscription_allianceBonuses') }}</th>
+                            <th v-for="tier in alliancePackBoosterTiers">{{tier}}</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr v-for="perkId in alliancePackPerks">
+                            <td><div class="thumbnail">
+                              <img alt="" :src="assetUrl(perkId)" width="100%" height="100%"/>
+                            </div></td>
+                            <td>
+                              <h3>{{ t(textKeyForItemId(perkId).title) }}</h3>
+                              <p>{{ t(textKeyForItemId(perkId).body) }}</p>
+                            </td>
+                            <td v-for="tier in alliancePackBoosterTiers">{{ alliancePackBoosterPerkBoostForTier(perkId, tier) | xIfEmptyOrZero }}</td>
+                          </tr>
+                        </tbody>
+                      </table>
                     </div>
                   </span>
                 </div>
@@ -318,58 +243,81 @@
           subscriptions: {},
           text: {},
           currentSubscriptionTab: 'subscription_infoDialogue_general_header',
-          page: 1,
-          packs: [],
-          sliderPacksOptions: {
-            direction: 'vertical',
-            slidesPerView: 'auto',
-            simulateTouch: false
-          }
+          page: 1
         }),
+
         computed: {
-            canShow() {
-              return this.text.subscription_general_head !== undefined
-            },
-            isPageActive() {
-              return (nr) => this.page == nr
-            },
-            userSubscriptionByType(){
-              return (type) => (this.subscriptions.payoutTypes || []).find(e => e.id === type) || {}
-            },
-            isUserSubscriptionActiveByType() {
-              return (type) => moment().diff(this.userSubscriptionByType(type).validUntil) <= 0
-            },
-            isUsersIndividualSubscriptionActive() {
-              return this.isUserSubscriptionActiveByType('individualSubscription')
-            },
-            isUsersAllianceSubscriptionActive() {
-              return this.isUserSubscriptionActiveByType('allianceSubscription')
-            },
+          canShow() {
+            return this.text.subscription_general_head !== undefined
+          },
 
-            t() {
-              return (id, ...args) => this.text[id] || id
-            },
+          isPageActive() {
+            return (nr) => this.page == nr
+          },
 
-            normalPacks() {
-                return this.packs.filter(pack => !pack.featured);
-            },
+          userSubscriptionByType(){
+            return (type) => (this.subscriptions.payoutTypes || []).find(e => e.id === type) || {}
+          },
 
-            featuredPacks() {
-                return this.packs.filter(pack => pack.featured);
-            },
-            slider() {
-                return this.$refs.sliderPacks[0].swiper;
-            },
-            moment() {
-              moment.locale(this.locale)
-              return moment
-            },
-            tabTitleKeys() {
-              return this.tabTextKeys('header')
-            },
-            tabCopyKeys() {
-              return this.tabTextKeys('copy')
-            }
+          isUserSubscriptionActiveByType() {
+            return (type) => moment().diff(this.userSubscriptionByType(type).validUntil) <= 0
+          },
+
+          isUsersIndividualSubscriptionActive() {
+            return this.isUserSubscriptionActiveByType('individualSubscription')
+          },
+
+          isUsersAllianceSubscriptionActive() {
+            return this.isUserSubscriptionActiveByType('allianceSubscription')
+          },
+
+          moment() {
+            moment.locale(this.locale)
+            return moment
+          },
+
+          tabTitleKeys() {
+            return this.tabTextKeys('header')
+          },
+          tabCopyKeys() {
+            return this.tabTextKeys('copy')
+          },
+
+          alliancePackBoosterData() {
+            return ((this
+              .subscriptions
+              .payoutTypes || [])
+              .find(({id}) => id === 'allianceSubscription') || {})
+              .boosterTiers || []
+          },
+
+          alliancePackPerks() {
+            const allPerks = this
+              .alliancePackBoosterData
+              .reduce((result, {items}) => ([
+                ...result,
+                ...(items.map(([itemId]) => itemId))
+              ]), [])
+            return Array.from(new Set(allPerks))
+          },
+
+          alliancePackBoosterTiers() {
+            const allTiers = this
+              .alliancePackBoosterData
+              .reduce((set, {from}) => set.add(from), new Set())
+            return Array.from(allTiers).sort((a,b) => parseInt(a) - parseInt(b))
+          },
+
+          alliancePackBoosterPerkBoostForTier(){
+            return (perkId, tier) => {
+              return ((this
+                .alliancePackBoosterData
+                .find(({from}) => from >= tier) || {})
+                .items || [])
+                .find(([id]) => id == perkId)
+                [1]
+              }
+          }
         },
 
         filters: {
@@ -388,63 +336,84 @@
 
             formatPrice(price) {
               return parseFloat(price) / 100;
+            },
+
+            xIfEmptyOrZero(value) {
+              return value || '–'
             }
         },
 
         methods: {
-            slidePrev() {
-                this.slider.slidePrev();
-            },
+          assetUrl(forWhat) {
+            return `${this.subscriptions.base.assetsBaseUrl}${forWhat}`
+          },
 
-            slideNext() {
-                this.slider.slideNext();
-            },
+          goToPage(page) {
+              this.page = page;
+          },
 
-            slideToFirst() {
-                this.slider.slideTo(0);
-            },
+          changeTab(id){
+            this.currentSubscriptionTab = id;
+            this.$refs.descriptionText.scrollTo(0, 0);
+          },
 
-            slideToLast() {
-                this.slider.slideTo(this.normalPacks.length);
-            },
+          t(id, ...args) {
+            return this.text[id] || id
+          },
 
-            goToPage(page) {
-                this.page = page;
-            },
+          loadLanguagesFromUrl(url) {
+            fetch(url).then(async (response) => {
+              return this.text = await response.json()
+            })
+          },
 
-            changeTab(id){
-              this.currentSubscriptionTab = id;
-              this.$refs.descriptionText.scrollTo(0, 0);
-            },
-
-            getPlanById(planId) {
-                return this.subscriptions.payoutTypes.find(plan => plan.id === planId);
-            },
-
-            loadLanguagesFromUrl(url) {
-              fetch(url).then(async (response) => this.text = await response.json())
-            },
-
-            tabTextKeys(suffix) {
-              const exceptions = {
-                'subscription_infoDialogue_multiSubscriptions_header'
-                  : 'dialog_subscription_multiSubscriptions_header',
-                'subscription_infoDialogue_monthlyPayment_copy'
-                  : 'dialog_subscription_monthlyPayment_copy'
-              }
-
-              const keys =
-                'general monthlyPayment multiSubscriptions cancelSubscription allianceSubscription convenienceSubscription'
-                .split(/\s+/)
-                .map(key => `subscription_infoDialogue_${key}_${suffix}`)
-                .map(key => exceptions[key] || key)
-
-              return keys
-            },
-            tabCopyForTitle(title) {
-              const copyIndex = this.tabTitleKeys.indexOf(title)
-              return this.tabCopyKeys[copyIndex]
+          tabTextKeys(suffix) {
+            const exceptions = {
+              'subscription_infoDialogue_multiSubscriptions_header'
+                : 'dialog_subscription_multiSubscriptions_header',
+              'subscription_infoDialogue_monthlyPayment_copy'
+                : 'dialog_subscription_monthlyPayment_copy'
             }
+
+            const keys =
+              'general monthlyPayment multiSubscriptions cancelSubscription allianceSubscription convenienceSubscription'
+              .split(/\s+/)
+              .map(key => `subscription_infoDialogue_${key}_${suffix}`)
+              .map(key => exceptions[key] || key)
+
+            return keys
+          },
+
+          tabCopyForTitle(title) {
+            const copyIndex = this.tabTitleKeys.indexOf(title)
+            return this.tabCopyKeys[copyIndex]
+          },
+
+          textKeyForItemId(id) {
+            const keys = {
+              72002: 'contractMaterial',
+              72004: 'fishcontractMaterial',
+              72006: 'xpBooster',
+              72014: 'coopVillageConstructionCosts',
+              72015: 'coopVillageConstructionDuration',
+              72003: 'contractCash',
+              72005: 'fishcontractCash',
+              72009: 'coopResearchCost',
+              72010: 'coopProjectDuration',
+              72016: 'coopVillageBoostLumbermill',
+              72017: 'coopVillageBoostBrickyard',
+              72013: 'seasonSpecialistOutcome',
+              72011: 'edgePlantOutcome',
+              72012: 'fieldDamageReduce',
+              72008: 'horseTrainingCost',
+              72007: 'tempConstructionSlot'
+            }
+
+            return {
+              title: `subscription_perkAlliance_${keys[id]}_title`,
+              body:  `subscription_perkAlliance_${keys[id]}_desc`
+            }
+          }
         },
 
         created() {
@@ -457,3 +426,23 @@
         }
     }
 </script>
+
+<style>
+  .bigfarm__pack_single img {
+    width: 4ex;
+    height: 4ex;
+  }
+
+  .bigfarm__pack_single {
+    padding-bottom: 0.5ex;
+  }
+
+  .bigfarm__pack_single .description,
+  .bigfarm__pack_single .dummy-img {
+    display: inline-block;
+  }
+
+  .bigfarm__pack_single .description {
+    margin-left: 2ex;
+  }
+</style>
