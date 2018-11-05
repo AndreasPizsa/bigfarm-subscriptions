@@ -11,26 +11,30 @@
                         <div class="col-8 bigfarm__window_header_padding">
                             <div class="bigfarm__header_holder">
                                 <h1 class="outline-05px">{{ title }}</h1>
-
                             </div>
                         </div>
                         <div class="col-4">
                           <div class="bigfarm__window_buttons">
-                            <div class="btn btn-secondary outline-1px" @click="goToStep(step === 1 ? 2 : 1)">Subscription Guide</div>
+                            <!-- todo: toggle -->
+                            <div class="btn btn-secondary outline-1px" @click="goToPage(page === 1 ? 2 : 1)">Subscription Guide</div>
                             <img :src="require('@/assets/images/bigfarm__close_button.svg')" alt="X" />
                           </div>
                         </div>
                     </div>
                 </div>
 
+                <!--============================================================
+
+                =============================================================-->
                 <div class="bigfarm__window_inner">
-                    <div class="row bigfarm__intro_text" v-if="step === 1">
+                  <span :class="{ 'd-none': !isPageActive(1)}">
+                    <div class="row bigfarm__intro_text">
                       <div class="col">
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure</p>
                       </div>
                     </div>
 
-                    <div class="row" v-if="step === 1">
+                    <div class="row">
                       <div class="col" v-for="plan in subscriptions.payoutTypes">
                         <div class="bigfarm__pack bigfarm__pack_v2 bigfarm__convenience_pack">
                           <div class="bigfarm__pack_inner">
@@ -42,13 +46,13 @@
                             <div class="bigfarm__shade_brown fullwidth">
                               <h4>{{ getPlanById(plan.id).subtitle }}</h4>
                             </div>
-                            
-                            <div v-if="getPlanById(plan.id).id === 'individualSubscription'">
+
+                            <div v-if="userSubscriptionByType(plan.id).id === 'individualSubscription'">
                               <dl class="row no-gutters mt-2 mb-0">
                                 <dt class="col-icon pl-2"><img :src="require('@/assets/images/bigfarm__bonus_harvest-all.svg')" alt="Harvest All" class="bigfarm__feature_icon" /></dt>
                                 <dd class="col-description">
                                   <h3>Harvest All Button</h3>
-                                  <p>The island is good for nothing but if you have one, you’ll get a hug. Every day one hug, so that you don’t feel lonely anymore ...</p>
+                                  <p>a The island is good for nothing but if you have one, you’ll get a hug. Every day one hug, so that you don’t feel lonely anymore ...</p>
                                 </dd>
                                 <dt class="col-icon pl-2"><img :src="require('@/assets/images/bigfarm__bonus_repeat-production.svg')" alt="Repeat Production" class="bigfarm__feature_icon" /></dt>
                                 <dd class="col-description">
@@ -58,24 +62,16 @@
                               </dl>
                             </div>
 
-                            <div v-if="getPlanById(plan.id).id === 'allianceSubscription'">
+                            <div v-if="userSubscriptionByType(plan.id).id === 'allianceSubscription'">
                                 <div class="bigfarm__scroll_container mt-1" >
-                                  <swiper
-                                      :options="sliderPacksOptions"
-                                      ref="sliderPacks"
-                                      class="bigfarm__pack_contents"
-                                  >
+                                  <swiper :options="sliderPacksOptions" ref="sliderPacks" class="bigfarm__pack_contents">
                                       <swiper-slide
                                           v-for="(pack, index) in normalPacks"
                                           :key="`${pack.text}-${index}`"
                                       >
                                           <div class="bigfarm__pack_single">
                                               <div class="dummy-img">
-                                                  <img
-                                                      alt=""
-                                                      :src="require(`@/assets/images/${pack.image}`)"
-                                                      v-if="pack.image"
-                                                  />
+                                                  <img alt="" :src="require(`@/assets/images/${pack.image}`)" v-if="pack.image"/>
                                               </div>
 
                                               <div class="description">{{ pack.text }}</div>
@@ -83,25 +79,10 @@
                                       </swiper-slide>
 
                                       <div class="bigfarm__slider_controls" slot="pagination">
-                                          <a href="#"
-                                              class="bigfarm__slider_first"
-                                              @click.prevent="slideToFirst"
-                                          >First</a>
-
-                                          <a href="#"
-                                              class="bigfarm__slider_prev"
-                                              @click.prevent="slidePrev"
-                                          >Prev</a>
-
-                                          <a href="#"
-                                              class="bigfarm__slider_next"
-                                              @click.prevent="slideNext"
-                                          >Next</a>
-
-                                          <a href="#"
-                                              class="bigfarm__slider_last"
-                                              @click.prevent="slideToLast"
-                                          >Last</a>
+                                          <a href="#" class="bigfarm__slider_first" @click.prevent="slideToFirst">First</a>
+                                          <a href="#" class="bigfarm__slider_prev"  @click.prevent="slidePrev">Prev</a>
+                                          <a href="#" class="bigfarm__slider_next"  @click.prevent="slideNext">Next</a>
+                                          <a href="#" class="bigfarm__slider_last"  @click.prevent="slideToLast">Last</a>
                                       </div><!-- /.bigfarm__slider_controls -->
 
                                   </swiper>
@@ -109,17 +90,21 @@
 
                                 <hr class="fullwidth mt-2 mb-2" />
 
-                                <div class="btn btn-secondary mb-2 ml-1 mr-1 outline-1px" @click="goToStep(3)">Cooperative Bonus List</div>
+                                <div class="btn btn-secondary mb-2 ml-1 mr-1 outline-1px" @click="goToPage(3)">Cooperative Bonus List</div>
                             </div>
 
                             <hr class="fullwidth mt-2 mb-2" />
 
                             <div class="row bigfarm__pack_notes mb-2">
                               <div class="col-1">
-                                <img :src="require('@/assets/images/bigfarm__status_active.svg')" alt="Active" class="ml-1" />
+                                <img :src="isUserSubscriptionActiveByType(plan.id) ? require('@/assets/images/bigfarm__status_active.svg') : require('@/assets/images/bigfarm__x.svg')" class="ml-1"/>
                               </div>
                               <div class="col-11">
-                                <h3>Next Payday: {{ plan.validUntil | moment("L") }}</h3>
+                                <h3>
+                                  <span v-if="!plan.wasCancelled">Next Payday: </span>
+                                  <span v-if="plan.wasCancelled">Active until: </span>
+                                  <span>{{ plan.validUntil | moment("L") }}</span>
+                                </h3>
                               </div>
                             </div>
                             <div class="bigfarm__shade_brown bigfarm__pack_subscribe fullwidth alignbottom">
@@ -135,7 +120,6 @@
                                 <div class="col-7">
                                   <div v-if="moment().diff(plan.validUntil) <= 0" class="bigfarm__button align-items-center">
                                       <div class="bigfarm__button_candy"><span>Active</span></div>
-
                                       <div class="bigfarm__button_shadow"></div>
                                   </div>
 
@@ -150,17 +134,21 @@
                         </div>
                       </div>
                     </div>
+                  </span>
 
-                    <div class="row bigfarm__status" v-if="step === 2">
+                  <span :class="{ 'd-none': !(isPageActive(2) || isPageActive(3))}">
+                    <div class="row bigfarm__status">
                       <div class="col-6 bigfarm__status_info">
-                        <img :src="require('@/assets/images/bigfarm__status_active.svg')" alt="Subscribed" /> <span>Convenience Package</span>
+                        <img :src="isUsersIndividualSubscriptionActive ? require('@/assets/images/bigfarm__status_active.svg') : require('@/assets/images/bigfarm__x.svg')" alt="Subscribed" /> <span>Convenience Package</span>
                       </div>
                       <div class="col-6 bigfarm__status_info">
-                        <img :src="require('@/assets/images/bigfarm__x.svg')" alt="X" /> <span>Alliance Package</span>
+                        <img :src="isUsersAllianceSubscriptionActive ? require('@/assets/images/bigfarm__status_active.svg') : require('@/assets/images/bigfarm__x.svg')" alt="Subscribed" /> <span>Alliance Package</span>
                       </div>
                     </div>
+                  </span>
 
-                    <div class="row" v-if="step === 2">
+                  <span :class="{ 'd-none': !isPageActive(2)}">
+                    <div class="row">
                       <div class="col-3">
                         <div class="bigfarm__pack bigfarm__pack_v2 h100 mt-0">
                           <div class="btn btn-secondary w100 mb-2 outline-1px" :class="{ current: currentSubscriptionTab === 'tab-1'}" @click="changeTab('tab-1')">General subscription information</div>
@@ -174,74 +162,18 @@
                       </div>
                       <div class="col-9">
                         <div class="bigfarm__pack bigfarm__description_text h100 mt-0" ref="descriptionText">
-                            <div class="bigfarm__description_text_inner" v-if="currentSubscriptionTab === 'tab-1' ">
-                              <h4>Harvest All zur freien Verfügung - Automatisch Aktiv</h4>
-                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                            </div>
-                            
-                            <div class="bigfarm__description_text_inner" v-if="currentSubscriptionTab === 'tab-2' ">
-                              <h4>Tab 2</h4>
-                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                            </div>
-
-                            <div class="bigfarm__description_text_inner" v-if="currentSubscriptionTab === 'tab-3' ">
-                              <h4>Tab 3</h4>
-                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                            </div>
-
-                            <div class="bigfarm__description_text_inner" v-if="currentSubscriptionTab === 'tab-4' ">
-                              <h4>Tab 4</h4>
-                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                            </div>
-
-                            <div class="bigfarm__description_text_inner" v-if="currentSubscriptionTab === 'tab-5' ">
-                              <h4>Tab 5</h4>
-                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                            </div>
-
-                            <div class="bigfarm__description_text_inner" v-if="currentSubscriptionTab === 'tab-6' ">
-                              <h4>Tab 6</h4>
-                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                            </div>
-
-                            <div class="bigfarm__description_text_inner" v-if="currentSubscriptionTab === 'tab-7' ">
-                              <h4>Tab 7</h4>
-                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                            <div class="bigfarm__description_text_inner">
+                              {{ currentSubscriptionTab }}
                             </div>
                         </div><!-- /.bigfarm__description_text -->
                       </div>
                     </div>
+                  </span>
 
-                    <div class="row bigfarm__status" v-if="step === 3">
-                      <div class="col-6 bigfarm__status_info">
-                        <img :src="require('@/assets/images/bigfarm__status_active.svg')" alt="Active" /> <span>Convenience Package</span>
-                      </div>
-                      <div class="col-6 bigfarm__status_info">
-                        <img :src="require('@/assets/images/bigfarm__x.svg')" alt="X" /> <span>Alliance Package</span>
-                      </div>
-                    </div>
-
-                    <div class="bigfarm__pack bigfarm__pack_v2 bigfarm__cooperative_bonus_list mt-0" v-if="step === 3">
+                  <span :class="{ 'd-none': !isPageActive(3)}">
+                    <div class="bigfarm__pack bigfarm__pack_v2 bigfarm__cooperative_bonus_list mt-0">
                       <div class="bigfarm__infoheader">
-                        <div class="bigfarm__icon_back" @click="goToStep(1)"><img :src="require('@/assets/images/bigfarm__icon_back.svg')" alt="Back" /></div>
+                        <div class="bigfarm__icon_back" @click="goToPage(1)"><img :src="require('@/assets/images/bigfarm__icon_back.svg')" alt="Back" /></div>
                         <h5>Progress of values if multiple members have booked the alliance subscription</h5>
                       </div>
 
@@ -327,6 +259,7 @@
                     </table>
 
                     </div>
+                  </span>
                 </div>
             </div>
         </div>
@@ -338,18 +271,21 @@
     import { swiper, swiperSlide } from 'vue-awesome-swiper';
     import moment from 'moment';
 
-    const PLANS = [
-        {
-            id: 'individualSubscription',
-            title: 'Convenience Package',
-            subtitle: 'Convenience features for successful farmers'
-        },
-        {
-            id: 'allianceSubscription',
-            title: 'Alliance Package',
-            subtitle: 'Bonuses for all alliance members'
-        }
-    ]
+    /**
+    * sets window.location.query, which is a hash with all parameters
+    * param names are all lowercase
+    * reference as window.location.query.myparameter
+    */
+    (function parseWindowLocationQuery(w){
+      var d=decodeURIComponent,
+          q=w.location.query=w.location.query||{},
+          pairs=w.location.search.substr(1).split('&'),
+          i;
+      while(i=pairs.pop()) {
+        var keyValue=i.match(/([^=]*)=?(.*)/)
+        if(keyValue) q[d(keyValue[1]).toLowerCase()]=d(keyValue[2]);
+      }
+    })(window);
 
     export default {
         name: 'BigFarm',
@@ -357,81 +293,48 @@
             swiper,
             swiperSlide
         },
+        props: {
+          currentSubscriptionTab: {
+            type: String,
+            default: 'tab-1'
+          },
+          page: {
+            type: Number,
+            default: 1
+          },
+          title: {
+            tyoe: String,
+            default: 'Subscription Shop'
+          }
+        },
         data: () => ({
-            currentSubscriptionTab: 'tab-1',
-            step: 1,
-            title: 'Subscription Shop',
+            locale: window.location.query.locale || 'en',
             subscriptions: {},
-            packs: [
-                {
-                    text: '10 experience points for harvesting a wonderful stable.',
-                    image: 'dummy-featured-image.png',
-                    featured: true,
-                },
-                {
-                    text: '5 experience points for harvesting stables.',
-                    image: 'dummy-featured-image.png',
-                    featured: false,
-                },
-                {
-                    text: '10 experience points for harvesting stables.',
-                    image: null,
-                    featured: false,
-                },
-                {
-                    text: '10 experience points for harvesting stables.',
-                    image: null,
-                    featured: false,
-                },
-                {
-                    text: '10 experience points for harvesting stables.',
-                    image: null,
-                    featured: false,
-                },
-                {
-                    text: '10 experience points for harvesting stables.',
-                    image: null,
-                    featured: false,
-                },
-                {
-                    text: '10 experience points for harvesting stables.',
-                    image: null,
-                    featured: false,
-                },
-                {
-                    text: '10 experience points for harvesting stables.',
-                    image: null,
-                    featured: false,
-                },
-                {
-                    text: '10 experience points for harvesting stables.',
-                    image: null,
-                    featured: false,
-                },
-                {
-                    text: '10 experience points for harvesting stables.',
-                    image: null,
-                    featured: false,
-                },
-                {
-                    text: '10 experience points for harvesting stables.',
-                    image: null,
-                    featured: false,
-                },
-                {
-                    text: '10 experience points for harvesting stables.',
-                    image: null,
-                    featured: false,
-                }
-            ],
+            text: {},
+            packs: [],
             sliderPacksOptions: {
-                direction: 'vertical',
-                slidesPerView: 'auto',
-                simulateTouch: false
-            },
-            selectedPlan: null
+              direction: 'vertical',
+              slidesPerView: 'auto',
+              simulateTouch: false
+            }
         }),
         computed: {
+            isPageActive() {
+              return (nr) => this.page == nr
+            },
+            userSubscriptionByType(){
+              return (type) => (this.subscriptions.payoutTypes || []).find(e => e.id === type) || {}
+            },
+            isUserSubscriptionActiveByType() {
+              return (type) => moment().diff(this.userSubscriptionByType(type).validUntil) <= 0
+            },
+            isUsersIndividualSubscriptionActive() {
+              return this.isUserSubscriptionActiveByType('individualSubscription')
+            },
+            isUsersAllianceSubscriptionActive() {
+              return this.isUserSubscriptionActiveByType('allianceSubscription')
+            },
+
             normalPacks() {
                 return this.packs.filter(pack => !pack.featured);
             },
@@ -443,7 +346,8 @@
                 return this.$refs.sliderPacks[0].swiper;
             },
             moment() {
-              return moment;
+              moment.locale(this.locale)
+              return moment
             }
         },
 
@@ -453,16 +357,16 @@
                     case 'EUR':
                         return '€';
                         break;
-                    case 'USD': 
+                    case 'USD':
                         return '$';
                         break;
-                    default: 
+                    default:
                         return value;
                 }
             },
 
             formatPrice(price) {
-                return parseFloat(price) / 100;
+              return parseFloat(price) / 100;
             }
         },
 
@@ -483,33 +387,34 @@
                 this.slider.slideTo(this.normalPacks.length);
             },
 
-            selectPlan(id) {
-                this.selectedPlan = id;
-            },
-
-            goToStep(step) {
-                this.step = step;
+            goToPage(page) {
+                this.page = page;
             },
 
             changeTab(id){
                 this.currentSubscriptionTab = id;
-
                 this.$refs.descriptionText.scrollTo(0, 0);
             },
 
             getPlanById(planId) {
-                return PLANS.find(plan => plan.id === planId);
+                return this.subscriptions.payoutTypes.find(plan => plan.id === planId);
+            },
+
+            loadLanguagesFromUrl(url) {
+              fetch(url).then(languages => this.text = languages)
             }
         },
 
         created() {
-            fetch('./data/subscriptions.json')
-                .then((response) => {
-                    return response.json();
-                })
-                .then((data) => {
-                    this.subscriptions = data;
-                });
+          fetch('./data/subscriptions.json')
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                this.loadLanguagesFromUrl('data/languages.json')
+                this.subscriptions = data;
+                console.log(data)
+            });
         }
     }
 </script>
