@@ -5,18 +5,18 @@
 
             <div class="bigfarm__overlay"></div>
 
-            <div class="bigfarm__window">
+            <div class="bigfarm__window" :class="{ 'd-none': !canShow }">
                 <div class="bigfarm__window_header">
                     <div class="row">
                         <div class="col-8 bigfarm__window_header_padding">
                             <div class="bigfarm__header_holder">
-                                <h1 class="outline-05px">{{ title }}</h1>
+                                <h1 class="outline-05px">{{ t('subscription_general_head') }}</h1>
                             </div>
                         </div>
                         <div class="col-4">
                           <div class="bigfarm__window_buttons">
                             <!-- todo: toggle -->
-                            <div class="btn btn-secondary outline-1px" @click="goToPage(page === 1 ? 2 : 1)">Subscription Guide</div>
+                            <div class="btn btn-secondary outline-1px" @click="goToPage(page === 1 ? 2 : 1)">{{ t('subscription_general_GuideButton') }}</div>
                             <img :src="require('@/assets/images/bigfarm__close_button.svg')" alt="X" />
                           </div>
                         </div>
@@ -30,7 +30,7 @@
                   <span :class="{ 'd-none': !isPageActive(1)}">
                     <div class="row bigfarm__intro_text">
                       <div class="col">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure</p>
+                        <p>{{ t('subscription_general_copy') }}</p>
                       </div>
                     </div>
 
@@ -38,26 +38,36 @@
                       <div class="col" v-for="plan in subscriptions.payoutTypes">
                         <div class="bigfarm__pack bigfarm__pack_v2 bigfarm__convenience_pack">
                           <div class="bigfarm__pack_inner">
-                            <h2>{{ getPlanById(plan.id).title }}</h2>
+                            <h2>{{
+                                t(plan.id == 'individualSubscription'
+                                  ? 'subscription_packageConvenience_title'
+                                  : 'subscription_packageAlliance_title'
+                                )
+                            }}</h2>
                             <div class="bigfarm__hero_visual" :style="{
                                       'background-image': `url(${subscriptions.base.assetsBaseUrl}${plan.id})`
                                   }"
                               ></div>
                             <div class="bigfarm__shade_brown fullwidth">
-                              <h4>{{ getPlanById(plan.id).subtitle }}</h4>
+                              <h4>{{
+                                t(plan.id == 'individualSubscription'
+                                  ? 'subscription_teaserConvenience_title'
+                                  : 'subscription_teaserAlliance_title'
+                                )
+                              }}</h4>
                             </div>
 
                             <div v-if="userSubscriptionByType(plan.id).id === 'individualSubscription'">
                               <dl class="row no-gutters mt-2 mb-0">
                                 <dt class="col-icon pl-2"><img :src="require('@/assets/images/bigfarm__bonus_harvest-all.svg')" alt="Harvest All" class="bigfarm__feature_icon" /></dt>
                                 <dd class="col-description">
-                                  <h3>Harvest All Button</h3>
-                                  <p>a The island is good for nothing but if you have one, you’ll get a hug. Every day one hug, so that you don’t feel lonely anymore ...</p>
+                                  <h3>{{ t('subscription_perkHarvestAll_title') }}</h3>
+                                  <p>{{ t('subscription_perkHarvestAll_copy') }}</p>
                                 </dd>
                                 <dt class="col-icon pl-2"><img :src="require('@/assets/images/bigfarm__bonus_repeat-production.svg')" alt="Repeat Production" class="bigfarm__feature_icon" /></dt>
                                 <dd class="col-description">
-                                  <h3>Repeat Production Button</h3>
-                                  <p>The island is good for nothing but if you have one, you’ll get a hug. Every day one hug, so that you don’t feel lonely anymore ...</p>
+                                  <h3>{{ t('subscription_perkProRepeat_title') }}</h3>
+                                  <p>{{ t('subscription_perkProRepeat_copy') }}</p>
                                 </dd>
                               </dl>
                             </div>
@@ -90,7 +100,7 @@
 
                                 <hr class="fullwidth mt-2 mb-2" />
 
-                                <div class="btn btn-secondary mb-2 ml-1 mr-1 outline-1px" @click="goToPage(3)">Cooperative Bonus List</div>
+                                <div class="btn btn-secondary mb-2 ml-1 mr-1 outline-1px" @click="goToPage(3)">{{ t('subscription_AllianceBonusesButton') }}</div>
                             </div>
 
                             <hr class="fullwidth mt-2 mb-2" />
@@ -101,8 +111,14 @@
                               </div>
                               <div class="col-11">
                                 <h3>
-                                  <span v-if="!plan.wasCancelled">Next Payday: </span>
-                                  <span v-if="plan.wasCancelled">Active until: </span>
+                                  {{ t(
+                                      isUserSubscriptionActiveByType(plan.id)
+                                        ? plan.wasCancelled
+                                          ? 'subscription_payoutDate_cancelled'
+                                          : 'subscription_payoutDate_title'
+                                        : 'subscription_currentlyNotBooked_title'
+                                      )
+                                  }}
                                   <span>{{ plan.validUntil | moment("L") }}</span>
                                 </h3>
                               </div>
@@ -113,18 +129,18 @@
                                   <div class="vertical-align-center">
                                     <div class="bigfarm__subscription_price">
                                       <h3 class="bigfarm__price">{{ plan.price.amount | formatPrice }} {{ plan.price.currency | formatCurrency }}</h3>
-                                      <h5 class="bigfarm__price_note">per month</h5>
+                                      <h5 class="bigfarm__price_note">{{ t('subscription_notePerMonth') }}</h5>
                                     </div>
                                   </div>
                                 </div>
                                 <div class="col-7">
                                   <div v-if="moment().diff(plan.validUntil) <= 0" class="bigfarm__button align-items-center">
-                                      <div class="bigfarm__button_candy"><span>Active</span></div>
+                                      <div class="bigfarm__button_candy"><span>{{ t('subscription_alreadyBooked_title') }}</span></div>
                                       <div class="bigfarm__button_shadow"></div>
                                   </div>
 
                                   <a v-if="moment().diff(plan.validUntil) > 0" :href="plan.checkoutUrl" class="bigfarm__button align-items-center">
-                                      <div class="bigfarm__button_candy"><span>Buy</span></div>
+                                      <div class="bigfarm__button_candy"><span>{{ t('subscription_buyButton_title') }}</span></div>
                                       <div class="bigfarm__button_shadow"></div>
                                   </a>
                                 </div>
@@ -139,10 +155,10 @@
                   <span :class="{ 'd-none': !(isPageActive(2) || isPageActive(3))}">
                     <div class="row bigfarm__status">
                       <div class="col-6 bigfarm__status_info">
-                        <img :src="isUsersIndividualSubscriptionActive ? require('@/assets/images/bigfarm__status_active.svg') : require('@/assets/images/bigfarm__x.svg')" alt="Subscribed" /> <span>Convenience Package</span>
+                        <img :src="isUsersIndividualSubscriptionActive ? require('@/assets/images/bigfarm__status_active.svg') : require('@/assets/images/bigfarm__x.svg')" alt="Subscribed" /> <span>{{ t('subscription_packageConvenience_title') }}</span>
                       </div>
                       <div class="col-6 bigfarm__status_info">
-                        <img :src="isUsersAllianceSubscriptionActive ? require('@/assets/images/bigfarm__status_active.svg') : require('@/assets/images/bigfarm__x.svg')" alt="Subscribed" /> <span>Alliance Package</span>
+                        <img :src="isUsersAllianceSubscriptionActive ? require('@/assets/images/bigfarm__status_active.svg') : require('@/assets/images/bigfarm__x.svg')" alt="Subscribed" /> <span>{{ t('subscription_packageAlliance_title') }}</span>
                       </div>
                     </div>
                   </span>
@@ -151,19 +167,17 @@
                     <div class="row">
                       <div class="col-3">
                         <div class="bigfarm__pack bigfarm__pack_v2 h100 mt-0">
-                          <div class="btn btn-secondary w100 mb-2 outline-1px" :class="{ current: currentSubscriptionTab === 'tab-1'}" @click="changeTab('tab-1')">General subscription information</div>
-                          <div class="btn btn-secondary w100 mb-2 outline-1px" :class="{ current: currentSubscriptionTab === 'tab-2'}" @click="changeTab('tab-2')">Monthly Payment</div>
-                          <div class="btn btn-secondary w100 mb-2 outline-1px" :class="{ current: currentSubscriptionTab === 'tab-3'}" @click="changeTab('tab-3')">Owning multiple subscriptions</div>
-                          <div class="btn btn-secondary w100 mb-2 outline-1px" :class="{ current: currentSubscriptionTab === 'tab-4'}" @click="changeTab('tab-4')">Not logged in for a certain amount of time</div>
-                          <div class="btn btn-secondary w100 mb-2 outline-1px" :class="{ current: currentSubscriptionTab === 'tab-5'}" @click="changeTab('tab-5')">Canceling a subscription</div>
-                          <div class="btn btn-secondary w100 mb-2 outline-1px" :class="{ current: currentSubscriptionTab === 'tab-6'}" @click="changeTab('tab-6')">Cooperative Subscription<br />(non-cooperative players, too)</div>
-                          <div class="btn btn-secondary w100 mb-2 outline-1px" :class="{ current: currentSubscriptionTab === 'tab-7'}" @click="changeTab('tab-7')">Alliance Bonuses<br />(multiple members)</div>
+                          <div v-for="key in tabTitleKeys"
+                                class="btn btn-secondary w100 mb-2 outline-1px" :class="{ current: currentSubscriptionTab === key}"
+                                @click="changeTab(key)">{{ t(key) }}
+                          </div>
                         </div>
                       </div>
                       <div class="col-9">
                         <div class="bigfarm__pack bigfarm__description_text h100 mt-0" ref="descriptionText">
-                            <div class="bigfarm__description_text_inner">
-                              {{ currentSubscriptionTab }}
+                            <div
+                              class="bigfarm__description_text_inner"
+                              v-html="t(tabCopyForTitle(currentSubscriptionTab))">
                             </div>
                         </div><!-- /.bigfarm__description_text -->
                       </div>
@@ -294,31 +308,28 @@
             swiperSlide
         },
         props: {
-          currentSubscriptionTab: {
-            type: String,
-            default: 'tab-1'
-          },
-          page: {
-            type: Number,
-            default: 1
-          },
           title: {
             tyoe: String,
             default: 'Subscription Shop'
           }
         },
         data: () => ({
-            locale: window.location.query.locale || 'en',
-            subscriptions: {},
-            text: {},
-            packs: [],
-            sliderPacksOptions: {
-              direction: 'vertical',
-              slidesPerView: 'auto',
-              simulateTouch: false
-            }
+          locale: window.location.query.locale || 'en',
+          subscriptions: {},
+          text: {},
+          currentSubscriptionTab: 'subscription_infoDialogue_general_header',
+          page: 1,
+          packs: [],
+          sliderPacksOptions: {
+            direction: 'vertical',
+            slidesPerView: 'auto',
+            simulateTouch: false
+          }
         }),
         computed: {
+            canShow() {
+              return this.text.subscription_general_head !== undefined
+            },
             isPageActive() {
               return (nr) => this.page == nr
             },
@@ -335,6 +346,10 @@
               return this.isUserSubscriptionActiveByType('allianceSubscription')
             },
 
+            t() {
+              return (id, ...args) => this.text[id] || id
+            },
+
             normalPacks() {
                 return this.packs.filter(pack => !pack.featured);
             },
@@ -348,6 +363,12 @@
             moment() {
               moment.locale(this.locale)
               return moment
+            },
+            tabTitleKeys() {
+              return this.tabTextKeys('header')
+            },
+            tabCopyKeys() {
+              return this.tabTextKeys('copy')
             }
         },
 
@@ -392,8 +413,8 @@
             },
 
             changeTab(id){
-                this.currentSubscriptionTab = id;
-                this.$refs.descriptionText.scrollTo(0, 0);
+              this.currentSubscriptionTab = id;
+              this.$refs.descriptionText.scrollTo(0, 0);
             },
 
             getPlanById(planId) {
@@ -401,19 +422,37 @@
             },
 
             loadLanguagesFromUrl(url) {
-              fetch(url).then(languages => this.text = languages)
+              fetch(url).then(async (response) => this.text = await response.json())
+            },
+
+            tabTextKeys(suffix) {
+              const exceptions = {
+                'subscription_infoDialogue_multiSubscriptions_header'
+                  : 'dialog_subscription_multiSubscriptions_header',
+                'subscription_infoDialogue_monthlyPayment_copy'
+                  : 'dialog_subscription_monthlyPayment_copy'
+              }
+
+              const keys =
+                'general monthlyPayment multiSubscriptions cancelSubscription allianceSubscription convenienceSubscription'
+                .split(/\s+/)
+                .map(key => `subscription_infoDialogue_${key}_${suffix}`)
+                .map(key => exceptions[key] || key)
+
+              return keys
+            },
+            tabCopyForTitle(title) {
+              const copyIndex = this.tabTitleKeys.indexOf(title)
+              return this.tabCopyKeys[copyIndex]
             }
         },
 
         created() {
           fetch('./data/subscriptions.json')
-            .then((response) => {
-                return response.json();
-            })
-            .then((data) => {
-                this.loadLanguagesFromUrl('data/languages.json')
+            .then(response => response.json())
+            .then(data => {
+                this.loadLanguagesFromUrl(`data/${this.locale}.json`)
                 this.subscriptions = data;
-                console.log(data)
             });
         }
     }
