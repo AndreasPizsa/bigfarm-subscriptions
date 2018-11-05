@@ -896,6 +896,20 @@ h5,
   }
 }
 
+// adaptions for confirmation window / Subscription success
+.bigfarm__window_confirmation {
+  width: 386px;
+
+  .bigfarm__confirmation_text {
+    height: 20rem;
+
+    h4,
+    .h4 {
+      color: $bigfarm-brown;
+    }
+  }
+}
+
 .bigfarm__description_text {
   padding-top: 0.875rem;
   padding-bottom: 0.875rem;
