@@ -18,6 +18,10 @@ body {
   min-height: 100%;
 }
 
+::selection {
+  background: transparent;
+}
+
 .bigfarm__test {
   display: none;
   width: 200px;
