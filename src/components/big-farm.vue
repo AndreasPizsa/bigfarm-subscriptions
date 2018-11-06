@@ -106,6 +106,19 @@
                                       )
                                   }}
                                   <span v-if="isUserSubscriptionActiveByType(plan.id)">{{ plan.validUntil | moment("L") }}</span>
+                                  <div v-if="plan.id === 'allianceSubscription'">
+                                    <div v-if="plan.isAllianceMember">
+                                      {{ t_num(
+                                        'subscription_allianceHasBooked_copy',
+                                        'subscription_allianceHasBookedSingular_copy',
+                                        'subscription_allianceHasBooked_copy',
+                                        plan.otherAllianceSubscribers)
+                                      }}
+                                    </div>
+                                    <div v-else>
+                                      {{ t('subscription_noAlliance_tt') }}
+                                    </div>
+                                  </div>
                                 </h3>
                               </div>
                             </div>
@@ -349,7 +362,18 @@
           },
 
           t(id, ...args) {
-            return this.text[id] || id
+            return (args || []).reduce((result, arg, index) => {
+              return result.replace(new RegExp(`\\{${index}\\}`, 'g'), arg)
+            }, this.text[id] || id)
+          },
+
+          t_num(idNone, idSingular, idPlural, value, ...args) {
+            const id = value
+              ? value == 1
+                ? idSingular
+                : idPlural
+              : idNone
+            return this.t(id, ...[value, ...args])
           },
 
           loadLanguagesFromUrl(url) {
