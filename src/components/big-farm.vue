@@ -318,18 +318,13 @@
 
         filters: {
             formatCurrency(value) {
-                switch(value) {
-                    case 'EUR':
-                        return '€';
-                        break;
-                    case 'USD':
-                        return '$';
-                        break;
-                    default:
-                        return value;
-                }
+              return {
+                EUR: '€',
+                USD: '$'
+              }[value] || value
             },
 
+            // todo format according to locale
             formatPrice(price) {
               return parseFloat(price) / 100;
             },
