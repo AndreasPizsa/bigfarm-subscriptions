@@ -227,8 +227,6 @@
     export default {
         name: 'BigFarm',
         components: {
-            swiper,
-            swiperSlide
         },
         props: {
           title: {
