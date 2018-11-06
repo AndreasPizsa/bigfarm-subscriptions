@@ -206,7 +206,7 @@
                               <h3>{{ t(textKeyForItemId(perkId).title) }}</h3>
                               <p>{{ t(textKeyForItemId(perkId).body) }}</p>
                             </td>
-                            <td v-for="tier in alliancePackBoosterTiers">{{ alliancePackBoosterPerkBoostForTier(perkId, tier) | xIfEmptyOrZero }}</td>
+                            <td v-for="tier in alliancePackBoosterTiers">{{ alliancePackBoosterPerkBoostForTier(perkId, tier) | xIfEmptyOrZero }}{{ alliancePackPerkIsPercentage(perkId) && alliancePackBoosterPerkBoostForTier(perkId, tier) && '%' || ''}}</td>
                           </tr>
                         </tbody>
                       </table>
@@ -292,14 +292,18 @@
             return this.tabTextKeys('copy')
           },
 
-          alliancePackBoosterData() {
+          alliancePack() {
             return ((this
               .subscriptions
               .payoutTypes || [])
               .find(({id}) => id === 'allianceSubscription') || {})
-              .boosterTiers || []
           },
 
+          alliancePackBoosterData() {
+            return this.alliancePack.boosterTiers || []
+          },
+
+          // an array of all the perks included in the alliancePack
           alliancePackPerks() {
             const allPerks = this
               .alliancePackBoosterData
@@ -310,6 +314,7 @@
             return Array.from(new Set(allPerks))
           },
 
+          // an array of all the booster tiers in the alliancePack
           alliancePackBoosterTiers() {
             const allTiers = this
               .alliancePackBoosterData
@@ -326,6 +331,10 @@
                 .find(([id]) => id == perkId)
                 [1]
               }
+          },
+
+          alliancePackPerkIsPercentage() {
+            return perkId => perkId != 72006 && perkId != 72007
           }
         },
 
