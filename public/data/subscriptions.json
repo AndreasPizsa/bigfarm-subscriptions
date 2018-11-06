@@ -28,6 +28,8 @@
     "checkoutUrl": "https://example.com/",
     "validUntil": "2017-11-26T14:38:08.457Z",
     "wasCancelled": false,
+    "isAllianceMember": true,
+    "otherAllianceSubscribers": 5,
     "boosterTiers": [
       {
         "from" : 1,
