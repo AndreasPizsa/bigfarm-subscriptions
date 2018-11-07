@@ -100,7 +100,7 @@
                                   {{ t(
                                       isUserSubscriptionActiveByType(plan.id)
                                         ? plan.wasCancelled
-                                          ? 'subscription_payoutDate_cancelled'
+                                          ? 'subscription_payoutDate_canceled'
                                           : 'subscription_payoutDate_title'
                                         : 'subscription_currentlyNotBooked_title'
                                       )
@@ -193,8 +193,8 @@
                       <table class="bigfarm__table">
                         <thead>
                           <tr>
-                            <th colspan="2">{{ t('subscription_allianceBonuses') }}</th>
-                            <th v-for="tier in alliancePackBoosterTiers">{{tier}}</th>
+                            <th style="font-weight: bold" colspan="2">{{ t('subscription_allianceBonuses') }}</th>
+                            <th style="font-weight: bold" v-for="tier in alliancePackBoosterTiers">{{tier}}</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -206,7 +206,12 @@
                               <h3>{{ t(textKeyForItemId(perkId).title) }}</h3>
                               <p>{{ t(textKeyForItemId(perkId).body) }}</p>
                             </td>
-                            <td v-for="tier in alliancePackBoosterTiers">{{ alliancePackBoosterPerkBoostForTier(perkId, tier) | xIfEmptyOrZero }}{{ alliancePackPerkIsPercentage(perkId) && alliancePackBoosterPerkBoostForTier(perkId, tier) && '%' || ''}}</td>
+                            <td v-for="tier in alliancePackBoosterTiers">
+                              {{ alliancePackBoosterPerkBoostForTier(perkId, tier) > 0 ? t(textKeyForItemId(perkId).prefix) : '' }}{{
+                                alliancePackBoosterPerkBoostForTier(perkId, tier) | xIfEmptyOrZero }}{{
+                                alliancePackBoosterPerkBoostForTier(perkId, tier) > 0 ? t(textKeyForItemId(perkId).suffix) : ''
+                              }}
+                            </td>
                           </tr>
                         </tbody>
                       </table>
@@ -331,10 +336,6 @@
                 .find(([id]) => id == perkId)
                 [1]
               }
-          },
-
-          alliancePackPerkIsPercentage() {
-            return perkId => perkId != 72006 && perkId != 72007
           }
         },
 
@@ -415,27 +416,29 @@
 
           textKeyForItemId(id) {
             const keys = {
-              72002: 'contractMaterial',
-              72004: 'fishcontractMaterial',
-              72006: 'xpBooster',
-              72014: 'coopVillageConstructionCosts',
-              72015: 'coopVillageConstructionDuration',
-              72003: 'contractCash',
-              72005: 'fishcontractCash',
-              72009: 'coopResearchCost',
-              72010: 'coopProjectDuration',
-              72016: 'coopVillageBoostLumbermill',
-              72017: 'coopVillageBoostBrickyard',
-              72013: 'seasonSpecialistOutcome',
-              72011: 'edgePlantOutcome',
-              72012: 'fieldDamageReduce',
-              72008: 'horseTrainingCost',
-              72007: 'tempConstructionSlot'
+              72002: ['contractMaterial', '-', '%'],
+              72004: ['fishcontractMaterial', '-', '%'],
+              72006: ['xpBooster', '+'],
+              72014: ['coopVillageConstructionCosts', '-', '%'],
+              72015: ['coopVillageConstructionDuration', '-', '%'],
+              72003: ['contractCash', '+', '%'],
+              72005: ['fishcontractCash', '+', '%'],
+              72009: ['coopResearchCost', '-', '%'],
+              72010: ['coopProjectDuration', '+', '%'],
+              72016: ['coopVillageBoostLumbermill', '+', '%'],
+              72017: ['coopVillageBoostBrickyard', '+', '%'],
+              72013: ['seasonSpecialistOutcome', '+', '%'],
+              72011: ['edgePlantOutcome', '+', '%'],
+              72012: ['fieldDamageReduce', '-', '%'],
+              72008: ['horseTrainingCost', '-', '%'],
+              72007: ['tempConstructionSlot', '']
             }
 
             return {
-              title: `subscription_perkAlliance_${keys[id]}_title`,
-              body:  `subscription_perkAlliance_${keys[id]}_desc`
+              title: `subscription_perkAlliance_${keys[id][0]}_title`,
+              body:  `subscription_perkAlliance_${keys[id][0]}_desc`,
+              prefix: keys[id][1] || '',
+              suffix: keys[id][2] || ''
             }
           }
         },
