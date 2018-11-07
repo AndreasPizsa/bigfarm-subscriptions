@@ -190,7 +190,46 @@
                         <h5>{{ t('subscription_allianceProgress') }}</h5>
                       </div>
 
-                      <table class="bigfarm__table">
+                      <div class="bigfarm__table_box">
+                        <vue-scrolling-table
+                          :scroll-horizontal="scrollHorizontal"
+                          :scroll-vertical="scrollVertical"
+                          :sync-header-scroll="syncHeaderScroll"
+                          :sync-footer-scroll="syncFooterScroll"
+                          :include-footer="includeFooter"
+                          :dead-area-color="deadAreaColor"
+                          :class="{ freezeFirstColumn }">
+                          <template slot="thead">
+                            <tr>
+                              <th>{{ t('subscription_allianceBonuses') }}</th>
+                              <th v-for="tier in alliancePackBoosterTiers">{{tier}}</th>
+                            </tr>
+                          </template>
+                          <template slot="tbody">
+                            <tr v-for="perkId in alliancePackPerks">
+                              <td>
+                                <div class="fill">
+                                  <dl>
+                                    <dt>
+                                      <div class="thumbnail">
+                                        <img alt="" :src="assetUrl(perkId)" width="100%" height="100%"/>
+                                      </div>
+                                    </dt>
+                                    <dd>
+                                      <h3>{{ t(textKeyForItemId(perkId).title) }}</h3>
+                                      <p>{{ t(textKeyForItemId(perkId).body) }}</p>
+                                    </dd>
+                                  </dl>
+                                </div>
+                              </td>
+                              <td v-for="tier in alliancePackBoosterTiers">{{ alliancePackBoosterPerkBoostForTier(perkId, tier) | xIfEmptyOrZero }}</td>
+                            </tr>
+                          </template>
+                        </vue-scrolling-table>
+                      </div>
+
+
+                      <table class="bigfarm__table d-none">
                         <thead>
                           <tr>
                             <th style="font-weight: bold" colspan="2">{{ t('subscription_allianceBonuses') }}</th>
@@ -224,6 +263,11 @@
 </template>
 
 <script>
+    // CHECK
+    import VueScrollingTable from "vue-scrolling-table"
+
+    import 'swiper/dist/css/swiper.css';
+    import { swiper, swiperSlide } from 'vue-awesome-swiper';
     import moment from 'moment';
 
     /**
@@ -245,6 +289,9 @@
     export default {
         name: 'BigFarm',
         components: {
+            VueScrollingTable,
+            swiper,
+            swiperSlide
         },
         props: {
           title: {
@@ -253,6 +300,14 @@
           }
         },
         data: () => ({
+          scrollVertical: true,
+          scrollHorizontal: true,
+          syncHeaderScroll: true,
+          syncFooterScroll: true,
+          includeFooter: true,
+          deadAreaColor: "transparent",
+          maxRows: 4,
+          freezeFirstColumn: true,
           locale: window.location.query.locale || 'en',
           subscriptions: {},
           text: {},
