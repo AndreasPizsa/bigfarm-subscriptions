@@ -222,38 +222,13 @@
                                   </dl>
                                 </div>
                               </td>
-                              <td v-for="tier in alliancePackBoosterTiers">{{ alliancePackBoosterPerkBoostForTier(perkId, tier) | xIfEmptyOrZero }}</td>
+                              <td v-for="tier in alliancePackBoosterTiers">
+                                {{ alliancePackBoosterPerkBoostForTier(perkId, tier) ? textKeyForItemId(perkId).prefix : '' }}{{ alliancePackBoosterPerkBoostForTier(perkId, tier) | xIfEmptyOrZero }}{{ alliancePackBoosterPerkBoostForTier(perkId, tier) ? textKeyForItemId(perkId).suffix : '' }}
+                              </td>
                             </tr>
                           </template>
                         </vue-scrolling-table>
                       </div>
-
-
-                      <table class="bigfarm__table d-none">
-                        <thead>
-                          <tr>
-                            <th style="font-weight: bold" colspan="2">{{ t('subscription_allianceBonuses') }}</th>
-                            <th style="font-weight: bold" v-for="tier in alliancePackBoosterTiers">{{tier}}</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr v-for="perkId in alliancePackPerks">
-                            <td><div class="thumbnail">
-                              <img alt="" :src="assetUrl(perkId)" width="100%" height="100%"/>
-                            </div></td>
-                            <td>
-                              <h3>{{ t(textKeyForItemId(perkId).title) }}</h3>
-                              <p>{{ t(textKeyForItemId(perkId).body) }}</p>
-                            </td>
-                            <td v-for="tier in alliancePackBoosterTiers">
-                              {{ alliancePackBoosterPerkBoostForTier(perkId, tier) > 0 ? t(textKeyForItemId(perkId).prefix) : '' }}{{
-                                alliancePackBoosterPerkBoostForTier(perkId, tier) | xIfEmptyOrZero }}{{
-                                alliancePackBoosterPerkBoostForTier(perkId, tier) > 0 ? t(textKeyForItemId(perkId).suffix) : ''
-                              }}
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
                     </div>
                   </span>
                 </div>

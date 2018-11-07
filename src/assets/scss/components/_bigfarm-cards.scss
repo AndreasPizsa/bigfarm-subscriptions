@@ -1104,7 +1104,7 @@ table.scrolling {
     font-size: 0.8125rem;
     text-align: center;
     color: $bigfarm-brown;
-    font-weight: 400;
+    font-weight: bold;
     border: 2px groove $bigfarm-brown-light;
     padding-top: 0.25rem !important;
     padding-bottom: 0.25rem !important;
@@ -1117,9 +1117,9 @@ table.scrolling {
   th,
   td {
     background-color: transparent !important;
-    width: 2rem !important;
-    min-width: 2rem !important;
-    max-width: 2rem !important;
+    width: 2.5rem !important;
+    min-width: 2.5rem !important;
+    max-width: 2.5rem !important;
     border: 2px groove $bigfarm-brown-light !important;
     border-top: none;
     font-size: 0.75rem !important;
