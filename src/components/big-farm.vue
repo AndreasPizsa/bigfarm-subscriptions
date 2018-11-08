@@ -15,7 +15,6 @@
                         </div>
                         <div class="col-4">
                           <div class="bigfarm__window_buttons">
-                            <!-- todo: toggle -->
                             <div class="btn btn-secondary outline-1px" @click="goToPage(page === 1 ? 2 : 1)">{{ t('subscription_general_GuideButton') }}</div>
                             <img :src="require('@/assets/images/bigfarm__close_button.svg')" alt="X" />
                           </div>
@@ -27,17 +26,17 @@
 
                 =============================================================-->
                 <div class="bigfarm__window_inner">
-                  <span :class="{ 'd-none': !isPageActive(1)}">
+                  <span class="bigfarm__fit_height" :class="{ 'd-none': !isPageActive(1)}">
                     <div class="row bigfarm__intro_text">
                       <div class="col">
                         <p>{{ t('subscription_general_copy') }}</p>
                       </div>
                     </div>
 
-                    <div class="row">
+                    <div class="row bigfarm__grow">
                       <div class="col" v-for="plan in subscriptions.payoutTypes">
-                        <div class="bigfarm__pack bigfarm__pack_v2 bigfarm__convenience_pack">
-                          <div class="bigfarm__pack_inner">
+                        <div class="bigfarm__pack bigfarm__pack_v2 bigfarm__convenience_pack bigfarm__fit_height">
+                          <div class="bigfarm__pack_inner bigfarm__fit_height">
                             <h2>{{
                                 t(plan.id == 'individualSubscription'
                                   ? 'subscription_packageConvenience_title'
@@ -58,7 +57,7 @@
                               }}</h4>
                             </div>
 
-                            <div v-if="userSubscriptionByType(plan.id).id === 'individualSubscription'">
+                            <div class="bigfarm__grow" v-if="userSubscriptionByType(plan.id).id === 'individualSubscription'">
                               <dl class="row no-gutters mt-2 mb-0">
                                 <dt class="col-icon pl-2"><img :src="require('@/assets/images/bigfarm__bonus_harvest-all.svg')" alt="Harvest All" class="bigfarm__feature_icon" /></dt>
                                 <dd class="col-description">
@@ -73,7 +72,10 @@
                               </dl>
                             </div>
 
-                            <div v-if="userSubscriptionByType(plan.id).id === 'allianceSubscription'">
+                            <div class="bigfarm__grow" v-if="userSubscriptionByType(plan.id).id === 'allianceSubscription'">
+                              <div class="bigfarm__fit_height">
+                                <div class="bigfarm__grow">
+                                  <div class="bigfarm__fit_height bigfarm__overflow_fix">
                                 <div class="bigfarm__scroll_container mt-1" >
                                   <div class="bigfarm__pack_single" v-for="(perkId, index) in alliancePackPerks">
                                       <div class="dummy-img">
@@ -82,11 +84,14 @@
 
                                       <div class="description">{{ t(textKeyForItemId(perkId).title) }}</div>
                                   </div><!-- /.bigfarm__pack -->
+                                    </div>
+                                  </div>
                                 </div>
 
                                 <hr class="fullwidth mt-2 mb-2" />
 
                                 <div class="btn btn-secondary mb-2 ml-1 mr-1 outline-1px" @click="goToPage(3)">{{ t('subscription_AllianceBonusesButton') }}</div>
+                              </div>
                             </div>
 
                             <hr class="fullwidth mt-2 mb-2" />
@@ -151,6 +156,7 @@
                     </div>
                   </span>
 
+                  <span class="bigfarm__fit_height" :class="{ 'd-none': !(isPageActive(2) || isPageActive(3))}">
                   <span :class="{ 'd-none': !(isPageActive(2) || isPageActive(3))}">
                     <div class="row bigfarm__status">
                       <div class="col-6 bigfarm__status_info">
@@ -162,10 +168,10 @@
                     </div>
                   </span>
 
-                  <span :class="{ 'd-none': !isPageActive(2)}">
-                    <div class="row">
+                    <span class="bigfarm__grow" :class="{ 'd-none': !isPageActive(2)}">
+                      <div class="row h100">
                       <div class="col-3">
-                        <div class="bigfarm__pack bigfarm__pack_v2 h100 mt-0">
+                          <div class="bigfarm__pack bigfarm__pack_v2 pt-3 pb-2 mt-0 mb-0">
                           <div v-for="key in tabTitleKeys"
                                 class="btn btn-secondary w100 mb-2 outline-1px" :class="{ current: currentSubscriptionTab === key}"
                                 @click="changeTab(key)">{{ t(key) }}
@@ -183,8 +189,8 @@
                     </div>
                   </span>
 
-                  <span :class="{ 'd-none': !isPageActive(3)}">
-                    <div class="bigfarm__pack bigfarm__pack_v2 bigfarm__cooperative_bonus_list mt-0">
+                    <span class="bigfarm__grow" :class="{ 'd-none': !isPageActive(3)}">
+                      <div class="bigfarm__pack bigfarm__pack_v2 bigfarm__cooperative_bonus_list bigfarm__fit_height mt-0">
                       <div class="bigfarm__infoheader">
                         <div class="bigfarm__icon_back" @click="goToPage(1)"><img :src="require('@/assets/images/bigfarm__icon_back.svg')" alt="Back" /></div>
                         <h5>{{ t('subscription_allianceProgress') }}</h5>
@@ -201,7 +207,7 @@
                           :class="{ freezeFirstColumn }">
                           <template slot="thead">
                             <tr>
-                              <th>{{ t('subscription_allianceBonuses') }}</th>
+                                <th><div class="fill">{{ t('subscription_allianceBonuses') }}</div></th>
                               <th v-for="tier in alliancePackBoosterTiers">{{tier}}</th>
                             </tr>
                           </template>
@@ -228,33 +234,8 @@
                         </vue-scrolling-table>
                       </div>
 
-
-                      <table class="bigfarm__table d-none">
-                        <thead>
-                          <tr>
-                            <th style="font-weight: bold" colspan="2">{{ t('subscription_allianceBonuses') }}</th>
-                            <th style="font-weight: bold" v-for="tier in alliancePackBoosterTiers">{{tier}}</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr v-for="perkId in alliancePackPerks">
-                            <td><div class="thumbnail">
-                              <img alt="" :src="assetUrl(perkId)" width="100%" height="100%"/>
-                            </div></td>
-                            <td>
-                              <h3>{{ t(textKeyForItemId(perkId).title) }}</h3>
-                              <p>{{ t(textKeyForItemId(perkId).body) }}</p>
-                            </td>
-                            <td v-for="tier in alliancePackBoosterTiers">
-                              {{ alliancePackBoosterPerkBoostForTier(perkId, tier) > 0 ? t(textKeyForItemId(perkId).prefix) : '' }}{{
-                                alliancePackBoosterPerkBoostForTier(perkId, tier) | xIfEmptyOrZero }}{{
-                                alliancePackBoosterPerkBoostForTier(perkId, tier) > 0 ? t(textKeyForItemId(perkId).suffix) : ''
-                              }}
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
                     </div>
+                    </span>
                   </span>
                 </div>
             </div>
@@ -304,7 +285,7 @@
           scrollHorizontal: true,
           syncHeaderScroll: true,
           syncFooterScroll: true,
-          includeFooter: true,
+          includeFooter: false,
           deadAreaColor: "transparent",
           maxRows: 4,
           freezeFirstColumn: true,
