@@ -2,6 +2,7 @@
   "name": "big-farm",
   "version": "0.1.0",
   "private": true,
+  "main": "src/main.js",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build"
@@ -32,6 +33,10 @@
   "browserslist": [
     "> 1%",
     "last 2 versions",
+    "ie >=11",
     "not ie <= 8"
-  ]
+  ],
+  "vue": {
+    "baseUrl": ""
+  }
 }
