@@ -689,6 +689,7 @@ h5,
 
 .bigfarm__grow {
   flex: 1 1 auto;
+  height: 0;
 }
 
 .bigfarm__window {
@@ -1026,6 +1027,7 @@ h5,
 }
 
 .bigfarm__cooperative_bonus_list {
+  overflow: scroll;
   padding-top: 1.125rem !important;
   padding-bottom: 0.75rem !important;
   padding-left: 0.5rem !important;
