@@ -132,21 +132,19 @@
                                 <div class="col-5">
                                   <div class="vertical-align-center">
                                     <div class="bigfarm__subscription_price">
-                                      <h3 class="bigfarm__price">{{ plan.price.amount | formatPrice }} {{ plan.price.currency | formatCurrency }}</h3>
+                                      <h3 class="bigfarm__price">{{ plan.price | formatPrice }} {{ plan.currency | formatCurrency }}</h3>
                                       <h5 class="bigfarm__price_note">{{ t('subscription_notePerMonth') }}</h5>
                                     </div>
                                   </div>
                                 </div>
                                 <div class="col-7">
-                                  <div v-if="moment().diff(plan.validUntil) <= 0" class="bigfarm__button align-items-center">
-                                      <div class="bigfarm__button_candy"><span>{{ t('subscription_alreadyBooked_title') }}</span></div>
-                                      <div class="bigfarm__button_shadow"></div>
-                                  </div>
-
-                                  <a v-if="moment().diff(plan.validUntil) > 0" :href="plan.checkoutUrl" class="bigfarm__button align-items-center">
+                                  <a v-if="!isUserSubscriptionActiveByType(plan.id)" :href="plan.checkoutUrl" target="_blank" class="bigfarm__button align-items-center">
                                       <div class="bigfarm__button_candy"><span>{{ t('subscription_buyButton_title') }}</span></div>
                                       <div class="bigfarm__button_shadow"></div>
                                   </a>
+                                  <div v-else class="bigfarm__button align-items-center">
+                                      <div class="bigfarm__button_candy disabled"><span>{{ t('subscription_alreadyBooked_title') }}</span></div>
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -239,6 +237,7 @@
 </template>
 
 <script>
+    console.clear()
     // CHECK
     import VueScrollingTable from "vue-scrolling-table"
 
@@ -261,7 +260,7 @@
         if(keyValue) q[d(keyValue[1]).toLowerCase()]=d(keyValue[2]);
       }
     })(window);
-
+    console.log(window.location.query)
     export default {
         name: 'BigFarm',
         components: {
@@ -276,6 +275,16 @@
           }
         },
         data: () => ({
+          apiBaseUrl: 'https://4zleckep5b.execute-api.eu-west-1.amazonaws.com',
+          deploymentStage: 'staging',
+          ping: {
+            gameId: window.location.query.gameid || 15,
+            networkId: window.location.query.networkid || 1,
+            instanceId: window.location.query.instanceid || 251,
+            playerId: window.location.query.playerid || 2794098
+          },
+          sessionId: window.location.query.sid || Math.random().toString(36).substr(2),
+
           scrollVertical: true,
           scrollHorizontal: true,
           syncHeaderScroll: true,
@@ -284,7 +293,9 @@
           deadAreaColor: "transparent",
           maxRows: 4,
           freezeFirstColumn: true,
+
           locale: window.location.query.locale || 'en',
+
           subscriptions: {},
           text: {},
           currentSubscriptionTab: 'subscription_infoDialogue_general_header',
@@ -292,6 +303,16 @@
         }),
 
         computed: {
+          catalogUrl() {
+            return [
+              this.apiBaseUrl,
+              this.deploymentStage,
+              this.ping.gameId,
+              this.ping.networkId,
+              this.ping.instanceId,
+              this.ping.playerId
+            ].join('/')+`?sid=${this.sessionId}&locale=${this.locale}`
+          },
           canShow() {
             return this.text.subscription_general_head !== undefined
           },
@@ -305,7 +326,7 @@
           },
 
           isUserSubscriptionActiveByType() {
-            return (type) => moment().diff(this.userSubscriptionByType(type).validUntil) <= 0
+            return (type) => this.userSubscriptionByType(type).validUntil && moment().diff(this.userSubscriptionByType(type).validUntil) <= 0
           },
 
           isUsersIndividualSubscriptionActive() {
@@ -417,12 +438,6 @@
             return this.t(id, ...[value, ...args])
           },
 
-          loadLanguagesFromUrl(url) {
-            fetch(url).then(async (response) => {
-              return this.text = await response.json()
-            })
-          },
-
           tabTextKeys(suffix) {
             const exceptions = {
               'subscription_infoDialogue_multiSubscriptions_header'
@@ -487,12 +502,16 @@
         },
 
         created() {
-          fetch('./data/subscriptions.json')
+          fetch(this.catalogUrl)
             .then(response => response.json())
-            .then(data => {
-                this.loadLanguagesFromUrl(`data/${this.locale}.json`)
-                this.subscriptions = data;
-            });
+            .then(subscriptionData => {
+              this.text = subscriptionData.i18n
+              subscriptionData.payoutTypes = [
+                subscriptionData.payoutTypes.find(({id}) => id === 'individualSubscription'),
+                subscriptionData.payoutTypes.find(({id}) => id === 'allianceSubscription')
+              ]
+              this.subscriptions = subscriptionData
+            })
         }
     }
 </script>
