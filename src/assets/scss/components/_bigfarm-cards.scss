@@ -1027,7 +1027,7 @@ h5,
 }
 
 .bigfarm__cooperative_bonus_list {
-  overflow: scroll;
+  overflow: hidden;
   padding-top: 1.125rem !important;
   padding-bottom: 0.75rem !important;
   padding-left: 0.5rem !important;
@@ -1113,7 +1113,7 @@ h5,
   // clear: both;
   padding: 0;
   // min-height: 300px;
-  height: 40vh;
+  height: 100%;
   // margin-left: auto;
   // margin-right: auto;
   // overflow: hidden;
