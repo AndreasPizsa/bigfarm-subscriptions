@@ -79,7 +79,7 @@
                                 <div class="bigfarm__scroll_container mt-1" >
                                   <div class="bigfarm__pack_single" v-for="(perkId, index) in alliancePackPerks">
                                       <div class="dummy-img">
-                                          <img alt="" :src="`${subscriptions.base.assetsBaseUrl}${perkId}`"/>
+                                          <img alt="" :src="iconNameForItemId(perkId)"/>
                                       </div>
 
                                       <div class="description">{{ t(textKeyForItemId(perkId).title) }}</div>
@@ -170,24 +170,24 @@
 
                     <span class="bigfarm__grow" :class="{ 'd-none': !isPageActive(2)}">
                       <div class="row h100">
-                      <div class="col-3">
-                          <div class="bigfarm__pack bigfarm__pack_v2 pt-3 pb-2 mt-0 mb-0">
-                          <div v-for="key in tabTitleKeys"
-                                class="btn btn-secondary w100 mb-2 outline-1px" :class="{ current: currentSubscriptionTab === key}"
-                                @click="changeTab(key)">{{ t(key) }}
+                        <div class="col-3">
+                            <div class="bigfarm__pack bigfarm__pack_v2 pt-3 pb-2 mt-0 mb-0">
+                            <div v-for="key in tabTitleKeys"
+                                  class="btn btn-secondary w100 mb-2 outline-1px" :class="{ current: currentSubscriptionTab === key}"
+                                  @click="changeTab(key)">{{ t(key) }}
+                            </div>
                           </div>
                         </div>
+                        <div class="col-9">
+                          <div class="bigfarm__pack bigfarm__description_text h100 mt-0" ref="descriptionText">
+                              <div
+                                class="bigfarm__description_text_inner"
+                                v-html="t(tabCopyForTitle(currentSubscriptionTab))">
+                              </div>
+                          </div><!-- /.bigfarm__description_text -->
+                        </div>
                       </div>
-                      <div class="col-9">
-                        <div class="bigfarm__pack bigfarm__description_text h100 mt-0" ref="descriptionText">
-                            <div
-                              class="bigfarm__description_text_inner"
-                              v-html="t(tabCopyForTitle(currentSubscriptionTab))">
-                            </div>
-                        </div><!-- /.bigfarm__description_text -->
-                      </div>
-                    </div>
-                  </span>
+                    </span>
 
                     <span class="bigfarm__grow" :class="{ 'd-none': !isPageActive(3)}">
                       <div class="bigfarm__pack bigfarm__pack_v2 bigfarm__cooperative_bonus_list bigfarm__fit_height mt-0">
@@ -216,11 +216,7 @@
                               <td>
                                 <div class="fill">
                                   <dl>
-                                    <dt>
-                                      <div class="thumbnail">
-                                        <img alt="" :src="assetUrl(perkId)" width="100%" height="100%"/>
-                                      </div>
-                                    </dt>
+                                    <dt><div class="thumbnail"><img alt="" :src="iconNameForItemId(perkId)" width="100%" height="100%"/></div></dt>
                                     <dd>
                                       <h3>{{ t(textKeyForItemId(perkId).title) }}</h3>
                                       <p>{{ t(textKeyForItemId(perkId).body) }}</p>
@@ -233,7 +229,6 @@
                           </template>
                         </vue-scrolling-table>
                       </div>
-
                     </div>
                     </span>
                   </span>
@@ -450,8 +445,8 @@
             return this.tabCopyKeys[copyIndex]
           },
 
-          textKeyForItemId(id) {
-            const keys = {
+          itemDataForId(id) {
+            return {
               72002: ['contractMaterial', '-', '%'],
               72004: ['fishcontractMaterial', '-', '%'],
               72006: ['xpBooster', '+'],
@@ -468,13 +463,25 @@
               72012: ['fieldDamageReduce', '-', '%'],
               72008: ['horseTrainingCost', '-', '%'],
               72007: ['tempConstructionSlot', '']
-            }
+            }[id]
+          },
+
+          iconNameForItemId(id) {
+            return 'images/' + require('lodash.snakecase')(`${this.itemDataForId(id)[0]}_med`)+'.png'
+          },
+
+          iconForItemId(id) {
+            //return require(name)
+          },
+
+          textKeyForItemId(id) {
+            const itemData = this.itemDataForId(id)
 
             return {
-              title: `subscription_perkAlliance_${keys[id][0]}_title`,
-              body:  `subscription_perkAlliance_${keys[id][0]}_desc`,
-              prefix: keys[id][1] || '',
-              suffix: keys[id][2] || ''
+              title: `subscription_perkAlliance_${itemData[0]}_title`,
+              body:  `subscription_perkAlliance_${itemData[0]}_desc`,
+              prefix: itemData[1] || '',
+              suffix: itemData[2] || ''
             }
           }
         },
