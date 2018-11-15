@@ -1115,6 +1115,16 @@ h5,
 }
 
 .bigfarm__table {
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+      background: #edbd76;
+  }
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
   th {
     font-size: 0.8125rem;
     text-align: center;
@@ -1300,7 +1310,38 @@ table.scrolling th:first-child {
   left:0;
 }
 
+table.scrolling {
+  ::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+    background: transparent;
+  }
 
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 3.5px;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.6);
+  }
+
+  ::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+
+  scrollbar-track-color: transparent;
+  scrollbar-highlight-color: transparent;
+  scrollbar-face-color: rgba(0, 0, 0, 0.5);
+  scrollbar-arrow-color: rgba(0, 0, 0, 0.5);
+}
 
 .bigfarm__window_inner {
   flex: 1; // check shortcode with IE
