@@ -29,7 +29,7 @@
                   <span class="bigfarm__fit_height" :class="{ 'd-none': !isPageActive(1)}">
                     <div class="row bigfarm__intro_text">
                       <div class="col">
-                        <p>{{ t('subscription_general_copy') }}</p>
+                        <p class="x">{{ t('subscription_general_copy') }}</p>
                       </div>
                     </div>
 
@@ -57,7 +57,7 @@
                               }}</h4>
                             </div>
 
-                            <div class="bigfarm__grow" v-if="userSubscriptionByType(plan.id).id === 'individualSubscription'">
+                            <div class="bigfarm__grow" v-if="userSubscriptionByType(plan.id).id === 'individualSubscription'" data-simplebar>
                               <dl class="row no-gutters mt-2 mb-0">
                                 <dt class="col-icon pl-2"><img :src="require('@/assets/images/bigfarm__bonus_harvest-all.svg')" alt="Harvest All" class="bigfarm__feature_icon" /></dt>
                                 <dd class="col-description">
@@ -76,7 +76,8 @@
                               <div class="bigfarm__fit_height">
                                 <div class="bigfarm__grow">
                                   <div class="bigfarm__fit_height bigfarm__overflow_fix">
-                                <div class="bigfarm__scroll_container mt-1" >
+
+                                <div class="bigfarm__scroll_container mt-1" data-simplebar>
                                   <div class="bigfarm__pack_single" v-for="(perkId, index) in alliancePackPerks">
                                       <div class="dummy-img">
                                           <img alt="" :src="iconNameForItemId(perkId)"/>
@@ -94,7 +95,7 @@
                               </div>
                             </div>
 
-                            <hr class="fullwidth mt-2 mb-2" />
+                            <hr class="fullwidth mt-0 mb-2" />
 
                             <div class="row bigfarm__pack_notes mb-2">
                               <div class="col-1">
@@ -179,8 +180,8 @@
                         <div class="col-9">
                           <div class="bigfarm__pack bigfarm__description_text h100 mt-0" ref="descriptionText">
                               <div
-                                class="bigfarm__description_text_inner"
-                                v-html="t(tabCopyForTitle(currentSubscriptionTab))">
+                                class="bigfarm__description_text_inner h100" data-simplebar>
+                                <div v-html="t(tabCopyForTitle(currentSubscriptionTab))"></div>
                               </div>
                           </div><!-- /.bigfarm__description_text -->
                         </div>
@@ -242,6 +243,8 @@
     import VueScrollingTable from "vue-scrolling-table"
 
     import 'swiper/dist/css/swiper.css';
+    import simplebar from 'simplebar-vue';
+    import 'simplebar/dist/simplebar.min.css';
     import { swiper, swiperSlide } from 'vue-awesome-swiper';
     import moment from 'moment';
 
@@ -266,7 +269,8 @@
         components: {
             VueScrollingTable,
             swiper,
-            swiperSlide
+            swiperSlide,
+            simplebar
         },
         props: {
           title: {

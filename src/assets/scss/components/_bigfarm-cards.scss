@@ -1031,10 +1031,15 @@ h5,
   }
 }
 
+.test {
+  height: 100px;
+}
+
 .bigfarm__pack_notes {
   display: flex;
   align-items: center;
   justify-content: center;
+  min-height: 3.25rem;
 
   img {
     width: 1.75rem;
