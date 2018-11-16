@@ -22,21 +22,6 @@ body {
   background: transparent;
 }
 
-.bigfarm__test {
-  display: none;
-  width: 200px;
-  height: 200px;
-  background: #fdfdfd;
-  border-top: 0.1px solid #fdfdfd;
-  border-bottom: 0 solid transparent;
-  border-right: 40px solid transparent;
-  border-left: 40px solid transparent;
-  border-image: linear-gradient(0deg, #336601 0%, #4c9700 100%);
-  border-image-slice: 2;
-  position: absolute;
-  z-index: 100;
-}
-
 .bigfarm__overlay {
   position: fixed;
   top: 0;
@@ -1029,10 +1014,6 @@ h5,
       margin-bottom: 0;
     }
   }
-}
-
-.test {
-  height: 100px;
 }
 
 .bigfarm__pack_notes {

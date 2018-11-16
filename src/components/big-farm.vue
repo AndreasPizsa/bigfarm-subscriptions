@@ -1,8 +1,6 @@
 <template>
     <div class="wrap container" role="document">
         <div class="content">
-            <div class="bigfarm__test">X</div>
-
             <div class="bigfarm__overlay"></div>
 
             <div class="bigfarm__window" :class="{ 'd-none': !canShow }">
@@ -29,7 +27,7 @@
                   <span class="bigfarm__fit_height" :class="{ 'd-none': !isPageActive(1)}">
                     <div class="row bigfarm__intro_text">
                       <div class="col">
-                        <p class="x">{{ t('subscription_general_copy') }}</p>
+                        <p>{{ t('subscription_general_copy') }}</p>
                       </div>
                     </div>
 
