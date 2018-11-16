@@ -5,17 +5,9 @@
  * https://www.flowlabs.studio
  *
  */
-html {
+html, body {
   min-height: 100%;
-}
-
-body {
-  background-color: #e5c288;
-  background-image: url('../images/bigfarm__fake_bg.jpg');
-  background-repeat: no-repeat;
-  background-position: top center;
-  background-size: cover;
-  min-height: 100%;
+  background: transparent;
 }
 
 ::selection {
@@ -813,6 +805,7 @@ h5,
       }
 
       .btn-secondary + img {
+        cursor: pointer;
         margin-left: 0.5rem;
       }
     }
