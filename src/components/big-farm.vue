@@ -222,7 +222,9 @@
                                   </dl>
                                 </div>
                               </td>
-                              <td v-for="tier in alliancePackBoosterTiers">{{ alliancePackBoosterPerkBoostForTier(perkId, tier) | xIfEmptyOrZero }}</td>
+                              <td v-for="tier in alliancePackBoosterTiers">
+                                {{ alliancePackBoosterPerkBoostForTier(perkId, tier) > 0 ? textKeyForItemId(perkId).prefix : '' }}{{ alliancePackBoosterPerkBoostForTier(perkId, tier) | xIfEmptyOrZero }}{{ alliancePackBoosterPerkBoostForTier(perkId, tier) > 0 ? textKeyForItemId(perkId).suffix : ''}}
+                              </td>
                             </tr>
                           </template>
                         </vue-scrolling-table>
