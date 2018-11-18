@@ -277,7 +277,7 @@
         },
         props: {
           title: {
-            tyoe: String,
+            type: String,
             default: 'Subscription Shop'
           }
         },
