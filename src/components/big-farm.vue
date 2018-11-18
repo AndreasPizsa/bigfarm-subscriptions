@@ -438,14 +438,20 @@
           },
 
           t(id, ...args) {
-            return (args || []).reduce((result, arg, index) => {
+            const text = (args || []).reduce((result, arg, index) => {
               return result.replace(new RegExp(`\\{${index}\\}`, 'g'), arg)
             }, this.text[id] || id)
+            return decodeHtml(text)
           },
 
           t_html(id, ...args) {
-            const text = this.t(id, ...args).replace(/\n/g, '<br/>')
-            return decodeHtml(text)
+            return this
+              .t(id, ...args)
+              .split(/\n{2}/)
+              .filter(t => t && t.trim().length > 0)
+              .map(t => `<p>${t}</p>`)
+              .join('')
+              .replace(/\n/g, '<br/>')
           },
 
           t_num(idNone, idSingular, idPlural, value, ...args) {
