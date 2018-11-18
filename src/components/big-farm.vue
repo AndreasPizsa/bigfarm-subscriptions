@@ -275,12 +275,6 @@
             swiperSlide,
             simplebar
         },
-        props: {
-          title: {
-            type: String,
-            default: 'Subscription Shop'
-          }
-        },
         data: () => ({
           apiBaseUrl: 'https://4zleckep5b.execute-api.eu-west-1.amazonaws.com',
           deploymentStage: 'staging',
