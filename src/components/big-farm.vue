@@ -166,19 +166,19 @@
                   </span>
 
                     <span class="bigfarm__grow" :class="{ 'd-none': !isPageActive(2)}">
-                      <div class="row h100">
+                      <div class="row h-100">
                         <div class="col-3">
-                            <div class="bigfarm__pack bigfarm__pack_v2 pt-3 pb-2 mt-0 mb-0">
+                            <div class="bigfarm__pack bigfarm__pack_v2 pt-3 pb-2 mt-0 mb-0 h-100">
                             <div v-for="key in tabTitleKeys"
-                                  class="btn btn-secondary w100 mb-2 outline-1px" :class="{ current: currentSubscriptionTab === key}"
+                                  class="btn btn-secondary w-100 mb-2 outline-1px" :class="{ current: currentSubscriptionTab === key}"
                                   @click="changeTab(key)">{{ t(key) }}
                             </div>
                           </div>
                         </div>
                         <div class="col-9">
-                          <div class="bigfarm__pack bigfarm__description_text h100 mt-0" ref="descriptionText">
+                          <div class="bigfarm__pack bigfarm__description_text h-100 mt-0" ref="descriptionText">
                               <div
-                                class="bigfarm__description_text_inner h100" data-simplebar>
+                                class="bigfarm__description_text_inner h-100" data-simplebar>
                                 <div v-html="t(tabCopyForTitle(currentSubscriptionTab))"></div>
                               </div>
                           </div><!-- /.bigfarm__description_text -->
