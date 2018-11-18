@@ -999,36 +999,48 @@ h5,
 }
 
 .bigfarm__table_box {
-  // clear: both;
   padding: 0;
-  // min-height: 300px;
   height: 100%;
-  // margin-left: auto;
-  // margin-right: auto;
-  // overflow: hidden;
 }
 
 table.scrolling {
+  $icon-width: 18.5rem;
+
   th {
     font-size: 0.8125rem;
-    text-align: center;
+    text-align: left;
     color: $bigfarm-brown;
-    font-weight: 400;
+    font-weight: bold;
+    text-transform: uppercase;
     border: 2px groove $bigfarm-brown-light;
     padding-top: 0.25rem !important;
     padding-bottom: 0.25rem !important;
 
+    &::before {
+      display: inline-block;
+      content: ' ';
+      background: url('../images/subscription_model_member_icon.svg');
+      background-repeat: no-repeat;
+      background-position: left 3px;
+      width: 1em;
+      height: 1em;
+    }
+
     &:first-child {
-      text-align: center !important;
+      text-align: left;
+
+      &::before {
+        display: none;
+      }
     }
   }
 
   th,
   td {
     background-color: transparent !important;
-    width: 2rem !important;
-    min-width: 2rem !important;
-    max-width: 2rem !important;
+    width: 3rem !important;
+    min-width: 3rem !important;
+    max-width: 3rem !important;
     border: 2px groove $bigfarm-brown-light !important;
     border-top: none;
     font-size: 0.75rem !important;
@@ -1036,9 +1048,9 @@ table.scrolling {
     text-align: center;
 
     &:first-child {
-      width: 18.5rem !important;
-      min-width: 18.5rem !important;
-      max-width: 18.5rem !important;
+      width: $icon-width !important;
+      min-width: $icon-width !important;
+      max-width: $icon-width !important;
       padding-left: 0 !important;
 
       dt {
