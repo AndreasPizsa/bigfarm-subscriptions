@@ -504,10 +504,6 @@
             return 'images/' + require('lodash.snakecase')(`${this.itemDataForId(id)[0]}_med`)+'.png'
           },
 
-          iconForItemId(id) {
-            //return require(name)
-          },
-
           textKeyForItemId(id) {
             const itemData = this.itemDataForId(id)
 
