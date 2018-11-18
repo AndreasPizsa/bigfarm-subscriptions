@@ -179,7 +179,7 @@
                           <div class="bigfarm__pack bigfarm__description_text h-100 mt-0" ref="descriptionText">
                               <div
                                 class="bigfarm__description_text_inner h-100" data-simplebar>
-                                <div v-html="t(tabCopyForTitle(currentSubscriptionTab))"></div>
+                                <div v-html="t_html(tabCopyForTitle(currentSubscriptionTab))"></div>
                               </div>
                           </div><!-- /.bigfarm__description_text -->
                         </div>
@@ -246,13 +246,14 @@
     import simplebar from 'simplebar-vue';
     import 'simplebar/dist/simplebar.min.css';
     import { swiper, swiperSlide } from 'vue-awesome-swiper';
+    const decodeHtml = require('he').decode
 
     /**
     * sets window.location.query, which is a hash with all parameters
     * param names are all lowercase
     * reference as window.location.query.myparameter
     */
-    (function parseWindowLocationQuery(w){
+    ;(function parseWindowLocationQuery(w){
       var d=decodeURIComponent,
           q=w.location.query=w.location.query||{},
           pairs=w.location.search.substr(1).split('&'),
@@ -440,6 +441,11 @@
             return (args || []).reduce((result, arg, index) => {
               return result.replace(new RegExp(`\\{${index}\\}`, 'g'), arg)
             }, this.text[id] || id)
+          },
+
+          t_html(id, ...args) {
+            const text = this.t(id, ...args).replace(/\n/g, '<br/>')
+            return decodeHtml(text)
           },
 
           t_num(idNone, idSingular, idPlural, value, ...args) {
