@@ -12,6 +12,8 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
+  user-select: none;
+  line-height: 1.2;
 }
 
 img[src$="_med.png"] {
@@ -31,44 +33,9 @@ img[src$="_med.png"] {
   background-color: $bigfarm-overlay-shade;
 }
 
-.page-header,
-.banner {
-  display: none;
-}
-
-.size800 {
-  display: block;
-  width: 800px;
-  height: 1rem;
-  background: #424242;
-}
-
 hr {
   border-top: 1px solid $bigfarm-bevel1-dark;
   border-bottom: 1px solid $bigfarm-bevel1-light;
-}
-
-#element {
-  position: relative;  /* optional */
-  width: 200px;
-  height: 60px;
-  background-color: blue;
-  margin-bottom: 4rem;
-  margin-top: 4rem;
-  border-radius: 3rem 3rem 50% 50% / 40% 40% 60% 60%;
-}
-
-#element::after {
-  content: "";
-  width: 150px;
-  height: 150px;
-  background-color: red;
-  top: 10px;
-  left: 10px;
-
-  /* create a new stacking context */
-  position: absolute;
-  z-index: -1;  /* to be below the parent element */
 }
 
 h1,
@@ -120,10 +87,6 @@ h5,
 
 .outline-1px {
   text-shadow: -1px -1px 0 $bigfarm-text-outline, 1px -1px 0 $bigfarm-text-outline, -1px 1px 0 $bigfarm-text-outline, 1px 1px 0 $bigfarm-text-outline;
-}
-
-.bigfarm__packs {
-  // background: transparent;
 }
 
 .bigfarm__pack {
@@ -450,13 +413,17 @@ h5,
   }
 }
 
+.tinyfont .btn-secondary {
+  font-size: 0.625rem;
+  line-height: 0.75rem;
+  min-height: 2.25rem;
+}
+
 .btn-secondary {
   background: $bigfarm-brown-light;
   color: $bigfarm-brown;
   white-space: normal;
-  font-size: 0.625rem;
-  line-height: 0.75rem;
-  min-height: 2.25rem;
+  line-height: 1em;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -493,13 +460,14 @@ h5,
 }
 
 .bigfarm__window {
-  width: 776px;
+  min-width: 776px;
+  max-width: 900px;
+  width: 80vw;
   display: flex;
   flex-direction: column;
   min-height: 600px;
   height: 80vh;
 
-  x-margin: 3.75rem auto;
   background-image: url('../images/bigfarm__wood_2.svg'), linear-gradient(-90deg, $bigfarm-gradient-beige-dark-p2, $bigfarm-gradient-beige-dark-p1);
   background-size: cover;
   border-radius: $bigfarm-window-border-radius;
@@ -567,7 +535,7 @@ h5,
   }
 }
 
-.bigfarm__intro_text {
+.tinyfont .bigfarm__intro_text {
   p {
     font-size: 0.8125rem;
     line-height: 1.0625rem;
@@ -576,10 +544,27 @@ h5,
   }
 }
 
+.allianceSubscription {
+  li.media {
+    margin-bottom: 0.75em;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
 .bigfarm__pack_v2 {
   position: relative;
 
   .btn.current { border: 1px solid #36670f; box-shadow: inset 0 0 0 2px #6da832; }
+
+  &, p {
+    font-size: 0.8125rem;
+    line-height: 1rem;
+    letter-spacing: 0.01em;
+    margin-bottom: 0.25rem;
+  }
 
   h2 {
     text-align: center;
@@ -587,6 +572,13 @@ h5,
     font-weight: 400;
     margin-top: 0;
     margin-bottom: 0.25rem;
+  }
+
+  h3 {
+    font-size: 0.9375rem;
+    font-weight: bold;
+    letter-spacing: 0;
+    margin: 0;
   }
 
   h4 {
@@ -603,18 +595,6 @@ h5,
   }
 
   dd {
-    h3 {
-      font-size: 0.9375rem;
-      font-weight: 400;
-    }
-
-    p {
-      font-size: 0.8125rem;
-      line-height: 1rem;
-      letter-spacing: 0.01em;
-      margin-bottom: 0.25rem;
-    }
-
     &:last-child {
       margin-bottom: 0;
     }
@@ -738,6 +718,13 @@ h5,
   }
 }
 
+.tinyfont .bigfarm__description_text {
+  p {
+    font-size: 0.8125rem;
+    line-height: 1rem;
+  }
+}
+
 .bigfarm__description_text {
   padding-top: 0.875rem;
   padding-bottom: 0.875rem;
@@ -757,9 +744,6 @@ h5,
   }
 
   p {
-    font-size: 0.8125rem;
-    line-height: 1rem;
-
     &:last-child {
       margin-bottom: 0;
     }
