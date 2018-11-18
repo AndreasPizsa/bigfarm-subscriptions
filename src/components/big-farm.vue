@@ -246,7 +246,6 @@
     import simplebar from 'simplebar-vue';
     import 'simplebar/dist/simplebar.min.css';
     import { swiper, swiperSlide } from 'vue-awesome-swiper';
-    import moment from 'moment';
 
     /**
     * sets window.location.query, which is a hash with all parameters
@@ -264,6 +263,9 @@
       }
     })(window);
     console.log(window.location.query)
+    const locale = window.location.query.language || window.location.query.locale || 'en'
+    numeral.locale(locale)
+    moment.locale(locale)
     export default {
         name: 'BigFarm',
         components: {
@@ -405,7 +407,7 @@
 
             // todo format according to locale
             formatPrice(price) {
-              return parseFloat(price) / 100;
+              return numeral(parseInt(price)/100).format('0,0[.]00')
             },
 
             xIfEmptyOrZero(value) {
