@@ -14,7 +14,7 @@
                         <div class="col-4">
                           <div class="bigfarm__window_buttons">
                             <div class="btn btn-secondary outline-1px" @click="goToPage(page === 1 ? 2 : 1)">{{ t('subscription_general_GuideButton') }}</div>
-                            <img :src="require('@/assets/images/bigfarm__close_button.svg')" alt="X" @click="closeWindow()"/>
+                            <img style="cursor: pointer;" :src="require('@/assets/images/bigfarm__close_button.svg')" alt="X" @click="closeWindow()"/>
                           </div>
                         </div>
                     </div>
