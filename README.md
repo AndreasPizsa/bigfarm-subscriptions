@@ -1,5 +1,7 @@
 # big-farm
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/AndreasPizsa/bigfarm-subscriptions.svg)](https://greenkeeper.io/)
+
 ## Project setup
 ```
 yarn install
