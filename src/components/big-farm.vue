@@ -3,21 +3,17 @@
       <div class="bigfarm__overlay"></div>
 
       <div class="bigfarm__window" :class="{ 'd-none': !canShow }">
-          <div class="bigfarm__window_header">
-              <div class="row">
-                  <div class="col-8 bigfarm__window_header_padding">
-                      <div class="bigfarm__header_holder">
-                          <h1 class="outline-05px">{{ t('subscription_general_head') }}</h1>
-                      </div>
-                  </div>
-                  <div class="col-4">
-                    <div class="bigfarm__window_buttons">
-                      <div class="btn btn-secondary outline-1px" @click="goToPage(page === 1 ? 2 : 1)">{{ t('subscription_general_GuideButton') }}</div>
-                      <img style="cursor: pointer;" :src="require('@/assets/images/bigfarm__close_button.svg')" alt="X" @click="closeWindow()"/>
-                    </div>
-                  </div>
-              </div>
+        <div class="d-flex">
+          <div class="flex-grow-1 p-2 m-0 align-middle outline-1px"><strong>{{ t('subscription_general_head') }}</strong></div>
+          <div class="col-4 h-100 d-flex p-1">
+            <div class="flex-grow-1 btn btn-secondary btn-toggle outline-1px" :class="{ active: page === 2 }" @click="goToPage(page === 2 ? 1 : 2)">{{ t('subscription_general_GuideButton') }}</div>
+            <button type="button" class="ml-3 close" aria-label="Close">
+              <img style="height: 1em; cursor: pointer;" :src="require('@/assets/images/bigfarm__close_button.svg')" alt="X" @click="closeWindow()"/>
+            </button>
+            <div class="d-none bigfarm__window_buttons">
+            </div>
           </div>
+        </div>
 
           <!--============================================================
 
@@ -157,10 +153,16 @@
             <span :class="{ 'd-none': !(isPageActive(2) || isPageActive(3))}">
               <div class="row bigfarm__status">
                 <div class="col-6 bigfarm__status_info">
-                  <img :src="isUsersIndividualSubscriptionActive ? require('@/assets/images/bigfarm__status_active.svg') : require('@/assets/images/bigfarm__x.svg')" alt="Subscribed" /> <span>{{ t('subscription_packageConvenience_title') }}</span>
+                  <img :src="isUsersIndividualSubscriptionActive
+                      ? require('@/assets/images/bigfarm__status_active.svg')
+                      : require('@/assets/images/bigfarm__x.svg')" alt="Subscribed" />
+                    <span class="ml-2">{{ t('subscription_packageConvenience_title') }}</span>
                 </div>
                 <div class="col-6 bigfarm__status_info">
-                  <img :src="isUsersAllianceSubscriptionActive ? require('@/assets/images/bigfarm__status_active.svg') : require('@/assets/images/bigfarm__x.svg')" alt="Subscribed" /> <span>{{ t('subscription_packageAlliance_title') }}</span>
+                  <img :src="isUsersAllianceSubscriptionActive
+                    ? require('@/assets/images/bigfarm__status_active.svg')
+                    : require('@/assets/images/bigfarm__x.svg')" alt="Subscribed" />
+                  <span class="ml-2">{{ t('subscription_packageAlliance_title') }}</span>
                 </div>
               </div>
             </span>
@@ -188,9 +190,9 @@
 
               <span class="bigfarm__grow" :class="{ 'd-none': !isPageActive(3)}">
                 <div class="bigfarm__pack bigfarm__pack_v2 bigfarm__cooperative_bonus_list bigfarm__fit_height mt-0">
-                <div class="bigfarm__infoheader">
-                  <div class="bigfarm__icon_back" @click="goToPage(1)"><img :src="require('@/assets/images/bigfarm__icon_back.svg')" alt="Back" /></div>
-                  <h5>{{ t('subscription_allianceProgress') }}</h5>
+                <div class="d-flex flex-row">
+                  <img class="flex-shrink-1" style="cursor: pointer; bottom: -2px" :src="require('@/assets/images/bigfarm__icon_back.svg')" alt="Back" @click="goToPage(1)"/>
+                  <span class="flex-grow-1 text-center align-middle">{{ t('subscription_allianceProgress') }}</span>
                 </div>
 
                 <div class="bigfarm__table_box">
@@ -210,8 +212,8 @@
                     </template>
                     <template slot="tbody">
                       <tr v-for="perkId in alliancePackPerks">
-                        <td>
-                          <div class="fill">
+                        <td class="fill">
+                          <div class="fill  p-2">
                             <dl>
                               <dt><div class="thumbnail"><img alt="" :src="iconNameForItemId(perkId)" width="100%" height="100%"/></div></dt>
                               <dd>
