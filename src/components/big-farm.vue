@@ -533,7 +533,7 @@
               72011: ['edgePlantOutcome', '+', '%'],
               72012: ['fieldDamageReduce', '-', '%'],
               72008: ['horseTrainingCost', '-', '%'],
-              72007: ['tempConstructionSlot', '']
+              72007: ['tempConstructionSlot', '-']
             }[id]
           },
 
