@@ -7,8 +7,8 @@
           <div class="flex-grow-1 p-2 m-0 align-middle outline-1px"><strong>{{ t('subscription_general_head') }}</strong></div>
           <div class="col-4 h-100 d-flex p-1">
             <div class="flex-grow-1 btn btn-secondary btn-toggle outline-1px" :class="{ active: page === 2 }" @click="goToPage(page === 2 ? 1 : 2)">{{ t('subscription_general_GuideButton') }}</div>
-            <button type="button" class="ml-3 mr-1 close" style="width: 1em; opacity: 1;" aria-label="Close">
-              <img class="h-100" style="height: 100%; cursor: pointer;" :src="require('@/assets/images/bigfarm__close_button.svg')" alt="X" @click="closeWindow()"/>
+            <button type="button" class="ml-3 mr-1 position-relative close" style="width: 1em; opacity: 1;" aria-label="Close">
+              <img class="position-absolute" style="top: -2px; right: -2px; width: 32px; cursor: pointer;" :src="require('@/assets/images/bigfarm__close_button.svg')" alt="X" @click="closeWindow()"/>
             </button>
             <div class="d-none bigfarm__window_buttons">
             </div>
@@ -112,7 +112,7 @@
                                   'subscription_allianceHasBooked_copy',
                                   'subscription_allianceHasBookedSingular_copy',
                                   'subscription_allianceHasBooked_copy',
-                                  plan.otherAllianceSubscribers)
+                                  plan.allianceSubscriberCount)
                                 }}
                               </div>
                               <div v-else>
@@ -266,7 +266,7 @@
     })(window);
     console.log(window.location.query)
     const locale = window.location.query.language || window.location.query.locale || 'en'
-    numeral.locale(locale)
+    if(numeral.locales[locale]) numeral.locale(locale)
     moment.locale(locale)
     export default {
         name: 'BigFarm',
@@ -340,10 +340,12 @@
             return this.isUserSubscriptionActiveByType('allianceSubscription')
           },
 
+          /*
           moment() {
-            moment.locale(this.locale)
+            //moment.locale(this.locale)
             return moment
           },
+          */
 
           tabTitleKeys() {
             return this.tabTextKeys('header')
@@ -357,6 +359,10 @@
               .subscriptions
               .payoutTypes || [])
               .find(({id}) => id === 'allianceSubscription') || {})
+          },
+
+          allianceSubscriberCount() {
+            return (this.alliancePack || {}).allianceSubscriberCount || 0
           },
 
           alliancePackBoosterData() {
@@ -411,10 +417,13 @@
           },
 
           highlightedAllianceTier() {
-            const nextNumberOfSubscribers = 1 + (this.alliancePack.otherAllianceSubscribers || 0)
+            const tierMembers = Math.max(
+              1,
+              this.allianceSubscriberCount + (this.isUsersAllianceSubscriptionActive ? 0 : 1)
+            )
             return this
               .alliancePackBoosterData
-              .filter(({from}) => from && from <= nextNumberOfSubscribers)
+              .filter(({from}) => from && from <= tierMembers)
               .pop()
               .from
           }

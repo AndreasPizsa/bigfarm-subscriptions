@@ -1,134 +1,88 @@
-/**
- * Bigfarm Cards 1.0
- *
- * Copyright 2018 Wolf-Dieter Grabner, theflow.cc
- * https://www.flowlabs.studio
- *
- */
-html, body {
-  min-height: 100%;
-  background: transparent;
-  color: $bigfarm-brown;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  user-select: none;
-  line-height: 1.2;
+<style lang="scss">
+@import "@/assets/scss/common/_variables.scss";
+@import "~bootstrap/scss/mixins/_gradients.scss";
+
+.bigfarm .modal {
+  .modal-dialog {
+    background-image:
+      url('../assets/images/bigfarm__wood_1.svg'),
+      linear-gradient(-90deg,
+        $bigfarm-gradient-beige-dark-p2,
+        $bigfarm-gradient-beige-dark-p1
+      );
+    background-size: cover;
+
+    box-shadow:
+      1px 1px 0 #593200,
+      -1px 1px 0 #593200,
+      1px -1px 0 #593200,
+      -1px -1px 0 #593200;
+
+    border: 1px solid transparent;
+    border-radius: $bigfarm-window-border-radius;
+    position: relative;
+    border-image: linear-gradient(
+      0deg,
+      $bigfarm-gradient-window-bevel-light-p1 0%,
+      $bigfarm-gradient-window-bevel-light-p2 77%,
+      $bigfarm-gradient-window-bevel-light-p3 100%
+    );
+    border-image-slice: 1;
+  }
+
+  .modal-content {
+    background-image:
+      url('../assets/images/bigfarm__wood_1.svg'),
+      linear-gradient(
+        -45deg,
+        $bigfarm-gradient-beige-light-p2,
+        $bigfarm-gradient-beige-light-p1
+      );
+    background-size: cover;
+    background-image: url('../assets/images/bigfarm__wood_1.svg'), linear-gradient(-45deg, $bigfarm-gradient-beige-light-p2, $bigfarm-gradient-beige-light-p1);
+    background-size: cover;
+    background-color: transparent;
+    box-shadow: inset -1px -1px 0 #ffc85b, inset 2px 2px 0 $bigfarm-window-inner-shadow, inset -2px -2px 0 $bigfarm-window-inner-shadow;
+    border: 0;
+    border-radius: 0 0 $bigfarm-window-border-radius/3*2 $bigfarm-window-border-radius/3*2;
+
+
+    .modal-header {
+      background-image:
+        url('../assets/images/bigfarm__wood_1.svg'),
+        linear-gradient(-90deg,
+          $bigfarm-gradient-beige-dark-p2,
+          $bigfarm-gradient-beige-dark-p1
+        );
+      background-size: cover;
+      border: none;
+    }
+  }
 }
 
-img[src$="_med.png"] {
-  width: 32px;
-}
-
-::selection {
-  background: transparent;
-}
-
-.bigfarm__overlay {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background-color: $bigfarm-overlay-shade;
-}
-
-hr {
-  border-top: 1px solid $bigfarm-bevel1-dark;
-  border-bottom: 1px solid $bigfarm-bevel1-light;
-}
-
-h1,
-.h1 {
-  color: $bigfarm-brown;
-  font-size: 1.0625rem;
-//  font-weight: 400;
-//  letter-spacing: 0.01em;
-}
-
-h2,
-.h2 {
-  color: $bigfarm-brown;
-  font-size: 1.8125rem; // 2.75rem;
-}
-
-h3,
-.h3 {
-  color: $bigfarm-brown;
-  font-size: 0.6875rem; // 1.125rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-}
-
-h4,
-.h4 {
-  color: $bigfarm-brown;
-  // font-size: 0.75rem; // 1.0625rem;
-  // line-height: 1;
-  // letter-spacing: 0.02em;
-}
-
-h5,
-.h5 {
-  color: $bigfarm-brown-darker;
-//  font-size: 0.6875rem;
-//  line-height: 1;
-//  font-weight: 400;
-//  letter-spacing: 0.03em;
-}
-
-.outline-05px {
-  text-shadow: -0.5px -0.5px 0 $bigfarm-text-outline, 0.5px -0.5px 0 $bigfarm-text-outline, -0.5px 0.5px 0 $bigfarm-text-outline, 0.5px 0.5px 0 $bigfarm-text-outline;
-}
-
-.outline-1px {
-  text-shadow:
-    // -1px -1px 0 $bigfarm-text-outline,
-    // 1px -1px 0 $bigfarm-text-outline,
-    // -1px 1px 0 $bigfarm-text-outline,
-    1px 1px 0 $bigfarm-text-outline;
-}
-
-.bigfarm__pack {
-  border-radius: $bigfarm-border-radius $bigfarm-border-radius $bigfarm-border-radius $bigfarm-border-radius;
+.bigfarm .card {
+  border: none;
+  background-color: transparent;
+  border-radius: $bigfarm-border-radius;
   padding: $bigfarm-border-width-inner + 1px;
   margin: -$bigfarm-border-width-inner - 1px 1px 1px;
   position: relative; // xredundant in .active
-  box-shadow: inset 1px 1px 0 $bigfarm-brown-light, inset -1px -1px 0 $bigfarm-brown-dark, 1px 1px 0 $bigfarm-brown-light, -1px -1px 0 $bigfarm-brown-dark;
+  box-shadow:
+    inset 1px 1px 0 $bigfarm-brown-light,
+    inset -1px -1px 0 $bigfarm-brown-dark,
+    1px 1px 0 $bigfarm-brown-light,
+    -1px -1px 0 $bigfarm-brown-dark;
 
   @include gradient-y($start-color: $bigfarm-gradient-p1, $end-color: $bigfarm-gradient-p2, $start-percent: 0%, $end-percent: 100%);
-
-  h1,
-  .h1 {
-    text-align: center;
-    padding-top: 0.5rem;
-    padding-bottom: 0.75rem;
-    margin-bottom: 0;
-  }
-
-  h2,
-  .h2 {
-    text-align: right;
-    margin-top: 0.25rem;
-    margin-bottom: -0.125rem;
-  }
-
-  h4,
-  .h4 {
-    text-align: right;
-    margin-bottom: 0;
-  }
-
-  .bigfarm__price {
-    padding: 0 0.3125rem 0.25rem;
-  }
 }
 
+/*-----*/
+
 .bigfarm__button {
+  cursor: pointer;
+
   display: block;
   position: relative;
-  font-size: 0.9375rem;
-  height: 2.6875rem;
   z-index: 3;
   margin: 0.5rem 0.375rem 0.5rem 0.25rem;
 
@@ -237,6 +191,7 @@ h5,
   &.disabled,
   &.disabled:hover,
   &.disabled:active {
+    cursor: default;
     span { opacity: 0.4 }
 
     span::after {
@@ -413,12 +368,6 @@ h5,
   }
 }
 
-.tinyfont .btn-secondary {
-  font-size: 0.625rem;
-  line-height: 0.75rem;
-  min-height: 2.25rem;
-}
-
 .btn-secondary {
   background: $bigfarm-brown-light;
   color: $bigfarm-brown;
@@ -443,497 +392,227 @@ h5,
   }
 }
 
-.bigfarm__fit_height {
-  display: flex;
-  flex-direction: column;
-  min-height: 100%;
-  height: 100%;
-}
+.bigfarm {
+  .close {
+    opacity: 1;
 
-.bigfarm__overflow_fix {
-  height: 0;
-}
-
-.bigfarm__grow {
-  flex: 1 1 auto;
-  height: 0;
-}
-
-.bigfarm__window {
-  min-width: 800px;
-  min-height: 600px;
-
-  max-width: 900px;
-  max-height: 900px;
-  width: 80vw;
-  height: 80vh;
-
-  display: flex;
-  flex-direction: column;
-
-  background-image: url('../images/bigfarm__wood_2.svg'), linear-gradient(-90deg, $bigfarm-gradient-beige-dark-p2, $bigfarm-gradient-beige-dark-p1);
-  background-size: cover;
-  border-radius: $bigfarm-window-border-radius;
-  box-shadow: 1px 1px 0 #593200, -1px 1px 0 #593200, 1px -1px 0 #593200, -1px -1px 0 #593200;
-  border: 1px solid transparent;
-  position: relative;
-  border-image: linear-gradient(0deg, $bigfarm-gradient-window-bevel-light-p1 0%, $bigfarm-gradient-window-bevel-light-p2 77%, $bigfarm-gradient-window-bevel-light-p3 100%);
-  border-image-slice: 1;
-}
-
-.bigfarm__shade_brown {
-  background: $bigfarm-brown-fill;
-  color: white;
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5 {
-    color: white;
-  }
-}
-
-.tinyfont .bigfarm__intro_text {
-  p {
-    font-size: 0.8125rem;
-    line-height: 1.0625rem;
-    letter-spacing: 0.01em;
-    padding-bottom: 0.25rem;
-  }
-}
-
-.allianceSubscription {
-  li.media {
-    margin-bottom: 0.75em;
-
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
-}
-
-.bigfarm__pack_v2 {
-  position: relative;
-
-  .btn.current { border: 1px solid #36670f; box-shadow: inset 0 0 0 2px #6da832; }
-
-  &, p {
-    font-size: 0.8125rem;
-    line-height: 1rem;
-    letter-spacing: 0.01em;
-    margin-bottom: 0.25rem;
-  }
-
-  h2 {
-    text-align: center;
-    font-size: 1.125rem; // 4375rem;
-    font-weight: 400;
-    margin-top: 0;
-    margin-bottom: 0.25rem;
-  }
-
-  h3 {
-    font-size: 0.9375rem;
-    font-weight: bold;
-    letter-spacing: 0;
-    margin: 0;
-  }
-
-  h4 {
-    text-align: center;
-    font-size: 0.8125rem;
-    color: white;
-    letter-spacing: 0.04em;
-    padding-top: 0.375rem;
-    padding-bottom: 0.375rem;
-  }
-
-  dl {
-    margin-bottom: -0.5rem;
-  }
-
-  dd {
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
-
-  .bigfarm__price {
-    font-size: 1.625rem;
-    font-weight: 400;
-    letter-spacing: -0.02em;
-    margin-bottom: 0;
-    line-height: 1;
-    padding: 0;
-  }
-
-  .bigfarm__price_note {
-     font-size: 0.75rem;
-     line-height: 1;
-     margin-bottom: 0;
-  }
-
-  .bigfarm__hero_visual {
-    //background: $bigfarm-blue;
-    background-size: cover;
-    height: 8rem;
-    margin: 0 3px 0.375rem 2px;
-    border-radius: $bigfarm-border-radius - 2px;
-    box-shadow: inset 0 1.5px 0 $bigfarm-shadow-small, inset 0 4px 0 $bigfarm-shadow-large, inset 0 -1.5px 0 $bigfarm-accent-small;
-  }
-
-  .fullwidth {
-    margin-left: -$bigfarm-border-width-inner;
-    margin-right: -$bigfarm-border-width-inner;
-  }
-
-  .alignbottom {
-    margin-bottom: -$bigfarm-border-width-inner;
-    border-bottom-left-radius: $bigfarm-border-radius;
-    border-bottom-right-radius: $bigfarm-border-radius;
-  }
-
-  .bigfarm__scroll_container {
-    overflow: hidden;
-    overflow-y: auto;
-    display: flex;
-    flex-flow: column;
-  }
-}
-
-.swiper-slide {
-  height: auto;
-}
-
-.bigfarm__convenience_pack {
-  .col-icon {
-    flex: 0 0 23%;
-    max-width: 23%;
-  }
-
-  .col-description {
-    flex: 0 0 77%;
-    max-width: 77%;
-  }
-
-  .bigfarm__feature_icon {
-    width: 4rem;
-  }
-}
-
-.bigfarm__status_icon {
-  color: $bigfarm-brown;
-  stroke: $bigfarm-brown;
-}
-
-.bigfarm__status {
-  text-align: center;
-
-  .bigfarm__status_info {
-    background: linear-gradient(180deg, $bigfarm-button-gradient-v2-02-p1 0%, $bigfarm-button-gradient-v2-02-p2 100%);
-    margin-top: 0.5rem;
-    margin-bottom: 0.875rem;
-    height: 1.75rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    &:first-child {
-      margin-left: 0.375rem;
-      margin-right: -0.375rem;
-      border-top-left-radius: $bigfarm-border-radius;
-      border-bottom-left-radius: $bigfarm-border-radius;
-      box-shadow: inset 1px 1px 0 $bigfarm-brown-light, inset -1px -1px 0 $bigfarm-brown-dark, 1px 1px 0 $bigfarm-brown-light, -1px -1px 0 $bigfarm-brown-dark;
-    }
-
-    &:last-child {
-      margin-left: -0.375rem;
-      margin-right: 0.375rem;
-      border-top-right-radius: $bigfarm-border-radius;
-      border-bottom-right-radius: $bigfarm-border-radius;
-      box-shadow: inset 1px 1px 0 $bigfarm-brown-light, inset -1px -1px 0 $bigfarm-brown-dark, 1px 1px 0 $bigfarm-brown-light, -1px -1px 0 $bigfarm-brown-dark;
-    }
-  }
-}
-
-// adaptions for confirmation window / Subscription success
-.bigfarm__window_confirmation {
-  width: 386px;
-
-  .bigfarm__confirmation_text {
-    height: 20rem;
-
-    h4,
-    .h4 {
-      color: $bigfarm-brown;
-    }
-  }
-}
-
-.tinyfont .bigfarm__description_text {
-  p {
-    font-size: 0.8125rem;
-    line-height: 1rem;
-  }
-}
-
-.bigfarm__description_text {
-  padding-top: 0.875rem;
-  padding-bottom: 0.875rem;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  overflow: auto;
-
-  h4 {
-    font-size: 0.75rem;
-    text-align: left;
-    margin-bottom: 1rem;
-  }
-
-  p {
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
-}
-
-.bigfarm__pack_notes {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 3.25rem;
-
-  img {
-    width: 1.75rem;
-  }
-
-  h3,
-  h4,
-  h5 {
-    margin-bottom: 0;
-  }
-
-  h3 {
-    font-size: 0.875rem; // 0.9375rem;
-    font-weight: 400;
-    letter-spacing: -0.02em;
-    text-align: center;
-    color: $bigfarm-brown;
-  }
-
-  h4 {
-    color: $bigfarm-brown;
-    font-size: 0.8125rem;
-    text-align: center;
-    padding-top: 0;
-    padding-bottom: 0.125rem;
-  }
-
-  h5 {
-    color: $bigfarm-brown-darker;
-    font-size: 0.8125rem;
-    text-align: center;
-  }
-}
-
-.bigfarm__pack_subscribe {
-  .vertical-align-center {
-    height: 100%;
-    display: flex;
-    align-items: center;
-  }
-
-  .bigfarm__subscription_price {
-    padding-left: 1rem;
-  }
-}
-
-.bigfarm__cooperative_bonus_list {
-  overflow: hidden;
-  padding-top: 1.125rem !important;
-  padding-bottom: 0.75rem !important;
-  padding-left: 0.5rem !important;
-  padding-right: 0.5rem !important;
-
-  h5 {
-    font-size: 0.6875rem;
-    color: $bigfarm-brown;
-    margin-top: 0.25rem;
-    margin-bottom: 0.75rem;
-    margin-bottom: none;
-    text-align: center;
-  }
-}
-
-.bigfarm__table_box {
-  padding: 0;
-  height: 100%;
-}
-
-table.scrolling {
-  $icon-width: 18.5rem;
-
-  th {
-    font-size: 0.8125rem;
-    text-align: left;
-    color: $bigfarm-brown;
-    font-weight: bold;
-    text-transform: uppercase;
-    border: 2px groove $bigfarm-brown-light;
-    padding-top: 0.25rem !important;
-    padding-bottom: 0.25rem !important;
-
-    &::before {
-      display: inline-block;
-      content: ' ';
-      background: url('../images/subscription_model_member_icon.svg');
+    span {
+      background-image: url(../assets/images/bigfarm__close_button.svg);
       background-repeat: no-repeat;
-      background-position: left 3px;
-      width: 1em;
-      height: 1em;
+      background-size: cover;
+
+      width: 32px;
+      height: 32px;
+
+      display: inline-block;
+
+      color: transparent;
+      text-shadow: none;
     }
 
-    &:first-child {
-      text-align: left;
-
-      &::before {
-        display: none;
-      }
+    &:not(:disabled):not(.disabled):hover,
+    &:not(:disabled):not(.disabled):focus {
+      opacity: 1;
     }
   }
+}
 
-  th,
-  td {
-    background-color: transparent !important;
-    width: 3rem !important;
-    min-width: 3rem !important;
-    max-width: 3rem !important;
-    border: 2px groove $bigfarm-brown-light !important;
-    border-top: none;
-    font-size: 0.75rem !important;
-    line-height: 1rem !important;
-    text-align: center;
+</style>
 
-    &:first-child {
-      width: $icon-width !important;
-      min-width: $icon-width !important;
-      max-width: $icon-width !important;
-      padding-left: 0 !important;
+<template>
+  <div class="bigfarm__overlay bigfarm d-flex justify-content-center align-items-center">
+    <div class="modal position-relative" :class="{'d-none': !canShow, 'd-block': canShow}" tabindex="-1" role="dialog">
+      <div class="modal-dialog  mt-0 mb-0" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">
+              {{
+                t(isExpired
+                  ? 'subscription_expiredDialogue_header'
+                  : 'subscription_confirmationDialogue_header'
+                )
+              }}
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="closeWindow()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
 
-      dt {
-        display:table-cell;
-        vertical-align:middle;
-        width: 2.5rem;
-      }
+          <div class="modal-body">
+            <div class="card">
+              <h5 class="card-title text-center mb-1">{{ packageTitle }}</h5>
+              <img class="card-img-top" :src="heroImageUrl" alt="Card image cap">
+              <div class="card-body">
+                <h1><strong>{{ dialogHeader }}</strong></h1>
+                <p>{{ dialogBody }}</p>
+              </div>
 
-      dd {
-        display:table-cell;
-        vertical-align:middle;
-        width: 16rem;
+              <div class="bigfarm__shade_brown d-flex justify-content-center" style="margin: -5px; border-bottom-left-radius: inherit; border-bottom-right-radius: inherit">
+                <div class="w-50">
+                  <a class="bigfarm__button bigfarm__button_green" @click="closeWindow()">
+                      <div class="bigfarm__button_candy"><span>Okay</span></div>
+                      <div class="bigfarm__button_shadow"></div>
+                  </a>
+                </div>
+              </div>
 
-        p:last-child {
-          margin-bottom: 0.5rem;
-        }
-      }
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
 
-      .fill {
-        position: relative;
-        background: #edbd76;
-      }
 
-      .thumbnail {
-        margin-right: 0.25rem;
-        margin-bottom: 0.375rem;
-      }
+<script>
+function isTrue(str) {
+  return /^true|1$/i.test(str)
+}
+
+;(function parseWindowLocationQuery(w){
+  var d=decodeURIComponent,
+      q=w.location.query=w.location.query||{},
+      pairs=w.location.search.substr(1).split('&'),
+      i;
+  while(i=pairs.pop()) {
+    var keyValue=i.match(/([^=]*)=?(.*)/)
+    if(keyValue) q[d(keyValue[1]).toLowerCase()]=d(keyValue[2]);
+  }
+})(window);
+
+export default {
+  name: 'StatusChangedModal',
+
+  data: () => ({
+    apiBaseUrl: 'https://4zleckep5b.execute-api.eu-west-1.amazonaws.com',
+    deploymentStage: 'staging',
+    ping: {
+      gameId: window.location.query.gameid || 15,
+      networkId: window.location.query.networkid || 1,
+      instanceId: window.location.query.instanceid || 251,
+      playerId: window.location.query.playerid || 2794098
+    },
+    sessionId: window.location.query.sid || Math.random().toString(36).substr(2),
+
+    locale: window.location.query.language || window.location.query.locale || 'en',
+    isRenewed: isTrue(window.location.query.isrenewed) || false,
+    isExpired: isTrue(window.location.query.isexpired) || false,
+    isPlayerSubscription: isTrue(window.location.query.playersubscription) || false,
+    isAllianceSubscription: isTrue(window.location.query.alliancesubscription) || false,
+    time: window.location.query.time || 0,
+
+    allianceSubscription: {},
+    text: {}
+  }),
+
+  computed: {
+    canShow() {
+      return Object.keys(this.text).length > 0
+    },
+
+    catalogUrl() {
+      return [
+        this.apiBaseUrl,
+        this.deploymentStage,
+        this.ping.gameId,
+        this.ping.networkId,
+        this.ping.instanceId,
+        this.ping.playerId
+      ].join('/')+`?sid=${this.sessionId}&locale=${this.locale}`
+    },
+
+    heroImageUrl() {
+      return this.isPlayerSubscription
+        ? require('@/assets/images/hero-individualSubscription.jpg')
+        : require('@/assets/images/hero-allianceSubscription.jpg')
+    },
+
+    packageTitle() {
+      return this.t(
+        this.isPlayerSubscription
+          ? 'subscription_packageConvenience_title'
+          : 'subscription_packageAlliance_title'
+      )
+    },
+
+    dialogHeader() {
+      return this.t(this.isExpired
+        ? 'subscription_expiredDialogue_header'
+        : 'subscription_confirmationDialogue_header'
+      )
+    },
+
+    dialogBody() {
+      const EXPIRED = true
+      const CONFIRMED = false
+      const PLAYER = true
+      const ALLIANCE = false
+
+      const {isPlayerSubscription, expired} = this
+      const remainingTexts = [
+        [PLAYER, EXPIRED, 'subscription_expiredDialogue_player_copy'],
+        [PLAYER, CONFIRMED, 'subscription_confirmationDialogue_player_desc'],
+        [ALLIANCE, EXPIRED, 'subscription_expiredDialogue_allianceNone_desc', 0],
+        [ALLIANCE, EXPIRED, 'subscription_expiredDialogue_allianceSingular_copy', 1]
+        [ALLIANCE, EXPIRED, 'subscription_expiredDialogue_alliance_copy'],
+        [ALLIANCE, CONFIRMED, 'subscription_confirmationDialogue_allianceSingular_desc', 1],
+        [ALLIANCE, CONFIRMED, 'subscription_confirmationDialogue_alliance_desc'],
+      ]
+
+      if(this.isPlayerSubscription) return this.t(
+          this.isExpired
+          ? 'subscription_expiredDialogue_player_copy'
+          : 'subscription_confirmationDialogue_player_desc'
+        , this.packageTitle
+      )
+
+      const memberCount = this.allianceSubscription.allianceSubscriberCount || 0
+      if(!this.isExpired) return this.t(
+        memberCount === 1
+        ? 'subscription_confirmationDialogue_allianceSingular_desc'
+        : 'subscription_confirmationDialogue_alliance_desc'
+      , this.packageTitle, memberCount
+      )
+
+      return this.t(
+        memberCount === 0
+          ? 'subscription_expiredDialogue_allianceNone_desc'
+          : memberCount === 1
+          ? 'subscription_expiredDialogue_allianceSingular_copy'
+          : 'subscription_expiredDialogue_alliance_copy'
+        , this.packageTitle, memberCount
+      )
+    },
+
+    expiredConfirmationHeader() {
+      return
     }
-  }
+  },
 
-  tr:first-child {
-    td {
-      border-top: none !important;
+  methods: {
+    t(id, ...args) {
+      const text = (args || []).reduce((result, arg, index) => {
+        return result.replace(new RegExp(`\\{${index}\\}`, 'g'), arg)
+      }, this.text[id] || id)
+      return text
+    },
+
+    closeWindow() {
+      window.parent.postMessage({
+        name: 'cxf.subscriptions.close',
+        elementId: window.location.query.elementid
+      }, '*');
     }
-  }
+  },
 
-  th:first-child,
-  td:first-child {
-    text-align: left;
-    width: 2.5rem;
-    border-left: none !important;
-    border-right: none !important;
+  created() {
+    fetch(this.catalogUrl)
+      .then(response => response.json())
+      .then(subscriptionData => {
+        this.text = subscriptionData.i18n
+        this.allianceSubscription = subscriptionData.payoutTypes.find(({id}) => id === 'allianceSubscription')
+      })
   }
 }
-
-table.freezeFirstColumn thead td:first-child,
-table.freezeFirstColumn tbody td:first-child,
-table.freezeFirstColumn thead th:first-child,
-table.freezeFirstColumn tbody th:first-child {
-	position: sticky;
-	position: -webkit-sticky;
-	left: 0;
-}
-
-table.scrolling td:first-child,
-table.scrolling th:first-child {
-  position: -webkit-sticky;
-  position: sticky;
-  left:0;
-}
-
-table.scrolling {
-  ::-webkit-scrollbar {
-    width: 7px;
-    height: 7px;
-    background: transparent;
-  }
-
-  /* Track */
-  ::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  /* Handle */
-  ::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, 0.5);
-    border-radius: 3.5px;
-  }
-
-  /* Handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
-    background: rgba(0, 0, 0, 0.6);
-  }
-
-  ::-webkit-scrollbar-corner {
-    background: transparent;
-  }
-
-  scrollbar-track-color: transparent;
-  scrollbar-highlight-color: transparent;
-  scrollbar-face-color: rgba(0, 0, 0, 0.5);
-  scrollbar-arrow-color: rgba(0, 0, 0, 0.5);
-}
-
-.bigfarm__window_inner {
-  flex: 1; // check shortcode with IE
-  margin: 0 2px 2px;
-  padding: 1.25rem 1rem 0.875rem 1rem; // 1.75rem
-  // min-height: 465px;
-  //background-image: url('../images/wood.svg'), ;
-  background-image: url('../images/bigfarm__wood_1.svg'), linear-gradient(-45deg, $bigfarm-gradient-beige-light-p2, $bigfarm-gradient-beige-light-p1);
-  background-size: cover;
-  box-shadow: inset -1px -1px 0 #ffc85b, inset 2px 2px 0 $bigfarm-window-inner-shadow, inset -2px -2px 0 $bigfarm-window-inner-shadow;
-  border-radius: 0 0 $bigfarm-window-border-radius/3*2 $bigfarm-window-border-radius/3*2;
-}
-
-.bigfarm__box {
-  border-radius: 8px;
-  border-width: 4px;
-  background-color: #e5c288;
-  box-shadow: inset 1px 1px 0 $bigfarm-brown-light, inset -1px -1px 0 $bigfarm-brown-dark, 1px 1px 0 $bigfarm-brown-light, -1px -1px 0 $bigfarm-brown-dark;
-}
-/*# sourceMappingURL=_bigfarm-cards.css.map */
+</script>
