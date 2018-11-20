@@ -7,8 +7,8 @@
           <div class="flex-grow-1 p-2 m-0 align-middle outline-1px"><strong>{{ t('subscription_general_head') }}</strong></div>
           <div class="col-4 h-100 d-flex p-1">
             <div class="flex-grow-1 btn btn-secondary btn-toggle outline-1px" :class="{ active: page === 2 }" @click="goToPage(page === 2 ? 1 : 2)">{{ t('subscription_general_GuideButton') }}</div>
-            <button type="button" class="ml-3 mr-1 position-relative close" style="width: 1em; opacity: 1;" aria-label="Close">
-              <img class="position-absolute" style="top: -2px; right: -2px; width: 32px; cursor: pointer;" :src="require('@/assets/images/bigfarm__close_button.svg')" alt="X" @click="closeWindow()"/>
+            <button type="button" class="ml-3 mr-1 position-relative close" style="width: 1em; opacity: 1;" aria-label="Close" @click="closeWindow()">
+              <img class="position-absolute" style="top: -2px; right: -2px; width: 32px; cursor: pointer;" :src="require('@/assets/images/bigfarm__close_button.svg')" alt="X"/>
             </button>
             <div class="d-none bigfarm__window_buttons">
             </div>
@@ -451,7 +451,7 @@
           closeWindow() {
             window.parent.postMessage({
               name: 'cxf.subscriptions.close',
-              elementId: window.location.query.elementid
+              frameId: window.location.query.elementid
             }, '*');
           },
 

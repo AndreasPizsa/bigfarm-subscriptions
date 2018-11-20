@@ -601,7 +601,7 @@ export default {
     closeWindow() {
       window.parent.postMessage({
         name: 'cxf.subscriptions.close',
-        elementId: window.location.query.elementid
+        frameId: window.location.query.elementid
       }, '*');
     }
   },
