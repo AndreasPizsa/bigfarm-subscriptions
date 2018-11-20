@@ -137,8 +137,8 @@
                                 <div class="bigfarm__button_candy"><span>{{ t('subscription_buyButton_title') }}</span></div>
                                 <div class="bigfarm__button_shadow"></div>
                             </a>
-                            <div v-else class="bigfarm__button align-items-center">
-                                <div class="bigfarm__button_candy disabled"><span>{{ t('subscription_alreadyBooked_title') }}</span></div>
+                            <div v-else class="bigfarm__button bigfarm__button_green align-items-center disabled">
+                                <div class="bigfarm__button_candy"><span>{{ t('subscription_alreadyBooked_title') }}</span></div>
                             </div>
                           </div>
                         </div>
@@ -291,7 +291,7 @@
           scrollHorizontal: true,
           syncHeaderScroll: true,
           syncFooterScroll: true,
-          includeFooter: false,
+          includeFooter: true,
           deadAreaColor: "transparent",
           maxRows: 4,
           freezeFirstColumn: true,

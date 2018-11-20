@@ -10,7 +10,7 @@ import StatusChangedModal from './components/status-changed.vue'
 
 const routes = {
   '/': BigFarm,
-    '/subscriptionStatusChange': StatusChangedModal
+  '/subscriptionStatusChange': StatusChangedModal
 }
 
 new Vue({
