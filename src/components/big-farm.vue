@@ -133,12 +133,16 @@
                             </div>
                           </div>
                           <div class="col-7">
-                            <a v-if="!isUserSubscriptionActiveByType(plan.id)" :href="plan.checkoutUrl" target="_blank" class="bigfarm__button align-items-center">
-                                <div class="bigfarm__button_candy"><span>{{ t('subscription_buyButton_title') }}</span></div>
-                                <div class="bigfarm__button_shadow"></div>
+                            <a v-if="!isUserSubscriptionActiveByType(plan.id)"
+                              :href="plan.checkoutUrl"
+                              target="_blank"
+                              class="bigfarm__button align-items-center"
+                            >
+                              <div class="bigfarm__button_candy"><span>{{ t('subscription_buyButton_title') }}</span></div>
+                              <div class="bigfarm__button_shadow"></div>
                             </a>
                             <div v-else class="bigfarm__button bigfarm__button_green align-items-center disabled">
-                                <div class="bigfarm__button_candy"><span>{{ t('subscription_alreadyBooked_title') }}</span></div>
+                              <div class="bigfarm__button_candy"><span>{{ t('subscription_alreadyBooked_title') }}</span></div>
                             </div>
                           </div>
                         </div>
@@ -340,18 +344,16 @@
             return this.isUserSubscriptionActiveByType('allianceSubscription')
           },
 
-          /*
-          moment() {
-            //moment.locale(this.locale)
-            return moment
-          },
-          */
-
           tabTitleKeys() {
             return this.tabTextKeys('header')
           },
+
           tabCopyKeys() {
             return this.tabTextKeys('copy')
+          },
+
+          isAllianceMember () {
+            return Boolean(this.alliancePack.isAllianceMember)
           },
 
           alliancePack() {
@@ -416,14 +418,21 @@
               }
           },
 
-          highlightedAllianceTier() {
-            const tierMembers = Math.max(
+          highlightedAllianceMemberCount() {
+            return Math.max(
               1,
-              this.allianceSubscriberCount + (this.isUsersAllianceSubscriptionActive ? 0 : 1)
+              Number(this.isAllianceMember) *
+                (
+                    (this.isUsersAllianceSubscriptionActive ? 0 : 1)
+                  + this.allianceSubscriberCount
+                )
             )
+          },
+
+          highlightedAllianceTier() {
             return this
               .alliancePackBoosterData
-              .filter(({from}) => from && from <= tierMembers)
+              .filter(({from}) => from && from <= this.highlightedAllianceMemberCount)
               .pop()
               .from
           }
@@ -550,20 +559,32 @@
               prefix: itemData[1] || '',
               suffix: itemData[2] || ''
             }
+          },
+
+          fetchSubscriptionData() {
+            fetch(this.catalogUrl)
+              .then(response => response.json())
+              .then(subscriptionData => {
+                this.text = subscriptionData.i18n
+                subscriptionData.payoutTypes = [
+                  subscriptionData.payoutTypes.find(({id}) => id === 'individualSubscription'),
+                  subscriptionData.payoutTypes.find(({id}) => id === 'allianceSubscription')
+                ]
+                this.subscriptions = subscriptionData
+              })
           }
         },
 
         created() {
-          fetch(this.catalogUrl)
-            .then(response => response.json())
-            .then(subscriptionData => {
-              this.text = subscriptionData.i18n
-              subscriptionData.payoutTypes = [
-                subscriptionData.payoutTypes.find(({id}) => id === 'individualSubscription'),
-                subscriptionData.payoutTypes.find(({id}) => id === 'allianceSubscription')
-              ]
-              this.subscriptions = subscriptionData
-            })
+          this.fetchSubscriptionData()
+          window.addEventListener('message', event => {
+            console.log('event received', event)
+            if (event.data !== 'ggs.subscriptions.update') {
+              return
+            }
+            this.fetchSubscriptionData()
+          })
+
         }
     }
 </script>
@@ -585,5 +606,10 @@
 
   .bigfarm__pack_single .description {
     margin-left: 2ex;
+  }
+
+  a:focus,
+  button:focus {
+    outline: none
   }
 </style>
