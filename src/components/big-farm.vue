@@ -68,7 +68,7 @@
                       <div class="bigfarm__grow allianceSubscription" v-if="userSubscriptionByType(plan.id).id === 'allianceSubscription'">
                         <div class="bigfarm__fit_height">
                           <div class="bigfarm__grow">
-                            <div class="bigfarm__fit_height bigfarm__overflow_fix">
+                            <div class="bigfarm__fit_height">
 
                               <div class="bigfarm__scroll_container mt-1" data-simplebar>
                                 <ul class="list-unstyled">
