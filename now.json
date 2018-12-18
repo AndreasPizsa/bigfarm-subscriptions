@@ -1,7 +1,7 @@
 {
   "version": 2,
   "builds": [
-    { "src": "dist/**/*", "use": "@now/static" }
+    { "src": "dist/**/*", "use": "@now/static-build" }
   ],
   "routes": [
     { "src": "/subscriptionStatusChange", "dest": "/dist/index.html" },
