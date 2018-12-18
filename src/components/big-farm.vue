@@ -281,8 +281,7 @@
             simplebar
         },
         data: () => ({
-          apiBaseUrl: 'https://4zleckep5b.execute-api.eu-west-1.amazonaws.com',
-          deploymentStage: 'staging',
+          apiBaseUrl: process.env.VUE_APP_API_BASE_URL,
           ping: {
             gameId: window.location.query.gameid || 15,
             networkId: window.location.query.networkid || 1,
@@ -312,7 +311,6 @@
           catalogUrl() {
             return [
               this.apiBaseUrl,
-              this.deploymentStage,
               this.ping.gameId,
               this.ping.networkId,
               this.ping.instanceId,
@@ -584,7 +582,6 @@
             }
             this.fetchSubscriptionData()
           })
-
         }
     }
 </script>
