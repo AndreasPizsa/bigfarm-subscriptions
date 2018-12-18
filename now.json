@@ -4,7 +4,13 @@
     { "src": "package.json", "use": "@now/static-build" }
   ],
   "routes": [
-    { "src": "/subscriptionStatusChange", "dest": "/dist/index.html" },
-    { "src": "/(.*)", "dest": "/dist/$1" }
-  ]
+    { "src": "/subscriptionStatusChange", "dest": "/index.html" },
+    { "src": "/(.*)", "dest": "/$1" }
+  ],
+  "build": {
+    "env": {
+      "VUE_APP_ANALYTICS_KEY": "@vue_app_google_analytics_key",
+      "VUE_APP_API_BASE_URL": "@vue_app_api_base_url"
+    }
+  }
 }
