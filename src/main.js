@@ -8,6 +8,11 @@ Vue.use(require('vue-moment'),{moment});
 import BigFarm from './components/big-farm.vue'
 import StatusChangedModal from './components/status-changed.vue'
 
+if(process.env.VUE_APP_ANALYTICS_KEY) {
+  analytics.load(process.env.VUE_APP_ANALYTICS_KEY)
+  analytics.page();
+}
+
 const routes = {
   '/': BigFarm,
   '/subscriptionStatusChange': StatusChangedModal
