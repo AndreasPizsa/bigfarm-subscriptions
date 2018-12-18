@@ -133,7 +133,7 @@
                             </div>
                           </div>
                           <div class="col-7">
-                            <a v-if="!isUserSubscriptionActiveByType(plan.id)"
+                            <a v-if="plan.checkoutUrl && !isUserSubscriptionActiveByType(plan.id)"
                               :href="plan.checkoutUrl"
                               target="_blank"
                               class="bigfarm__button align-items-center"
@@ -333,7 +333,7 @@
           },
 
           isUserSubscriptionActiveByType() {
-            return (type) => this.userSubscriptionByType(type).validUntil && moment().diff(this.userSubscriptionByType(type).validUntil) <= 0
+            return (type) => this.userSubscriptionByType(type).validUntil && moment().diff(this.userSubscriptionByType(type).validUntil) <= 0 || !this.userSubscriptionByType(type).checkoutUrl
           },
 
           isUsersIndividualSubscriptionActive() {
