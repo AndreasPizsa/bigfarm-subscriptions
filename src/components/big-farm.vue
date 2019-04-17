@@ -50,26 +50,34 @@
                         }}</h4>
                       </div>
 
-                      <div class="bigfarm__grow" v-if="userSubscriptionByType(plan.id).id === 'individualSubscription'" data-simplebar>
-                        <dl class="row no-gutters mt-2 mb-0">
-                          <dt class="col-icon pl-2"><img :src="require('@/assets/images/bigfarm__bonus_harvest-all.svg')" alt="Harvest All" class="bigfarm__feature_icon" /></dt>
-                          <dd class="col-description">
-                            <h3>{{ t('subscription_perkHarvestAll_title') }}</h3>
-                            <p>{{ t('subscription_perkHarvestAll_copy') }}</p>
-                          </dd>
-                          <dt class="col-icon pl-2"><img :src="require('@/assets/images/bigfarm__bonus_repeat-production.svg')" alt="Repeat Production" class="bigfarm__feature_icon" /></dt>
-                          <dd class="col-description">
-                            <h3>{{ t('subscription_perkProRepeat_title') }}</h3>
-                            <p>{{ t('subscription_perkProRepeat_copy') }}</p>
-                          </dd>
-                        </dl>
+                      <div class="bigfarm__grow" v-if="userSubscriptionByType(plan.id).id === 'individualSubscription'">
+                        <div class="bigfarm__fit_height ">
+                          <div class="bigfarm__scroll_container" data-simplebar>
+                            <dl class="row no-gutters mt-2 mb-0">
+                              <dt class="col-icon pl-2"><img :src="require('@/assets/images/bigfarm__bonus_harvest-all.svg')" :alt="t('subscription_perkHarvestAll_title')" class="bigfarm__feature_icon" /></dt>
+                              <dd class="col-description">
+                                <h3>{{ t('subscription_perkHarvestAll_title') }}</h3>
+                                <p>{{ t('subscription_perkHarvestAll_copy') }}</p>
+                              </dd>
+                              <dt class="col-icon pl-2"><img :src="require('@/assets/images/bigfarm__bonus_repeat-production.svg')" :alt="t('subscription_perkProRepeat_title')" class="bigfarm__feature_icon" /></dt>
+                              <dd class="col-description">
+                                <h3>{{ t('subscription_perkProRepeat_title') }}</h3>
+                                <p>{{ t('subscription_perkProRepeat_copy') }}</p>
+                              </dd>
+                              <dt class="col-icon pl-2"><img :src="require('@/assets/images/bigfarm__bonus_start-again.svg')" :alt="t('subscription_perkStartAgain_title')" class="bigfarm__feature_icon" /></dt>
+                              <dd class="col-description">
+                                <h3>{{ t('subscription_perkStartAll_title') }}</h3>
+                                <p>{{ t('subscription_perkStartAll_copy') }}</p>
+                              </dd>
+                            </dl>
+                          </div>
+                        </div>
                       </div>
 
                       <div class="bigfarm__grow allianceSubscription" v-if="userSubscriptionByType(plan.id).id === 'allianceSubscription'">
                         <div class="bigfarm__fit_height">
                           <div class="bigfarm__grow">
                             <div class="bigfarm__fit_height">
-
                               <div class="bigfarm__scroll_container mt-1" data-simplebar>
                                 <ul class="list-unstyled">
                                   <li class="media" v-for="(perkId, index) in alliancePackPerksForHighlightedTier">
@@ -83,7 +91,7 @@
                             </div>
                           </div>
 
-                          <hr class="fullwidth mt-2 mb-2" />
+                          <hr class="fullwidth mt-0 mb-2" />
 
                           <div class="btn btn-secondary mb-2 ml-1 mr-1 outline-1px" @click="goToPage(3)">{{ t('subscription_AllianceBonusesButton') }}</div>
                         </div>
@@ -120,6 +128,7 @@
                               </div>
                             </div>
                           </h3>
+                          <p class="text-center">{{ t('subscription_cancelable_title') }}</p>
                         </div>
                       </div>
                       <div class="bigfarm__shade_brown bigfarm__pack_subscribe fullwidth alignbottom">
