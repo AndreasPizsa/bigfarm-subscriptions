@@ -27,149 +27,18 @@
               </div>
 
               <div class="row bigfarm__grow">
-                <div class="col-3" v-if="individualPackage">
+                <div class="col-6" v-if="individualPackage">
                   <individual-subscription
                           :plan="individualPackage"
                           :text="text"
                   ></individual-subscription>
                 </div>
-                <div class="col-3" v-if="alliancePackage">
+                <div class="col-6" v-if="alliancePackage">
                   <alliance-subscription
                           :plan="alliancePackage"
                           :text="text"
+                          @go-to-bonus-list="goToPage(3)"
                   ></alliance-subscription>
-                </div>
-                <div class="col-3" v-for="plan in subscriptions.payoutTypes">
-                  <div class="bigfarm__pack bigfarm__pack_v2 bigfarm__convenience_pack bigfarm__fit_height">
-                    <div class="bigfarm__pack_inner bigfarm__fit_height">
-                      <h2>{{
-                          t(plan.id == 'individualSubscription'
-                            ? 'subscription_packageConvenience_title'
-                            : 'subscription_packageAlliance_title'
-                          )
-                      }}</h2>
-                      <div class="bigfarm__hero_visual" :class="plan.id" :style="{
-                              'background-image': 'url(' + require(`@/assets/images/hero-${plan.id}.jpg`) + ')',
-                              'background-size': 'cover'
-                            }"
-                        ></div>
-                      <div class="bigfarm__shade_brown fullwidth">
-                        <h4>{{
-                          t(plan.id == 'individualSubscription'
-                            ? 'subscription_teaserConvenience_title'
-                            : 'subscription_teaserAlliance_title'
-                          )
-                        }}</h4>
-                      </div>
-
-                      <div class="bigfarm__grow" v-if="userSubscriptionByType(plan.id).id === 'individualSubscription'">
-                        <div class="bigfarm__fit_height ">
-                          <div class="bigfarm__scroll_container" data-simplebar>
-                            <dl class="row no-gutters mt-2 mb-0">
-                              <dt class="col-icon pl-2"><img :src="require('@/assets/images/bigfarm__bonus_harvest-all.svg')" :alt="t('subscription_perkHarvestAll_title')" class="bigfarm__feature_icon" /></dt>
-                              <dd class="col-description">
-                                <h3>{{ t('subscription_perkHarvestAll_title') }}</h3>
-                                <p>{{ t('subscription_perkHarvestAll_copy') }}</p>
-                              </dd>
-                              <dt class="col-icon pl-2"><img :src="require('@/assets/images/bigfarm__bonus_repeat-production.svg')" :alt="t('subscription_perkProRepeat_title')" class="bigfarm__feature_icon" /></dt>
-                              <dd class="col-description">
-                                <h3>{{ t('subscription_perkProRepeat_title') }}</h3>
-                                <p>{{ t('subscription_perkProRepeat_copy') }}</p>
-                              </dd>
-                              <dt class="col-icon pl-2"><img :src="require('@/assets/images/bigfarm__bonus_start-again.svg')" :alt="t('subscription_perkStartAgain_title')" class="bigfarm__feature_icon" /></dt>
-                              <dd class="col-description">
-                                <h3>{{ t('subscription_perkStartAll_title') }}</h3>
-                                <p>{{ t('subscription_perkStartAll_copy') }}</p>
-                              </dd>
-                            </dl>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="bigfarm__grow allianceSubscription" v-if="userSubscriptionByType(plan.id).id === 'allianceSubscription'">
-                        <div class="bigfarm__fit_height">
-                          <div class="bigfarm__grow">
-                            <div class="bigfarm__fit_height">
-                              <div class="bigfarm__scroll_container mt-1" data-simplebar>
-                                <ul class="list-unstyled">
-                                  <li class="media" v-for="(perkId, index) in alliancePackPerksForHighlightedTier">
-                                    <img class="mr-3" :alt="t(textKeyForItemId(perkId).title)" :src="iconNameForItemId(perkId)"/>
-                                    <div class="media-body">
-                                       <h3>{{ t(textKeyForItemId(perkId).title) }}</h3>{{ t(textKeyForItemId(perkId).body) }}
-                                    </div>
-                                  </li>
-                                </ul>
-                              </div>
-                            </div>
-                          </div>
-
-                          <hr class="fullwidth mt-0 mb-2" />
-
-                          <div class="btn btn-secondary mb-2 ml-1 mr-1 outline-1px" @click="goToPage(3)">{{ t('subscription_AllianceBonusesButton') }}</div>
-                        </div>
-                      </div>
-
-                      <hr class="fullwidth mt-0 mb-2" />
-
-                      <div class="row bigfarm__pack_notes mb-2">
-                        <div class="col-1">
-                          <img :src="isUserSubscriptionActiveByType(plan.id) ? require('@/assets/images/bigfarm__status_active.svg') : require('@/assets/images/bigfarm__x.svg')" class="ml-1"/>
-                        </div>
-                        <div class="col-11">
-                          <h3>
-                            {{ t(
-                                isUserSubscriptionActiveByType(plan.id)
-                                  ? plan.wasCancelled
-                                    ? 'subscription_payoutDate_canceled'
-                                    : 'subscription_payoutDate_title'
-                                  : 'subscription_currentlyNotBooked_title'
-                                )
-                            }}
-                            <span v-if="isUserSubscriptionActiveByType(plan.id)">{{ plan.validUntil | moment("L") }}</span>
-                            <div v-if="plan.id === 'allianceSubscription'">
-                              <div v-if="plan.isAllianceMember">
-                                {{ t_num(
-                                  'subscription_allianceHasBooked_copy',
-                                  'subscription_allianceHasBookedSingular_copy',
-                                  'subscription_allianceHasBooked_copy',
-                                  plan.allianceSubscriberCount)
-                                }}
-                              </div>
-                              <div v-else>
-                                {{ t('subscription_noAlliance_tt') }}
-                              </div>
-                            </div>
-                          </h3>
-                          <p class="text-center">{{ t('subscription_cancelable_title') }}</p>
-                        </div>
-                      </div>
-                      <div class="bigfarm__shade_brown bigfarm__pack_subscribe fullwidth alignbottom">
-                        <div class="row">
-                          <div class="col-5">
-                            <div class="vertical-align-center">
-                              <div class="bigfarm__subscription_price">
-                                <h3 class="bigfarm__price">{{ plan.price | formatPrice }} {{ plan.currency | formatCurrency }}</h3>
-                                <h5 class="bigfarm__price_note">{{ t('subscription_notePerMonth') }}</h5>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col-7">
-                            <a v-if="plan.checkoutUrl && !isUserSubscriptionActiveByType(plan.id)"
-                              :href="plan.checkoutUrl"
-                              target="_blank"
-                              class="bigfarm__button align-items-center"
-                            >
-                              <div class="bigfarm__button_candy"><span>{{ t('subscription_buyButton_title') }}</span></div>
-                              <div class="bigfarm__button_shadow"></div>
-                            </a>
-                            <div v-else class="bigfarm__button bigfarm__button_green align-items-center disabled">
-                              <div class="bigfarm__button_candy"><span>{{ t('subscription_alreadyBooked_title') }}</span></div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                 </div>
               </div>
             </span>

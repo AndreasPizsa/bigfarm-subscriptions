@@ -30,7 +30,7 @@
 
                     <hr class="fullwidth mt-0 mb-2" />
 
-                    <div class="btn btn-secondary mb-2 ml-1 mr-1 outline-1px" @click="goToPage(3)">{{ t('subscription_AllianceBonusesButton') }}</div>
+                    <div class="btn btn-secondary mb-2 ml-1 mr-1 outline-1px" @click="goToBonusList">{{ t('subscription_AllianceBonusesButton') }}</div>
                 </div>
             </div>
 
@@ -241,6 +241,9 @@
             iconNameForItemId(id) {
                 return 'images/' + require('lodash.snakecase')(`${this.itemDataForId(id)[0]}_med`)+'.png'
             },
+            goToBonusList() {
+                this.$emit('go-to-bonus-list')
+            }
         },
     }
 </script>
