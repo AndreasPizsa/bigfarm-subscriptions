@@ -27,13 +27,19 @@
               </div>
 
               <div class="row bigfarm__grow">
-                <div class="col-4" v-if="individualPackage">
+                <div class="col-3" v-if="individualPackage">
                   <individual-subscription
                           :plan="individualPackage"
                           :text="text"
                   ></individual-subscription>
                 </div>
-                <div class="col-4" v-for="plan in subscriptions.payoutTypes">
+                <div class="col-3" v-if="alliancePackage">
+                  <alliance-subscription
+                          :plan="alliancePackage"
+                          :text="text"
+                  ></alliance-subscription>
+                </div>
+                <div class="col-3" v-for="plan in subscriptions.payoutTypes">
                   <div class="bigfarm__pack bigfarm__pack_v2 bigfarm__convenience_pack bigfarm__fit_height">
                     <div class="bigfarm__pack_inner bigfarm__fit_height">
                       <h2>{{
@@ -260,8 +266,9 @@
 <script>
     console.clear()
     // CHECK
-    import VueScrollingTable from "vue-scrolling-table"
-    import IndividualSubscription from "./subscriptions/individual-subscription"
+    import VueScrollingTable from "vue-scrolling-table";
+    import IndividualSubscription from "./subscriptions/individual-subscription";
+    import AllianceSubscription from "./subscriptions/alliance-subscription";
 
     import 'swiper/dist/css/swiper.css';
     import simplebar from 'simplebar-vue';
@@ -305,6 +312,7 @@
             swiperSlide,
             simplebar,
             IndividualSubscription,
+            AllianceSubscription,
         },
         data: () => ({
           apiBaseUrl: process.env.VUE_APP_API_BASE_URL,
@@ -338,6 +346,9 @@
         computed: {
           individualPackage() {
             return this.subscriptions.payoutTypes.find(isIndividualSubscription);
+          },
+          alliancePackage() {
+            return this.subscriptions.payoutTypes.find(isAllianceSubscription);
           },
           catalogUrl() {
             return [
@@ -459,11 +470,10 @@
           },
 
           highlightedAllianceTier() {
-            return this
-              .alliancePackBoosterData
-              .filter(({from}) => from && from <= this.highlightedAllianceMemberCount)
-              .pop()
-              .from
+            const items = this
+                    .alliancePackBoosterData
+                    .filter(({from}) => from && from <= this.highlightedAllianceMemberCount);
+            return items.pop().from
           }
         },
 
