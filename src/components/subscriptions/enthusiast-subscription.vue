@@ -1,5 +1,5 @@
 <template>
-    <div class="bigfarm__pack bigfarm__pack_v2 bigfarm__convenience_pack bigfarm__fit_height">
+    <div class="bigfarm__pack bigfarm__pack_v2 bigfarm__convenience_pack bigfarm__pack_type_enthusiast bigfarm__fit_height">
         <div class="bigfarm__pack_inner bigfarm__fit_height">
             <h2>{{t('subscription_packageEnthusiast_title')}}</h2>
             <div class="bigfarm__hero_visual bigfarm__hero-visual_package_enthusiast" :class="plan.id"></div>
@@ -11,15 +11,49 @@
                 <div class="bigfarm__fit_height">
                     <div class="bigfarm__grow">
                         <div class="bigfarm__fit_height">
-                            <div class="bigfarm__scroll_container mt-1" data-simplebar>
-                                <ul class="list-unstyled">
-                                    <li class="media" v-for="(perkId, index) in alliancePackPerksForHighlightedTier">
-                                        <img class="mr-3" :alt="t(textKeyForItemId(perkId).title)" :src="iconNameForItemId(perkId)"/>
-                                        <div class="media-body">
-                                            <h3>{{ t(textKeyForItemId(perkId).title) }}</h3>{{ t(textKeyForItemId(perkId).body) }}
-                                        </div>
-                                    </li>
-                                </ul>
+                            <div class="bigfarm__scroll_container" data-simplebar>
+                                <dl class="row no-gutters mt-2 mb-0">
+                                    <dt class="col-icon pl-2"><img
+                                            :src="require('@/assets/images/exclusive_booster_books_big-17.svg')"
+                                            :alt="t('subscription_perkHarvestAll_title')" class="bigfarm__feature_icon"/>
+                                    </dt>
+                                    <dd class="col-description">
+                                        <h3>{{ t('subscription_perkHarvestAll_title') }}</h3>
+                                        <p>{{ t('subscription_perkHarvestAll_copy') }}</p>
+                                    </dd>
+                                    <dt class="col-icon pl-2"><img
+                                            :src="require('@/assets/images/gold_plus_big-17.svg')"
+                                            :alt="t('subscription_perkProRepeat_title')" class="bigfarm__feature_icon"/>
+                                    </dt>
+                                    <dd class="col-description">
+                                        <h3>{{ t('subscription_perkProRepeat_title') }}</h3>
+                                        <p>{{ t('subscription_perkProRepeat_copy') }}</p>
+                                    </dd>
+                                    <dt class="col-icon pl-2"><img
+                                            :src="require('@/assets/images/high_lvl_contracts_big-17.svg')"
+                                            :alt="t('subscription_perkStartAgain_title')" class="bigfarm__feature_icon"/>
+                                    </dt>
+                                    <dd class="col-description">
+                                        <h3>{{ t('subscription_perkStartAll_title') }}</h3>
+                                        <p>{{ t('subscription_perkStartAll_copy') }}</p>
+                                    </dd>
+                                    <dt class="col-icon pl-2"><img
+                                            :src="require('@/assets/images/Rainbow_Flower_seeds_big-17.svg')"
+                                            :alt="t('subscription_perkStartAgain_title')" class="bigfarm__feature_icon"/>
+                                    </dt>
+                                    <dd class="col-description">
+                                        <h3>{{ t('subscription_perkStartAll_title') }}</h3>
+                                        <p>{{ t('subscription_perkStartAll_copy') }}</p>
+                                    </dd>
+                                    <dt class="col-icon pl-2"><img
+                                            :src="require('@/assets/images/spin_coin_reduce_big-17.svg')"
+                                            :alt="t('subscription_perkStartAgain_title')" class="bigfarm__feature_icon"/>
+                                    </dt>
+                                    <dd class="col-description">
+                                        <h3>{{ t('subscription_perkStartAll_title') }}</h3>
+                                        <p>{{ t('subscription_perkStartAll_copy') }}</p>
+                                    </dd>
+                                </dl>
                             </div>
                         </div>
                     </div>
@@ -90,6 +124,7 @@
                 </div>
             </div>
         </div>
+        <img src="../../assets/images/loyalty_badge_med.svg" class="bigfarm-pack__badge pack-badge"/>
     </div>
 </template>
 
@@ -246,6 +281,20 @@
 
 <style scoped>
     .bigfarm__hero-visual_package_enthusiast {
-        background-image: url("../../assets/images/hero-allianceSubscription.jpg");
+        background-image: url("../../assets/images/hero-enthusiastSubscription.svg");
+    }
+
+    .bigfarm__pack_type_enthusiast {
+        position: relative;
+    }
+
+    .bigfarm-pack__badge {
+        position: absolute;
+        top: 0.5rem;
+        left: 0;
+    }
+
+    .pack-badge {
+        height: 4rem;
     }
 </style>

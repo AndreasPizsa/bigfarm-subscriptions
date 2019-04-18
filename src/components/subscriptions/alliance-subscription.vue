@@ -2,11 +2,7 @@
     <div class="bigfarm__pack bigfarm__pack_v2 bigfarm__convenience_pack bigfarm__fit_height">
         <div class="bigfarm__pack_inner bigfarm__fit_height">
             <h2>{{t('subscription_packageAlliance_title')}}</h2>
-            <div class="bigfarm__hero_visual" :class="plan.id" :style="{
-                              'background-image': 'url(' + require(`@/assets/images/hero-allianceSubscription.jpg`) + ')',
-                              'background-size': 'cover'
-                            }"
-            ></div>
+            <div class="bigfarm__hero_visual bigfarm__hero-visual_package_alliance" :class="plan.id"></div>
             <div class="bigfarm__shade_brown fullwidth">
                 <h4>{{t('subscription_teaserAlliance_title')}}</h4>
             </div>
@@ -248,5 +244,7 @@
 </script>
 
 <style scoped>
-
+    .bigfarm__hero-visual_package_alliance {
+        background-image: url("../../assets/images/hero-allianceSubscription.svg");
+    }
 </style>
