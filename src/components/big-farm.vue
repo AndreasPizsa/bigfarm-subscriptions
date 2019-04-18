@@ -27,18 +27,25 @@
               </div>
 
               <div class="row bigfarm__grow">
-                <div class="col-6" v-if="individualPackage">
+                <div class="col-4" v-if="individualPackage">
                   <individual-subscription
                           :plan="individualPackage"
                           :text="text"
                   ></individual-subscription>
                 </div>
-                <div class="col-6" v-if="alliancePackage">
+                <div class="col-4" v-if="alliancePackage">
                   <alliance-subscription
                           :plan="alliancePackage"
                           :text="text"
                           @go-to-bonus-list="goToPage(3)"
                   ></alliance-subscription>
+                </div>
+                <div class="col-4" v-if="enthusiastPackage">
+                  <enthusiast-subscription
+                          :plan="enthusiastPackage"
+                          :text="text"
+                          @go-to-bonus-list="goToPage(3)"
+                  ></enthusiast-subscription>
                 </div>
               </div>
             </span>
@@ -133,11 +140,12 @@
 </template>
 
 <script>
-    console.clear()
+    console.clear();
     // CHECK
     import VueScrollingTable from "vue-scrolling-table";
     import IndividualSubscription from "./subscriptions/individual-subscription";
     import AllianceSubscription from "./subscriptions/alliance-subscription";
+    import EnthusiastSubscription from "./subscriptions/enthusiast-subscription";
 
     import 'swiper/dist/css/swiper.css';
     import simplebar from 'simplebar-vue';
@@ -156,14 +164,14 @@
           pairs=w.location.search.substr(1).split('&'),
           i;
       while(i=pairs.pop()) {
-        var keyValue=i.match(/([^=]*)=?(.*)/)
+        var keyValue=i.match(/([^=]*)=?(.*)/);
         if(keyValue) q[d(keyValue[1]).toLowerCase()]=d(keyValue[2]);
       }
     })(window);
-    console.log(window.location.query)
-    const locale = window.location.query.language || window.location.query.locale || 'en'
-    if(numeral.locales[locale]) numeral.locale(locale)
-    moment.locale(locale)
+    console.log(window.location.query);
+    const locale = window.location.query.language || window.location.query.locale || 'en';
+    if(numeral.locales[locale]) numeral.locale(locale);
+    moment.locale(locale);
 
     function isIndividualSubscription(plan) {
       return plan.id === 'individualSubscription';
@@ -182,6 +190,7 @@
             simplebar,
             IndividualSubscription,
             AllianceSubscription,
+            EnthusiastSubscription,
         },
         data: () => ({
           apiBaseUrl: process.env.VUE_APP_API_BASE_URL,
@@ -218,6 +227,9 @@
           },
           alliancePackage() {
             return this.subscriptions.payoutTypes.find(isAllianceSubscription);
+          },
+          enthusiastPackage() {
+            return {};
           },
           catalogUrl() {
             return [
@@ -287,19 +299,19 @@
               .reduce((result, {items}) => ([
                 ...result,
                 ...(items.map(([itemId]) => itemId))
-              ]), [])
+              ]), []);
             return Array.from(new Set(allPerks))
           },
 
           alliancePackPerksForHighlightedTier() {
-            const highlightedAllianceTier = this.highlightedAllianceTier
+            const highlightedAllianceTier = this.highlightedAllianceTier;
             const allPerks = this
               .alliancePackBoosterData
               .filter(({from}) => from <= highlightedAllianceTier)
               .reduce((result, {items}) => ([
                 ...result,
                 ...(items.filter(([,amount])=>amount).map(([itemId]) => itemId))
-              ]), [])
+              ]), []);
             return Array.from(new Set(allPerks))
           },
 
@@ -312,7 +324,7 @@
           alliancePackBoosterTiers() {
             const allTiers = this
               .alliancePackBoosterData
-              .reduce((set, {from}) => set.add(from), new Set())
+              .reduce((set, {from}) => set.add(from), new Set());
             return Array.from(allTiers).sort((a,b) => parseInt(a) - parseInt(b))
           },
 
@@ -388,7 +400,7 @@
           t(id, ...args) {
             const text = (args || []).reduce((result, arg, index) => {
               return result.replace(new RegExp(`\\{${index}\\}`, 'g'), arg)
-            }, this.text[id] || id)
+            }, this.text[id] || id);
             return decodeHtml(text)
           },
 
@@ -407,7 +419,7 @@
               ? value == 1
                 ? idSingular
                 : idPlural
-              : idNone
+              : idNone;
             return this.t(id, ...[value, ...args])
           },
 
@@ -417,19 +429,19 @@
                 : 'dialog_subscription_multiSubscriptions_header',
               'subscription_infoDialogue_monthlyPayment_copy'
                 : 'dialog_subscription_monthlyPayment_copy'
-            }
+            };
 
             const keys =
               'general monthlyPayment multiSubscriptions cancelSubscription allianceSubscription convenienceSubscription'
               .split(/\s+/)
               .map(key => `subscription_infoDialogue_${key}_${suffix}`)
-              .map(key => exceptions[key] || key)
+              .map(key => exceptions[key] || key);
 
             return keys
           },
 
           tabCopyForTitle(title) {
-            const copyIndex = this.tabTitleKeys.indexOf(title)
+            const copyIndex = this.tabTitleKeys.indexOf(title);
             return this.tabCopyKeys[copyIndex]
           },
 
@@ -459,7 +471,7 @@
           },
 
           textKeyForItemId(id) {
-            const itemData = this.itemDataForId(id)
+            const itemData = this.itemDataForId(id);
 
             return {
               title: `subscription_perkAlliance_${itemData[0]}_title`,
@@ -473,20 +485,21 @@
             fetch(this.catalogUrl)
               .then(response => response.json())
               .then(subscriptionData => {
-                this.text = subscriptionData.i18n
+                this.text = subscriptionData.i18n;
+                console.log(this.text);
                 subscriptionData.payoutTypes = [
                   subscriptionData.payoutTypes.find(({id}) => id === 'individualSubscription'),
                   subscriptionData.payoutTypes.find(({id}) => id === 'allianceSubscription')
-                ]
+                ];
                 this.subscriptions = subscriptionData
               })
           }
         },
 
         created() {
-          this.fetchSubscriptionData()
+          this.fetchSubscriptionData();
           window.addEventListener('message', event => {
-            console.log('event received', event)
+            console.log('event received', event);
             if (event.data !== 'ggs.subscriptions.update') {
               return
             }

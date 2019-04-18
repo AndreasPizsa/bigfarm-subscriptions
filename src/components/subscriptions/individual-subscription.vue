@@ -3,7 +3,7 @@
         <div class="bigfarm__pack_inner bigfarm__fit_height">
             <h2>{{t('subscription_packageConvenience_title')}}</h2>
             <div class="bigfarm__hero_visual" :class="id" :style="{
-                              'background-image': 'url(' + require(`@/assets/images/hero-${id}.jpg`) + ')',
+                              'background-image': 'url(' + require(`@/assets/images/hero-individualSubscription.jpg`) + ')',
                               'background-size': 'cover'
                             }"
             ></div>

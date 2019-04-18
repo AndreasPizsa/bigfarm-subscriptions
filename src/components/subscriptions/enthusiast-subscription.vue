@@ -1,14 +1,10 @@
 <template>
     <div class="bigfarm__pack bigfarm__pack_v2 bigfarm__convenience_pack bigfarm__fit_height">
         <div class="bigfarm__pack_inner bigfarm__fit_height">
-            <h2>{{t('subscription_packageAlliance_title')}}</h2>
-            <div class="bigfarm__hero_visual" :class="plan.id" :style="{
-                              'background-image': 'url(' + require(`@/assets/images/hero-allianceSubscription.jpg`) + ')',
-                              'background-size': 'cover'
-                            }"
-            ></div>
+            <h2>{{t('subscription_packageEnthusiast_title')}}</h2>
+            <div class="bigfarm__hero_visual bigfarm__hero-visual_package_enthusiast" :class="plan.id"></div>
             <div class="bigfarm__shade_brown fullwidth">
-                <h4>{{t('subscription_teaserAlliance_title')}}</h4>
+                <h4>{{t('subscription_teaserEnthusiast_title')}}</h4>
             </div>
 
             <div class="bigfarm__grow allianceSubscription">
@@ -30,7 +26,7 @@
 
                     <hr class="fullwidth mt-0 mb-2" />
 
-                    <div class="btn btn-secondary mb-2 ml-1 mr-1 outline-1px" @click="goToBonusList">{{ t('subscription_AllianceBonusesButton') }}</div>
+                    <div class="btn btn-secondary mb-2 ml-1 mr-1 outline-1px" @click="goToBonusList">{{ t('subscription_EnthusiastBonusesButton') }}</div>
                 </div>
             </div>
 
@@ -147,6 +143,7 @@
                         ...result,
                         ...(items.filter(([,amount])=>amount).map(([itemId]) => itemId))
                     ]), []);
+                console.log(allPerks);
                 return Array.from(new Set(allPerks))
             },
             highlightedAllianceTier() {
@@ -248,5 +245,7 @@
 </script>
 
 <style scoped>
-
+    .bigfarm__hero-visual_package_enthusiast {
+        background-image: url("../../assets/images/hero-allianceSubscription.jpg");
+    }
 </style>
