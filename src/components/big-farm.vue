@@ -27,7 +27,13 @@
               </div>
 
               <div class="row bigfarm__grow">
-                <div class="col-6" v-for="plan in subscriptions.payoutTypes">
+                <div class="col-4" v-if="individualPackage">
+                  <individual-subscription
+                          :plan="individualPackage"
+                          :text="text"
+                  ></individual-subscription>
+                </div>
+                <div class="col-4" v-for="plan in subscriptions.payoutTypes">
                   <div class="bigfarm__pack bigfarm__pack_v2 bigfarm__convenience_pack bigfarm__fit_height">
                     <div class="bigfarm__pack_inner bigfarm__fit_height">
                       <h2>{{
@@ -255,6 +261,7 @@
     console.clear()
     // CHECK
     import VueScrollingTable from "vue-scrolling-table"
+    import IndividualSubscription from "./subscriptions/individual-subscription"
 
     import 'swiper/dist/css/swiper.css';
     import simplebar from 'simplebar-vue';
@@ -281,13 +288,23 @@
     const locale = window.location.query.language || window.location.query.locale || 'en'
     if(numeral.locales[locale]) numeral.locale(locale)
     moment.locale(locale)
+
+    function isIndividualSubscription(plan) {
+      return plan.id === 'individualSubscription';
+    }
+
+    function isAllianceSubscription(plan) {
+      return plan.id === 'allianceSubscription';
+    }
+
     export default {
         name: 'BigFarm',
         components: {
             VueScrollingTable,
             swiper,
             swiperSlide,
-            simplebar
+            simplebar,
+            IndividualSubscription,
         },
         data: () => ({
           apiBaseUrl: process.env.VUE_APP_API_BASE_URL,
@@ -310,13 +327,18 @@
 
           locale: window.location.query.locale || 'en',
 
-          subscriptions: {},
+          subscriptions: {
+            payoutTypes: [],
+          },
           text: {},
           currentSubscriptionTab: 'subscription_infoDialogue_general_header',
           page: 1
         }),
 
         computed: {
+          individualPackage() {
+            return this.subscriptions.payoutTypes.find(isIndividualSubscription);
+          },
           catalogUrl() {
             return [
               this.apiBaseUrl,

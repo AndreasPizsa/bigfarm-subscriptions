@@ -1,0 +1,170 @@
+<template>
+    <div class="bigfarm__pack bigfarm__pack_v2 bigfarm__convenience_pack bigfarm__fit_height">
+        <div class="bigfarm__pack_inner bigfarm__fit_height">
+            <h2>{{t('subscription_packageConvenience_title')}}</h2>
+            <div class="bigfarm__hero_visual" :class="id" :style="{
+                              'background-image': 'url(' + require(`@/assets/images/hero-${id}.jpg`) + ')',
+                              'background-size': 'cover'
+                            }"
+            ></div>
+            <div class="bigfarm__shade_brown fullwidth">
+                <h4>{{t('subscription_teaserConvenience_title')}}</h4>
+            </div>
+
+            <div class="bigfarm__grow">
+                <div class="bigfarm__fit_height ">
+                    <div class="bigfarm__scroll_container" data-simplebar>
+                        <dl class="row no-gutters mt-2 mb-0">
+                            <dt class="col-icon pl-2"><img
+                                    :src="require('@/assets/images/bigfarm__bonus_harvest-all.svg')"
+                                    :alt="t('subscription_perkHarvestAll_title')" class="bigfarm__feature_icon"/>
+                            </dt>
+                            <dd class="col-description">
+                                <h3>{{ t('subscription_perkHarvestAll_title') }}</h3>
+                                <p>{{ t('subscription_perkHarvestAll_copy') }}</p>
+                            </dd>
+                            <dt class="col-icon pl-2"><img
+                                    :src="require('@/assets/images/bigfarm__bonus_repeat-production.svg')"
+                                    :alt="t('subscription_perkProRepeat_title')" class="bigfarm__feature_icon"/>
+                            </dt>
+                            <dd class="col-description">
+                                <h3>{{ t('subscription_perkProRepeat_title') }}</h3>
+                                <p>{{ t('subscription_perkProRepeat_copy') }}</p>
+                            </dd>
+                            <dt class="col-icon pl-2"><img
+                                    :src="require('@/assets/images/bigfarm__bonus_start-again.svg')"
+                                    :alt="t('subscription_perkStartAgain_title')" class="bigfarm__feature_icon"/>
+                            </dt>
+                            <dd class="col-description">
+                                <h3>{{ t('subscription_perkStartAll_title') }}</h3>
+                                <p>{{ t('subscription_perkStartAll_copy') }}</p>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="fullwidth mt-0 mb-2"/>
+
+            <div class="row bigfarm__pack_notes mb-2">
+                <div class="col-1">
+                    <img :src="isUserSubscriptionActiveByType ? require('@/assets/images/bigfarm__status_active.svg') : require('@/assets/images/bigfarm__x.svg')"
+                         class="ml-1"/>
+                </div>
+                <div class="col-11">
+                    <h3>
+                        {{ t(
+                        isUserSubscriptionActiveByType
+                        ? wasCancelled
+                        ? 'subscription_payoutDate_canceled'
+                        : 'subscription_payoutDate_title'
+                        : 'subscription_currentlyNotBooked_title'
+                        )
+                        }}
+                        <span v-if="isUserSubscriptionActiveByType">{{ validUntil | moment("L") }}</span>
+                    </h3>
+                    <p class="text-center">{{ t('subscription_cancelable_title') }}</p>
+                </div>
+            </div>
+            <div class="bigfarm__shade_brown bigfarm__pack_subscribe fullwidth alignbottom">
+                <div class="row">
+                    <div class="col-5">
+                        <div class="vertical-align-center">
+                            <div class="bigfarm__subscription_price">
+                                <h3 class="bigfarm__price">{{ price | formatPrice }} {{ currency |
+                                    formatCurrency }}</h3>
+                                <h5 class="bigfarm__price_note">{{ t('subscription_notePerMonth') }}</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-7">
+                        <a v-if="checkoutUrl && !isUserSubscriptionActiveByType"
+                           :href="checkoutUrl"
+                           target="_blank"
+                           class="bigfarm__button align-items-center"
+                        >
+                            <div class="bigfarm__button_candy"><span>{{ t('subscription_buyButton_title') }}</span>
+                            </div>
+                            <div class="bigfarm__button_shadow"></div>
+                        </a>
+                        <div v-else class="bigfarm__button bigfarm__button_green align-items-center disabled">
+                            <div class="bigfarm__button_candy">
+                                <span>{{ t('subscription_alreadyBooked_title') }}</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+    const decodeHtml = require('he').decode;
+    export default {
+        name: "individual-subscription",
+        props: {
+            plan: {
+                type: Object,
+                required: true,
+            },
+            text: {
+                type: Object,
+                required: true,
+            },
+        },
+
+        filters: {
+            formatCurrency(value) {
+                return {
+                    EUR: '€',
+                    USD: '$'
+                }[value] || value
+            },
+
+            // todo format according to locale
+            formatPrice(price) {
+                return numeral(parseInt(price)/100).format('0,0[.]00')
+            },
+
+            xIfEmptyOrZero(value) {
+                return value || '–'
+            }
+        },
+
+        methods: {
+            t(id, ...args) {
+                const text = (args || []).reduce((result, arg, index) => {
+                    return result.replace(new RegExp(`\\{${index}\\}`, 'g'), arg)
+                }, this.text[id] || id);
+                return decodeHtml(text)
+            },
+        },
+        computed: {
+            id() {
+                return this.plan.id;
+            },
+            price() {
+                return this.plan.price;
+            },
+            currency() {
+                return this.plan.currency;
+            },
+            validUntil() {
+                return this.plan.validUntil;
+            },
+            checkoutUrl() {
+                return this.plan.checkoutUrl;
+            },
+            wasCancelled() {
+                return this.plan.wasCancelled;
+            },
+            isUserSubscriptionActiveByType() {
+                return this.validUntil && moment().diff(this.validUntil) <= 0 || !this.checkoutUrl
+            },
+        }
+    }
+</script>
+
+<style scoped>
+
+</style>
