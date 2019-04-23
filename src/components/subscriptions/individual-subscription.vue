@@ -94,23 +94,15 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
+    import {Component, Prop, Vue} from 'vue-property-decorator';
+    import moment from "moment";
     const decodeHtml = require('he').decode;
-    export default {
-        name: "individual-subscription",
-        props: {
-            plan: {
-                type: Object,
-                required: true,
-            },
-            text: {
-                type: Object,
-                required: true,
-            },
-        },
 
+    @Component({
+        name: "individual-subscription",
         filters: {
-            formatCurrency(value) {
+            formatCurrency(value: 'EUR' | 'USD'): string {
                 return {
                     EUR: '€',
                     USD: '$'
@@ -118,47 +110,65 @@
             },
 
             // todo format according to locale
-            formatPrice(price) {
-                return numeral(parseInt(price)/100).format('0,0[.]00')
+            formatPrice(price: string): string {
+                return window.numeral(parseInt(price) / 100).format('0,0[.]00')
             },
 
-            xIfEmptyOrZero(value) {
+            xIfEmptyOrZero(value: string): string {
                 return value || '–'
             }
         },
+    })
+    export default class IndividualSubscription extends Vue {
+        @Prop() private plan!: {
+            wasCancelled: boolean;
+            checkoutUrl: string;
+            validUntil: string;
+            id: string,
+            price: string,
+            currency: string,
+        };
 
-        methods: {
-            t(id, ...args) {
-                const text = (args || []).reduce((result, arg, index) => {
-                    return result.replace(new RegExp(`\\{${index}\\}`, 'g'), arg)
-                }, this.text[id] || id);
-                return decodeHtml(text)
-            },
-        },
-        computed: {
-            id() {
-                return this.plan.id;
-            },
-            price() {
-                return this.plan.price;
-            },
-            currency() {
-                return this.plan.currency;
-            },
-            validUntil() {
-                return this.plan.validUntil;
-            },
-            checkoutUrl() {
-                return this.plan.checkoutUrl;
-            },
-            wasCancelled() {
-                return this.plan.wasCancelled;
-            },
-            isUserSubscriptionActiveByType() {
-                return this.validUntil && moment().diff(this.validUntil) <= 0 || !this.checkoutUrl
-            },
+        @Prop() private text!: {
+            [key: string]: string
+        };
+
+        public get id(): string {
+            return this.plan.id;
+        }
+
+        public get price(): string {
+            return this.plan.price;
+        }
+
+        public get currency(): string {
+            return this.plan.currency;
+        }
+
+        public get validUntil(): string {
+            return this.plan.validUntil;
+        }
+
+        public get checkoutUrl(): string {
+            return this.plan.checkoutUrl;
+        }
+
+        public get wasCancelled(): boolean {
+            return this.plan.wasCancelled;
+        }
+
+        public get isUserSubscriptionActiveByType(): boolean {
+            return this.validUntil && moment().diff(this.validUntil) <= 0 || !this.checkoutUrl
+        }
+
+        public t(id: string, ...args: string[]): string {
+            const text = (args || []).reduce((result, arg, index) => {
+                return result.replace(new RegExp(`\\{${index}\\}`, 'g'), arg)
+            }, this.text[id] || id);
+            return decodeHtml(text)
         }
     }
+
 </script>
 
 <style scoped>
