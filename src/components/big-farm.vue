@@ -44,26 +44,32 @@
                   <enthusiast-subscription
                           :plan="enthusiastPackage"
                           :text="text"
-                          @go-to-bonus-list="goToPage(3)"
+                          @go-to-bonus-list="goToPage(4)"
                   ></enthusiast-subscription>
                 </div>
               </div>
             </span>
 
-            <span class="bigfarm__fit_height" :class="{ 'd-none': !(isPageActive(2) || isPageActive(3))}">
-            <span :class="{ 'd-none': !(isPageActive(2) || isPageActive(3))}">
+            <span class="bigfarm__fit_height" :class="{ 'd-none': !(isPageActive(2) || isPageActive(3) || isPageActive(4))}">
+            <span :class="{ 'd-none': !(isPageActive(2) || isPageActive(3) || isPageActive(4))}">
               <div class="row bigfarm__status">
-                <div class="col-6 bigfarm__status_info">
+                <div class="col-4 bigfarm__status_info">
                   <img :src="isUsersIndividualSubscriptionActive
                       ? require('@/assets/images/bigfarm__status_active.svg')
                       : require('@/assets/images/bigfarm__x.svg')" alt="Subscribed" />
                     <span class="ml-2">{{ t('subscription_packageConvenience_title') }}</span>
                 </div>
-                <div class="col-6 bigfarm__status_info">
+                <div class="col-4 bigfarm__status_info">
                   <img :src="isUsersAllianceSubscriptionActive
                     ? require('@/assets/images/bigfarm__status_active.svg')
                     : require('@/assets/images/bigfarm__x.svg')" alt="Subscribed" />
                   <span class="ml-2">{{ t('subscription_packageAlliance_title') }}</span>
+                </div>
+                <div class="col-4 bigfarm__status_info">
+                  <img :src="isUsersAllianceSubscriptionActive
+                    ? require('@/assets/images/bigfarm__status_active.svg')
+                    : require('@/assets/images/bigfarm__x.svg')" alt="Subscribed" />
+                  <span class="ml-2">{{ t('subscription_packageEnthusiast_title') }}</span>
                 </div>
               </div>
             </span>
@@ -133,6 +139,14 @@
                 </div>
               </div>
               </span>
+
+              <enthusiast-bonus-list
+                      v-if="isPageActive(4)"
+                      :plan="alliancePackage"
+                      :text="text"
+                      @go-to-bonus-list="goToPage(1)"
+              ></enthusiast-bonus-list>
+
             </span>
           </div>
       </div>
@@ -140,12 +154,12 @@
 </template>
 
 <script>
-    console.clear();
     // CHECK
     import VueScrollingTable from "vue-scrolling-table";
     import IndividualSubscription from "./subscriptions/individual-subscription";
     import AllianceSubscription from "./subscriptions/alliance-subscription";
     import EnthusiastSubscription from "./subscriptions/enthusiast-subscription";
+    import EnthusiastBonusList from "./enthusiast-bonus-list";
 
     import 'swiper/dist/css/swiper.css';
     import simplebar from 'simplebar-vue';
@@ -168,7 +182,6 @@
         if(keyValue) q[d(keyValue[1]).toLowerCase()]=d(keyValue[2]);
       }
     })(window);
-    console.log(window.location.query);
     const locale = window.location.query.language || window.location.query.locale || 'en';
     if(numeral.locales[locale]) numeral.locale(locale);
     moment.locale(locale);
@@ -191,6 +204,7 @@
             IndividualSubscription,
             AllianceSubscription,
             EnthusiastSubscription,
+            EnthusiastBonusList,
         },
         data: () => ({
           apiBaseUrl: process.env.VUE_APP_API_BASE_URL,
@@ -313,11 +327,6 @@
                 ...(items.filter(([,amount])=>amount).map(([itemId]) => itemId))
               ]), []);
             return Array.from(new Set(allPerks))
-          },
-
-          alliancePackPerksNotInHighlightedTier() {
-            return alliancePackPerks
-              .filter(x => !this.alliancePackPerksForHighlightedTier.includes(x))
           },
 
           // an array of all the booster tiers in the alliancePack
@@ -486,7 +495,6 @@
               .then(response => response.json())
               .then(subscriptionData => {
                 this.text = subscriptionData.i18n;
-                console.log(this.text);
                 subscriptionData.payoutTypes = [
                   subscriptionData.payoutTypes.find(({id}) => id === 'individualSubscription'),
                   subscriptionData.payoutTypes.find(({id}) => id === 'allianceSubscription')
