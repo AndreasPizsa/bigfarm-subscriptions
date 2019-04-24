@@ -19,8 +19,10 @@
             <template slot="thead">
               <tr>
                 <th class="overflow-visible">
-                  <div class="fill bigfarm-table-box__title_package_enthusiast">{{ t('subscription_allianceBonuses') }}</div>
-                  <img src="../../assets/images/loyalty_badge_med.svg" class="bigfarm-table-box__badge"/>
+                    <div class="fill">
+                        <div class="bigfarm-table-box__title_package_enthusiast">{{ t('subscription_allianceBonuses') }}</div>
+                        <img src="../../assets/images/loyalty_badge_med.svg" class="bigfarm-table-box__badge"/>
+                    </div>
                 </th>
                 <th v-for="tier in alliancePackBoosterTiers">
                   <img src="../../assets/images/calendar_big.svg" class="bigfarm-table-th__badge">
@@ -30,7 +32,7 @@
             </template>
             <template slot="tbody">
               <tr v-for="perkId in alliancePackPerks">
-                <td class="fill">
+                <td>
                   <div class="fill p-2">
                     <dl>
                       <dt>
