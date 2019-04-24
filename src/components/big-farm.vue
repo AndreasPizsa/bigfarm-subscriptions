@@ -156,7 +156,7 @@
 <script>
     // CHECK
     import VueScrollingTable from "vue-scrolling-table";
-    import IndividualSubscription from "./subscriptions/individual-subscription";
+    import IndividualSubscription from "./individual-subscription";
     import AllianceSubscription from "./alliance/alliance-subscription";
     import EnthusiastSubscription from "./enthusiast/enthusiast-subscription";
     import EnthusiastBonusList from "./enthusiast/enthusiast-bonus-list";
