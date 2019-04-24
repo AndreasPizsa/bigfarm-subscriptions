@@ -142,7 +142,7 @@
 
               <enthusiast-bonus-list
                       v-if="isPageActive(4)"
-                      :plan="alliancePackage"
+                      :plan="enthusiastPackage"
                       :text="text"
                       @go-to-bonus-list="goToPage(1)"
               ></enthusiast-bonus-list>
@@ -160,6 +160,7 @@
     import AllianceSubscription from "./subscriptions/alliance-subscription";
     import EnthusiastSubscription from "./subscriptions/enthusiast-subscription";
     import EnthusiastBonusList from "./enthusiast-bonus-list";
+    import enthusiastSubscription from "../data/enthusiast-payout.json";
 
     import 'swiper/dist/css/swiper.css';
     import simplebar from 'simplebar-vue';
@@ -192,6 +193,10 @@
 
     function isAllianceSubscription(plan) {
       return plan.id === 'allianceSubscription';
+    }
+
+    function isEnthusiastSubscription(plan) {
+      return plan.id === 'enthusiastSubscription';
     }
 
     export default {
@@ -243,7 +248,7 @@
             return this.subscriptions.payoutTypes.find(isAllianceSubscription);
           },
           enthusiastPackage() {
-            return {};
+            return this.subscriptions.payoutTypes.find(isEnthusiastSubscription);
           },
           catalogUrl() {
             return [
@@ -497,7 +502,8 @@
                 this.text = subscriptionData.i18n;
                 subscriptionData.payoutTypes = [
                   subscriptionData.payoutTypes.find(({id}) => id === 'individualSubscription'),
-                  subscriptionData.payoutTypes.find(({id}) => id === 'allianceSubscription')
+                  subscriptionData.payoutTypes.find(({id}) => id === 'allianceSubscription'),
+                  enthusiastSubscription,
                 ];
                 this.subscriptions = subscriptionData
               })

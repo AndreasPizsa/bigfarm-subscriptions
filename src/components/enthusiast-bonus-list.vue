@@ -33,8 +33,11 @@
                 <td class="fill">
                   <div class="fill  p-2">
                     <dl>
-                      <dt><div class="thumbnail"><img alt="" :src="iconNameForItemId(perkId)" width="100%"
-                                                      height="100%"/></div></dt>
+                      <dt>
+                          <div class="thumbnail">
+                              <img class="thumbnail__image" alt="" :src="iconNameForItemId(perkId)"/>
+                          </div>
+                      </dt>
                       <dd>
                         <h3>{{ t(perkTitle(perkId)) }}</h3>
                         <p>{{ t(perkDesc(perkId)) }}</p>
@@ -131,7 +134,7 @@
         }
 
         public iconNameForItemId(id: number): string {
-            return 'images/' + require('lodash.snakecase')(`${this.itemDataForId(id)[0]}_med`) + '.png'
+            return require(`@/assets/images/${this.itemDataForId(id)[0]}.svg`);
         }
 
         public goToBonusList(): void {
@@ -159,5 +162,9 @@
     .bigfarm-table-th__badge {
         height: 1rem;
         margin-right: 1px;
+    }
+
+    .thumbnail__image {
+        height: 2rem;
     }
 </style>

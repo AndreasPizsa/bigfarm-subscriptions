@@ -14,7 +14,7 @@
                             <div class="bigfarm__scroll_container" data-simplebar>
                                 <dl class="row no-gutters mt-2 mb-0">
                                     <dt class="col-icon pl-2"><img
-                                            :src="require('@/assets/images/exclusive_booster_books_big-17.svg')"
+                                            :src="require('@/assets/images/exclusiveLibraryBooks.svg')"
                                             :alt="t('subscription_perkHarvestAll_title')" class="bigfarm__feature_icon"/>
                                     </dt>
                                     <dd class="col-description">
@@ -22,7 +22,7 @@
                                         <p>{{ t('subscription_perkHarvestAll_copy') }}</p>
                                     </dd>
                                     <dt class="col-icon pl-2"><img
-                                            :src="require('@/assets/images/gold_plus_big-17.svg')"
+                                            :src="require('@/assets/images/additionalGoldOnPurchase.svg')"
                                             :alt="t('subscription_perkProRepeat_title')" class="bigfarm__feature_icon"/>
                                     </dt>
                                     <dd class="col-description">
@@ -30,7 +30,7 @@
                                         <p>{{ t('subscription_perkProRepeat_copy') }}</p>
                                     </dd>
                                     <dt class="col-icon pl-2"><img
-                                            :src="require('@/assets/images/high_lvl_contracts_big-17.svg')"
+                                            :src="require('@/assets/images/highLevelContracts.svg')"
                                             :alt="t('subscription_perkStartAgain_title')" class="bigfarm__feature_icon"/>
                                     </dt>
                                     <dd class="col-description">
@@ -38,7 +38,7 @@
                                         <p>{{ t('subscription_perkStartAll_copy') }}</p>
                                     </dd>
                                     <dt class="col-icon pl-2"><img
-                                            :src="require('@/assets/images/Rainbow_Flower_seeds_big-17.svg')"
+                                            :src="require('@/assets/images/rainbowRoses.svg')"
                                             :alt="t('subscription_perkStartAgain_title')" class="bigfarm__feature_icon"/>
                                     </dt>
                                     <dd class="col-description">
@@ -46,7 +46,7 @@
                                         <p>{{ t('subscription_perkStartAll_copy') }}</p>
                                     </dd>
                                     <dt class="col-icon pl-2"><img
-                                            :src="require('@/assets/images/spin_coin_reduce_big-17.svg')"
+                                            :src="require('@/assets/images/efficientSpins.svg')"
                                             :alt="t('subscription_perkStartAgain_title')" class="bigfarm__feature_icon"/>
                                     </dt>
                                     <dd class="col-description">
