@@ -523,7 +523,7 @@
     }
 </script>
 
-<style>
+<style lang="scss">
   .bigfarm__pack_single img {
     width: 4ex;
     height: 4ex;
@@ -545,5 +545,9 @@
   a:focus,
   button:focus {
     outline: none
+  }
+
+  .bigfarm-table_package_alliance {
+
   }
 </style>

@@ -167,4 +167,9 @@
     .thumbnail__image {
         height: 2rem;
     }
+
+
+    .bigfarm-table_package_enthusiast {
+
+    }
 </style>

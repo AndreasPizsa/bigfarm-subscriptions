@@ -13,7 +13,7 @@
                         <div class="bigfarm__fit_height">
                             <div class="bigfarm__scroll_container mt-1" data-simplebar>
                                 <ul class="list-unstyled">
-                                    <li class="media" v-for="(perkId, index) in alliancePackPerksForHighlightedTier">
+                                    <li class="media" v-for="(perkId, index) in perksForHighlightedTier">
                                         <img class="mr-3 media-image_package_enthusiast" :alt="t(textKeyForItemId(perkId).title)" :src="iconNameForItemId(perkId)"/>
                                         <div class="media-body">
                                             <h3>{{ t(textKeyForItemId(perkId).title) }}</h3>{{ t(textKeyForItemId(perkId).body) }}
@@ -34,19 +34,19 @@
 
             <div class="row bigfarm__pack_notes mb-2">
                 <div class="col-1">
-                    <img :src="isUserSubscriptionActiveByType(plan.id) ? require('@/assets/images/bigfarm__status_active.svg') : require('@/assets/images/bigfarm__x.svg')" class="ml-1"/>
+                    <img :src="isSubscriptionActive ? require('@/assets/images/bigfarm__status_active.svg') : require('@/assets/images/bigfarm__x.svg')" class="ml-1"/>
                 </div>
                 <div class="col-11">
                     <h3>
                         {{ t(
-                        isUserSubscriptionActiveByType(plan.id)
+                        isSubscriptionActive
                         ? plan.wasCancelled
                         ? 'subscription_payoutDate_canceled'
                         : 'subscription_payoutDate_title'
                         : 'subscription_currentlyNotBooked_title'
                         )
                         }}
-                        <span v-if="isUserSubscriptionActiveByType(plan.id)">{{ plan.validUntil | moment("L") }}</span>
+                        <span v-if="isSubscriptionActive">{{ plan.validUntil | moment("L") }}</span>
                         <div>
                             <div v-if="plan.isAllianceMember">
                                 {{ t_num(
@@ -75,7 +75,7 @@
                         </div>
                     </div>
                     <div class="col-7">
-                        <a v-if="plan.checkoutUrl && !isUserSubscriptionActiveByType(plan.id)"
+                        <a v-if="plan.checkoutUrl && !isSubscriptionActive"
                            :href="plan.checkoutUrl"
                            target="_blank"
                            class="bigfarm__button align-items-center"
@@ -96,6 +96,7 @@
 
 <script>
     import {enthusiastItemData} from "./enthusiastItemData";
+    import {unique} from "../../core/helpers";
 
     const decodeHtml = require('he').decode;
     function last(arr) {
@@ -134,53 +135,16 @@
             wasCancelled() {
                 return this.plan.wasCancelled;
             },
-            isAllianceMember () {
-                return Boolean(this.alliancePack.isAllianceMember)
-            },
-            alliancePackPerksForHighlightedTier() {
-                const highlightedAllianceTier = this.highlightedAllianceTier;
-                const allPerks = this
-                    .alliancePackBoosterData
-                    .filter(({from}) => from <= highlightedAllianceTier)
+            perksForHighlightedTier() {
+                return this.plan.boosterTiers
                     .reduce((result, {items}) => ([
                         ...result,
                         ...(items.filter(([,amount])=>amount).map(([itemId]) => itemId))
-                    ]), []);
-                console.log(allPerks);
-                return Array.from(new Set(allPerks))
+                    ]), [])
+                    .filter(unique);
             },
-            highlightedAllianceTier() {
-                const items = this.alliancePackBoosterData
-                    .filter(({from}) => from && from <= this.highlightedAllianceMemberCount);
-                return items.length ? last(items).from : {};
-            },
-            alliancePackBoosterData() {
-                return this.alliancePack.boosterTiers || []
-            },
-            alliancePack() {
-                return this.plan || {};
-            },
-            highlightedAllianceMemberCount() {
-                return Math.max(
-                    1,
-                    (this.isAllianceMember ? 1 : 0) *
-                    (
-                        (this.isUsersAllianceSubscriptionActive ? 0 : 1)
-                        + this.allianceSubscriberCount
-                    )
-                )
-            },
-            allianceSubscriberCount() {
-                return (this.alliancePack || {}).allianceSubscriberCount || 0
-            },
-            isUsersAllianceSubscriptionActive() {
-                return this.isUserSubscriptionActiveByType('allianceSubscription')
-            },
-            userSubscriptionByType(){
-                return (type) => this.plan || {};
-            },
-            isUserSubscriptionActiveByType() {
-                return (type) => this.userSubscriptionByType(type).validUntil && moment().diff(this.userSubscriptionByType(type).validUntil) <= 0 || !this.userSubscriptionByType(type).checkoutUrl
+            isSubscriptionActive() {
+                return this.plan.validUntil && moment().diff(this.plan.validUntil) <= 0 || !this.plan.checkoutUrl
             },
         },
         filters: {
