@@ -95,7 +95,7 @@
 </template>
 
 <script>
-    import {enthusiastItemData} from "../enthusiastItemData";
+    import {enthusiastItemData} from "./enthusiastItemData";
 
     const decodeHtml = require('he').decode;
     function last(arr) {

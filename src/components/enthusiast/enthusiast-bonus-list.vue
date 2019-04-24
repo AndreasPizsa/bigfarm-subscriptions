@@ -20,10 +20,10 @@
               <tr>
                 <th class="overflow-visible">
                   <div class="fill bigfarm-table-box__title_package_enthusiast">{{ t('subscription_allianceBonuses') }}</div>
-                  <img src="../assets/images/loyalty_badge_med.svg" class="bigfarm-table-box__badge"/>
+                  <img src="../../assets/images/loyalty_badge_med.svg" class="bigfarm-table-box__badge"/>
                 </th>
                 <th v-for="tier in alliancePackBoosterTiers">
-                  <img src="../assets/images/calendar_big.svg" class="bigfarm-table-th__badge">
+                  <img src="../../assets/images/calendar_big.svg" class="bigfarm-table-th__badge">
                   <span>{{tier}}</span>
                 </th>
            </tr>
@@ -62,7 +62,7 @@
     import {IPlan} from "@/domain/IPlan";
     import {IBoosterTier} from "@/domain/IBoosterTier";
     import {IDictionary} from "@/core/IDictionary";
-    import {enthusiastItemData, IEnthusiastItemData} from "@/components/enthusiastItemData";
+    import {enthusiastItemData, IEnthusiastItemData} from "@/components/enthusiast/enthusiastItemData";
 
     const decodeHtml = require('he').decode;
 

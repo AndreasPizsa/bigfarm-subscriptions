@@ -158,9 +158,9 @@
     import VueScrollingTable from "vue-scrolling-table";
     import IndividualSubscription from "./subscriptions/individual-subscription";
     import AllianceSubscription from "./alliance/alliance-subscription";
-    import EnthusiastSubscription from "./subscriptions/enthusiast-subscription";
-    import EnthusiastBonusList from "./enthusiast-bonus-list";
-    import enthusiastSubscription from "../data/enthusiast-payout.json";
+    import EnthusiastSubscription from "./enthusiast/enthusiast-subscription";
+    import EnthusiastBonusList from "./enthusiast/enthusiast-bonus-list";
+    import enthusiastSubscription from "./enthusiast/enthusiast-payout.json";
 
     import 'swiper/dist/css/swiper.css';
     import simplebar from 'simplebar-vue';
