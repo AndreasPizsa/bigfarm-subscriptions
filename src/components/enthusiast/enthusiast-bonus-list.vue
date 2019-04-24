@@ -15,7 +15,7 @@
                   :sync-footer-scroll="true"
                   :include-footer="true"
                   dead-area-color="transparent"
-                  :class="{ freezeFirstColumn: true, enthusiastPackage: true, 'bigfarm-table_package_enthusiast': true }">
+                  :class="{ freezeFirstColumn: true, 'bigfarm-table_package_enthusiast': true }">
             <template slot="thead">
               <tr>
                 <th class="overflow-visible">

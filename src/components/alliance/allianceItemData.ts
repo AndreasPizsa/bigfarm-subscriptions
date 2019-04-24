@@ -1,8 +1,8 @@
 import {IDictionary} from "@/core/IDictionary";
 
-export type IItemData = string[];
+export type IAllianceItemData = string[];
 
-export const allianceItemData: IDictionary<IItemData> = {
+export const allianceItemData: IDictionary<IAllianceItemData> = {
     72002: ['contractMaterial', '-', '%'],
     72004: ['fishcontractMaterial', '-', '%'],
     72006: ['xpBooster', '+'],
