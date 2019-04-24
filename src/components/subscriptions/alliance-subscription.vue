@@ -136,8 +136,7 @@
             },
             alliancePackPerksForHighlightedTier() {
                 const highlightedAllianceTier = this.highlightedAllianceTier;
-                const allPerks = this
-                    .alliancePackBoosterData
+                const allPerks = this.plan.boosterTiers
                     .filter(({from}) => from <= highlightedAllianceTier)
                     .reduce((result, {items}) => ([
                         ...result,
@@ -146,8 +145,16 @@
                 return Array.from(new Set(allPerks))
             },
             highlightedAllianceTier() {
-                const items = this.alliancePackBoosterData
-                    .filter(({from}) => from && from <= this.highlightedAllianceMemberCount);
+                const highlightedAllianceMemberCount = Math.max(
+                    1,
+                    (this.plan.isAllianceMember ? 1 : 0) *
+                    (
+                        (this.isUsersAllianceSubscriptionActive ? 0 : 1)
+                        + (this.plan.allianceSubscriberCount || 0)
+                    )
+                );
+                const items = this.plan.boosterTiers
+                    .filter(({from}) => from && from <= highlightedAllianceMemberCount);
                 return items.length ? last(items).from : {};
             },
             alliancePackBoosterData() {
@@ -156,18 +163,8 @@
             alliancePack() {
                 return this.plan || {};
             },
-            highlightedAllianceMemberCount() {
-                return Math.max(
-                    1,
-                    (this.isAllianceMember ? 1 : 0) *
-                    (
-                        (this.isUsersAllianceSubscriptionActive ? 0 : 1)
-                        + this.allianceSubscriberCount
-                    )
-                )
-            },
             allianceSubscriberCount() {
-                return (this.alliancePack || {}).allianceSubscriberCount || 0
+                return this.plan.allianceSubscriberCount || 0
             },
             isUsersAllianceSubscriptionActive() {
                 return this.isUserSubscriptionActiveByType('allianceSubscription')

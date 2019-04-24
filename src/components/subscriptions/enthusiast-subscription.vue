@@ -11,49 +11,15 @@
                 <div class="bigfarm__fit_height">
                     <div class="bigfarm__grow">
                         <div class="bigfarm__fit_height">
-                            <div class="bigfarm__scroll_container" data-simplebar>
-                                <dl class="row no-gutters mt-2 mb-0">
-                                    <dt class="col-icon pl-2"><img
-                                            :src="require('@/assets/images/exclusiveLibraryBooks.svg')"
-                                            :alt="t('subscription_perkHarvestAll_title')" class="bigfarm__feature_icon"/>
-                                    </dt>
-                                    <dd class="col-description">
-                                        <h3>{{ t('subscription_perkHarvestAll_title') }}</h3>
-                                        <p>{{ t('subscription_perkHarvestAll_copy') }}</p>
-                                    </dd>
-                                    <dt class="col-icon pl-2"><img
-                                            :src="require('@/assets/images/additionalGoldOnPurchase.svg')"
-                                            :alt="t('subscription_perkProRepeat_title')" class="bigfarm__feature_icon"/>
-                                    </dt>
-                                    <dd class="col-description">
-                                        <h3>{{ t('subscription_perkProRepeat_title') }}</h3>
-                                        <p>{{ t('subscription_perkProRepeat_copy') }}</p>
-                                    </dd>
-                                    <dt class="col-icon pl-2"><img
-                                            :src="require('@/assets/images/highLevelContracts.svg')"
-                                            :alt="t('subscription_perkStartAgain_title')" class="bigfarm__feature_icon"/>
-                                    </dt>
-                                    <dd class="col-description">
-                                        <h3>{{ t('subscription_perkStartAll_title') }}</h3>
-                                        <p>{{ t('subscription_perkStartAll_copy') }}</p>
-                                    </dd>
-                                    <dt class="col-icon pl-2"><img
-                                            :src="require('@/assets/images/rainbowRoses.svg')"
-                                            :alt="t('subscription_perkStartAgain_title')" class="bigfarm__feature_icon"/>
-                                    </dt>
-                                    <dd class="col-description">
-                                        <h3>{{ t('subscription_perkStartAll_title') }}</h3>
-                                        <p>{{ t('subscription_perkStartAll_copy') }}</p>
-                                    </dd>
-                                    <dt class="col-icon pl-2"><img
-                                            :src="require('@/assets/images/efficientSpins.svg')"
-                                            :alt="t('subscription_perkStartAgain_title')" class="bigfarm__feature_icon"/>
-                                    </dt>
-                                    <dd class="col-description">
-                                        <h3>{{ t('subscription_perkStartAll_title') }}</h3>
-                                        <p>{{ t('subscription_perkStartAll_copy') }}</p>
-                                    </dd>
-                                </dl>
+                            <div class="bigfarm__scroll_container mt-1" data-simplebar>
+                                <ul class="list-unstyled">
+                                    <li class="media" v-for="(perkId, index) in alliancePackPerksForHighlightedTier">
+                                        <img class="mr-3 media-image_package_enthusiast" :alt="t(textKeyForItemId(perkId).title)" :src="iconNameForItemId(perkId)"/>
+                                        <div class="media-body">
+                                            <h3>{{ t(textKeyForItemId(perkId).title) }}</h3>{{ t(textKeyForItemId(perkId).body) }}
+                                        </div>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -129,6 +95,8 @@
 </template>
 
 <script>
+    import {enthusiastItemData} from "../EnthusiastItemData";
+
     const decodeHtml = require('he').decode;
     function last(arr) {
         return arr[arr.length - 1];
@@ -136,7 +104,7 @@
 
 
     export default {
-        name: "alliance-subscription",
+        name: "enthusiast-subscription",
         props: {
             plan: {
                 type: Object,
@@ -240,37 +208,20 @@
                 return decodeHtml(text)
             },
             itemDataForId(id) {
-                return {
-                    72002: ['contractMaterial', '-', '%'],
-                    72004: ['fishcontractMaterial', '-', '%'],
-                    72006: ['xpBooster', '+'],
-                    72014: ['coopVillageConstructionCosts', '-', '%'],
-                    72015: ['coopVillageConstructionDuration', '-', '%'],
-                    72003: ['contractCash', '+', '%'],
-                    72005: ['fishcontractCash', '+', '%'],
-                    72009: ['coopResearchCost', '-', '%'],
-                    72010: ['coopProjectDuration', '+', '%'],
-                    72016: ['coopVillageBoostLumbermill', '+', '%'],
-                    72017: ['coopVillageBoostBrickyard', '+', '%'],
-                    72013: ['seasonSpecialistOutcome', '+', '%'],
-                    72011: ['edgePlantOutcome', '+', '%'],
-                    72012: ['fieldDamageReduce', '-', '%'],
-                    72008: ['horseTrainingCost', '-', '%'],
-                    72007: ['tempConstructionSlot', '-']
-                }[id]
+                return enthusiastItemData[id];
             },
             textKeyForItemId(id) {
-                const itemData = this.itemDataForId(id)
+                const itemData = this.itemDataForId(id);
 
                 return {
-                    title: `subscription_perkAlliance_${itemData[0]}_title`,
-                    body:  `subscription_perkAlliance_${itemData[0]}_desc`,
+                    title: `subscription_perkEnthusiast_${itemData[0]}_title`,
+                    body:  `subscription_perkEnthusiast_${itemData[0]}_desc`,
                     prefix: itemData[1] || '',
                     suffix: itemData[2] || ''
                 }
             },
             iconNameForItemId(id) {
-                return 'images/' + require('lodash.snakecase')(`${this.itemDataForId(id)[0]}_med`)+'.png'
+                return require(`@/assets/images/${this.itemDataForId(id)[0]}.svg`);
             },
             goToBonusList() {
                 this.$emit('go-to-bonus-list')
@@ -296,5 +247,9 @@
 
     .pack-badge {
         height: 4rem;
+    }
+
+    .media-image_package_enthusiast {
+        height: 2rem;
     }
 </style>
