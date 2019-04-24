@@ -110,7 +110,7 @@
                     :sync-footer-scroll="syncFooterScroll"
                     :include-footer="includeFooter"
                     :dead-area-color="deadAreaColor"
-                    :class="{ freezeFirstColumn }">
+                    :class="{ freezeFirstColumn, 'bigfarm-table_package_alliance': true }">
                     <template slot="thead">
                       <tr>
                           <th><div class="fill">{{ t('subscription_allianceBonuses') }}</div></th>
@@ -548,6 +548,11 @@
   }
 
   .bigfarm-table_package_alliance {
-
+    th,
+    td {
+      width: 3rem !important;
+      min-width: 3rem !important;
+      max-width: 3rem !important;
+    }
   }
 </style>

@@ -15,7 +15,7 @@
                   :sync-footer-scroll="true"
                   :include-footer="true"
                   dead-area-color="transparent"
-                  :class="{ freezeFirstColumn: true, enthusiastPackage: true }">
+                  :class="{ freezeFirstColumn: true, enthusiastPackage: true, 'bigfarm-table_package_enthusiast': true }">
             <template slot="thead">
               <tr>
                 <th class="overflow-visible">
@@ -31,7 +31,7 @@
             <template slot="tbody">
               <tr v-for="perkId in alliancePackPerks">
                 <td class="fill">
-                  <div class="fill  p-2">
+                  <div class="fill p-2">
                     <dl>
                       <dt>
                           <div class="thumbnail">
@@ -151,14 +151,6 @@
         height: 1.5rem;
     }
 
-    .enthusiastPackage {
-        th {
-            &:before {
-                display: none;
-            }
-        }
-    }
-
     .bigfarm-table-th__badge {
         height: 1rem;
         margin-right: 1px;
@@ -166,10 +158,5 @@
 
     .thumbnail__image {
         height: 2rem;
-    }
-
-
-    .bigfarm-table_package_enthusiast {
-
     }
 </style>

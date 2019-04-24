@@ -810,9 +810,6 @@ table.scrolling {
   th,
   td {
     background-color: transparent !important;
-    width: 3rem !important;
-    min-width: 3rem !important;
-    max-width: 3rem !important;
     border: 2px groove $bigfarm-brown-light !important;
     border-top: none;
     font-size: 0.75rem !important;
@@ -820,6 +817,7 @@ table.scrolling {
     text-align: center;
 
     &:first-child {
+      background-color: #edbd76 !important;
       width: $icon-width !important;
       min-width: $icon-width !important;
       max-width: $icon-width !important;
@@ -935,4 +933,29 @@ table.scrolling {
   background-color: #e5c288;
   box-shadow: inset 1px 1px 0 $bigfarm-brown-light, inset -1px -1px 0 $bigfarm-brown-dark, 1px 1px 0 $bigfarm-brown-light, -1px -1px 0 $bigfarm-brown-dark;
 }
+
+.bigfarm-table_package_enthusiast {
+  display: table !important;
+
+  th {
+    &:before {
+      display: none !important;
+    }
+  }
+
+  th, td {
+    width: initial !important;
+    min-width: 3rem !important;
+    max-width: initial !important;
+  }
+
+  thead {
+    display: table-header-group !important;
+  }
+
+  tbody {
+    display: table-row-group !important;
+  }
+}
+
 /*# sourceMappingURL=_bigfarm-cards.css.map */
