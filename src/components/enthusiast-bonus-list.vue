@@ -15,12 +15,18 @@
                   :sync-footer-scroll="true"
                   :include-footer="true"
                   dead-area-color="transparent"
-                  :class="{ freezeFirstColumn: true }">
+                  :class="{ freezeFirstColumn: true, enthusiastPackage: true }">
             <template slot="thead">
               <tr>
-                <th><div class="fill bigfarm-table-box__title_package_enthusiast">{{ t('subscription_allianceBonuses') }}</div></th>
-                <th v-for="tier in alliancePackBoosterTiers">{{tier}}</th>
-              </tr>
+                <th class="overflow-visible">
+                  <div class="fill bigfarm-table-box__title_package_enthusiast">{{ t('subscription_allianceBonuses') }}</div>
+                  <img src="../assets/images/loyalty_badge_med.svg" class="bigfarm-table-box__badge"/>
+                </th>
+                <th v-for="tier in alliancePackBoosterTiers">
+                  <img src="../assets/images/calendar_big.svg" class="bigfarm-table-th__badge">
+                  <span>{{tier}}</span>
+                </th>
+           </tr>
             </template>
             <template slot="tbody">
               <tr v-for="perkId in alliancePackPerks">
@@ -91,7 +97,7 @@
         public t(id: string, ...args: string[]): string {
             const text = (args || []).reduce((result, arg, index) => {
                 if (!result) {
-                  debugger;
+                    debugger;
                 }
                 return result.replace(new RegExp(`\\{${index}\\}`, 'g'), arg)
             }, this.text[id] || id);
@@ -116,9 +122,9 @@
             const [key, pattern] = this.itemDataForId(perkId);
             let output = '';
             try {
-              output = eval(pattern.replace("$value", tier.toString(10)));
+                output = eval(pattern.replace("$value", tier.toString(10)));
             } catch (e) {
-              throw new Error(`Pattern is incorrect (perkId: ${perkId}, tier: ${tier}, ${pattern})`)
+                throw new Error(`Pattern is incorrect (perkId: ${perkId}, tier: ${tier}, ${pattern})`)
             }
 
             return output;
@@ -135,16 +141,23 @@
 </script>
 
 <style scoped lang="scss">
-  .bigfarm-table-box__title_package_enthusiast {
-    position: relative;
-
-    &::after {
-      content: ' ';
-      background-image: url("../assets/images/loyalty_badge_med.svg");
-      background-repeat: no-repeat;
-      height: 3rem;
-      position: absolute;
-      display: block;
+    .bigfarm-table-box__badge {
+        position: absolute;
+        top: 0px;
+        right: 2px;
+        height: 1.5rem;
     }
-  }
+
+    .enthusiastPackage {
+        th {
+            &:before {
+                display: none;
+            }
+        }
+    }
+
+    .bigfarm-table-th__badge {
+        height: 1rem;
+        margin-right: 1px;
+    }
 </style>
