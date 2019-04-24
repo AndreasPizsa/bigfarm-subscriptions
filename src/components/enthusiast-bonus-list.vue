@@ -62,7 +62,7 @@
     import {IPlan} from "@/domain/IPlan";
     import {IBoosterTier} from "@/domain/IBoosterTier";
     import {IDictionary} from "@/core/IDictionary";
-    import {enthusiastItemData, IEnthusiastItemData} from "@/components/EnthusiastItemData";
+    import {enthusiastItemData, IEnthusiastItemData} from "@/components/enthusiastItemData";
 
     const decodeHtml = require('he').decode;
 
