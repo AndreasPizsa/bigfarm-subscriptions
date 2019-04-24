@@ -157,7 +157,7 @@
     // CHECK
     import VueScrollingTable from "vue-scrolling-table";
     import IndividualSubscription from "./subscriptions/individual-subscription";
-    import AllianceSubscription from "./subscriptions/alliance-subscription";
+    import AllianceSubscription from "./alliance/alliance-subscription";
     import EnthusiastSubscription from "./subscriptions/enthusiast-subscription";
     import EnthusiastBonusList from "./enthusiast-bonus-list";
     import enthusiastSubscription from "../data/enthusiast-payout.json";
