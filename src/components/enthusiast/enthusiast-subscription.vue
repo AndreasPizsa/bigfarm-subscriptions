@@ -178,12 +178,12 @@
 
     .bigfarm-pack__badge {
         position: absolute;
-        top: 0.5rem;
-        left: 0;
+        top: 2rem;
+        left: 0.5rem;
     }
 
     .pack-badge {
-        height: 4rem;
+        height: 3.5rem;
     }
 
     .media-image_package_enthusiast {

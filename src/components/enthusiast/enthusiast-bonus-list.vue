@@ -65,6 +65,7 @@
     import {IBoosterTier} from "@/domain/IBoosterTier";
     import {IDictionary} from "@/core/IDictionary";
     import {enthusiastItemData, IEnthusiastItemData} from "@/components/enthusiast/enthusiastItemData";
+    import {unique} from "@/core/helpers";
 
     const decodeHtml = require('he').decode;
 
@@ -83,20 +84,19 @@
         }
 
         public get alliancePackBoosterTiers(): number[] {
-            const allTiers = this
-                .alliancePackBoosterData
-                .reduce((set, {from}) => set.add(from), new Set<number>());
-            return Array.from(allTiers).sort((a, b) => a - b);
+            return this.alliancePackBoosterData
+                .reduce<number[]>((set, {from}) => [...set, from], [])
+                .filter(unique)
+                .sort((a, b) => a - b);
         }
 
         public get alliancePackPerks(): number[] {
-            const allPerks = this
-                .alliancePackBoosterData
+            return this.alliancePackBoosterData
                 .reduce<number[]>((result, {items}) => ([
                     ...result,
                     ...(items.map(([itemId]) => itemId))
-                ]), []);
-            return Array.from(new Set(allPerks))
+                ]), [])
+                .filter(unique);
         }
 
         public t(id: string, ...args: string[]): string {
@@ -120,11 +120,23 @@
             return `subscription_perkEnthusiast_${key}_desc`;
         }
 
+        private boosterPerkBoostForTier(perkId: number, tier: number): number | undefined {
+            const tierData = this.alliancePackBoosterData.find(({from}) => from >= tier);
+            if (tierData && tierData.items) {
+                const item = tierData.items.find(([id]) => id == perkId);
+                return item ? item[1] : undefined;
+            }
+        }
+
         public perkValue(perkId: number, tier: number): string {
+            const perk = this.boosterPerkBoostForTier(perkId, tier);
+            if (!perk) {
+                throw new Error(`Cannot find perk for perk = ${perkId}, tier = ${tier}`);
+            }
             const [key, pattern] = this.itemDataForId(perkId);
             let output = '';
             try {
-                output = eval(pattern.replace("$value", tier.toString(10)));
+                output = eval(pattern.replace("$value", perk.toString(10)));
             } catch (e) {
                 throw new Error(`Pattern is incorrect (perkId: ${perkId}, tier: ${tier}, ${pattern})`)
             }
