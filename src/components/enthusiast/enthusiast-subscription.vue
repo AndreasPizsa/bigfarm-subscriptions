@@ -84,12 +84,7 @@
 <script>
     import {enthusiastItemData} from "./enthusiastItemData";
     import {unique} from "../../core/helpers";
-
     const decodeHtml = require('he').decode;
-    function last(arr) {
-        return arr[arr.length - 1];
-    }
-
 
     export default {
         name: "enthusiast-subscription",
@@ -145,10 +140,6 @@
             // todo format according to locale
             formatPrice(price) {
                 return numeral(parseInt(price)/100).format('0,0[.]00')
-            },
-
-            xIfEmptyOrZero(value) {
-                return value || '–'
             }
         },
         methods: {

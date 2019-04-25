@@ -112,10 +112,6 @@
             // todo format according to locale
             formatPrice(price: string): string {
                 return window.numeral(parseInt(price) / 100).format('0,0[.]00')
-            },
-
-            xIfEmptyOrZero(value: string): string {
-                return value || '–'
             }
         },
     })
