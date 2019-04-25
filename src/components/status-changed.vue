@@ -524,8 +524,8 @@ export default {
 
     heroImageUrl() {
       return this.isPlayerSubscription
-        ? require('@/assets/images/hero-individualSubscription.jpg')
-        : require('@/assets/images/hero-allianceSubscription.jpg')
+        ? require('@/assets/images/hero-individualSubscription.svg')
+        : require('@/assets/images/hero-allianceSubscription.svg')
     },
 
     packageTitle() {

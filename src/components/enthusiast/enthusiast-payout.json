@@ -1,0 +1,162 @@
+{
+  "id": "enthusiastSubscription",
+  "duration": 2678400,
+  "price": 999,
+  "currency": "EUR",
+  "checkoutUrl": "https://4zleckep5b.execute-api.eu-west-1.amazonaws.com/staging/checkout?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJAZ29vZGdhbWVzdHVkaW9zL2JpZ2Zhcm0tc3Vic2NyaXB0aW9ucy1zZXJ2ZXIgMC4yLjAiLCJpYXQiOjE1NTYwOTcwMDIsImV4cCI6MTU1NjE4MzQwMiwianRpIjoic3Vic2NyLXVuMDBhcHp2bWduIiwicGxheWVySWQiOiIyNzk0MDk4IiwiaW5zdGFuY2VJZCI6IjI1MSIsIm5ldHdvcmtJZCI6IjEiLCJnYW1lSWQiOjE1LCJyZW1vdGVBZGRyZXNzIjoiMjEyLjc5LjE0LjE2In0.kQlhtm5oLpzUudWP1yhmvGhgYDgrE9OZBwY3oVQNwBY&sid=tvcci3wcjfs&locale=en&providerId=267&itemId=196634",
+  "playerItems": [
+    "11111"
+  ],
+  "boosterTiers": [
+    {
+      "from": 1,
+      "items": [
+        [
+          72002,
+          10
+        ],
+        [
+          72004,
+          1
+        ],
+        [
+          72006,
+          1
+        ],
+        [
+          72014,
+          -1
+        ],
+        [
+          72015,
+          1
+        ]
+      ]
+    },
+    {
+      "from": 2,
+      "items": [
+        [
+          72002,
+          12
+        ],
+        [
+          72004,
+          2
+        ],
+        [
+          72006,
+          1
+        ],
+        [
+          72014,
+          -1
+        ],
+        [
+          72015,
+          1
+        ]
+      ]
+    },
+    {
+      "from": 3,
+      "items": [
+        [
+          72002,
+          14
+        ],
+        [
+          72004,
+          3
+        ],
+        [
+          72006,
+          1
+        ],
+        [
+          72014,
+          -1
+        ],
+        [
+          72015,
+          1
+        ]
+      ]
+    },
+    {
+      "from": 4,
+      "items": [
+        [
+          72002,
+          16
+        ],
+        [
+          72004,
+          4
+        ],
+        [
+          72006,
+          1
+        ],
+        [
+          72014,
+          -1
+        ],
+        [
+          72015,
+          1
+        ]
+      ]
+    },
+    {
+      "from": 5,
+      "items": [
+        [
+          72002,
+          18
+        ],
+        [
+          72004,
+          5
+        ],
+        [
+          72006,
+          1
+        ],
+        [
+          72014,
+          -1
+        ],
+        [
+          72015,
+          1
+        ]
+      ]
+    },
+    {
+      "from": 6,
+      "items": [
+        [
+          72002,
+          20
+        ],
+        [
+          72004,
+          6
+        ],
+        [
+          72006,
+          1
+        ],
+        [
+          72014,
+          -1
+        ],
+        [
+          72015,
+          1
+        ]
+      ]
+    }
+  ]
+}
