@@ -1,7 +1,7 @@
 {
   "id": "enthusiastSubscription",
   "duration": 2678400,
-  "price": 999,
+  "price": 1999,
   "currency": "EUR",
   "checkoutUrl": "https://4zleckep5b.execute-api.eu-west-1.amazonaws.com/staging/checkout?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJAZ29vZGdhbWVzdHVkaW9zL2JpZ2Zhcm0tc3Vic2NyaXB0aW9ucy1zZXJ2ZXIgMC4yLjAiLCJpYXQiOjE1NTYwOTcwMDIsImV4cCI6MTU1NjE4MzQwMiwianRpIjoic3Vic2NyLXVuMDBhcHp2bWduIiwicGxheWVySWQiOiIyNzk0MDk4IiwiaW5zdGFuY2VJZCI6IjI1MSIsIm5ldHdvcmtJZCI6IjEiLCJnYW1lSWQiOjE1LCJyZW1vdGVBZGRyZXNzIjoiMjEyLjc5LjE0LjE2In0.kQlhtm5oLpzUudWP1yhmvGhgYDgrE9OZBwY3oVQNwBY&sid=tvcci3wcjfs&locale=en&providerId=267&itemId=196634",
   "playerItems": [
