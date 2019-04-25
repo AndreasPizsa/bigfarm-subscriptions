@@ -47,19 +47,6 @@
                         )
                         }}
                         <span v-if="isSubscriptionActive">{{ plan.validUntil | moment("L") }}</span>
-                        <div>
-                            <div v-if="plan.isAllianceMember">
-                                {{ t_num(
-                                'subscription_allianceHasBooked_copy',
-                                'subscription_allianceHasBookedSingular_copy',
-                                'subscription_allianceHasBooked_copy',
-                                plan.allianceSubscriberCount)
-                                }}
-                            </div>
-                            <div v-else>
-                                {{ t('subscription_noAlliance_tt') }}
-                            </div>
-                        </div>
                     </h3>
                     <p class="text-center">{{ t('subscription_cancelable_title') }}</p>
                 </div>

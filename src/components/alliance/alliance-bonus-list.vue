@@ -3,7 +3,7 @@
         <div class="bigfarm__pack bigfarm__pack_v2 bigfarm__cooperative_bonus_list bigfarm__fit_height mt-0">
         <div class="d-flex flex-row">
           <img class="flex-shrink-1" style="cursor: pointer; bottom: -2px"
-               :src="require('@/assets/images/bigfarm__icon_back.svg')" alt="Back" @click="goToPage(1)"/>
+               :src="require('@/assets/images/bigfarm__icon_back.svg')" alt="Back" @click="goToBonusList"/>
           <span class="flex-grow-1 text-center align-middle">{{ t('subscription_allianceProgress') }}</span>
         </div>
 
@@ -97,9 +97,6 @@
 
         public t(id: string, ...args: string[]): string {
             const text = (args || []).reduce((result, arg, index) => {
-                if (!result) {
-                    debugger;
-                }
                 return result.replace(new RegExp(`\\{${index}\\}`, 'g'), arg)
             }, this.text[id] || id);
             return decodeHtml(text)
@@ -120,7 +117,7 @@
         public alliancePackBoosterPerkBoostForTier(perkId: number, tier: number): number | undefined {
             const tierData = this.alliancePackBoosterData.find(({from}) => from >= tier);
             if (tierData && tierData.items) {
-                let item = tierData.items.find(([id]) => id == perkId);
+                const item = tierData.items.find(([id]) => id == perkId);
                 return item ? item[1] : undefined;
             }
         }
@@ -139,4 +136,12 @@
 </script>
 
 <style scoped lang="scss">
+    .bigfarm-table_package_alliance {
+        th,
+        td {
+            width: 3rem !important;
+            min-width: 3rem !important;
+            max-width: 3rem !important;
+        }
+    }
 </style>

@@ -101,9 +101,6 @@
 
         public t(id: string, ...args: string[]): string {
             const text = (args || []).reduce((result, arg, index) => {
-                if (!result) {
-                    debugger;
-                }
                 return result.replace(new RegExp(`\\{${index}\\}`, 'g'), arg)
             }, this.text[id] || id);
             return decodeHtml(text)
