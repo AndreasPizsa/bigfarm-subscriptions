@@ -95,7 +95,9 @@
   import enthusiastSubscription from "./enthusiast/enthusiast-payout.json";
 
   import 'swiper/dist/css/swiper.css';
+  import simplebar from 'simplebar-vue';
   import 'simplebar/dist/simplebar.min.css';
+  import { swiper, swiperSlide } from 'vue-awesome-swiper';
   import {isAllianceSubscription, isEnthusiastSubscription, isIndividualSubscription} from "./big-farm.helpers";
 
   const decodeHtml = require('he').decode
@@ -122,6 +124,9 @@
     export default {
         name: 'BigFarm',
         components: {
+            swiper,
+            swiperSlide,
+            simplebar,
             IndividualSubscription,
             AllianceSubscription,
             AllianceBonusList,

@@ -96,7 +96,7 @@
     import VueScrollingTable from "vue-scrolling-table";
     import {IPlan} from "@/domain/IPlan";
     import {IDictionary} from "@/core/IDictionary";
-    import moment = require("moment");
+    import moment from "moment";
 
     const decodeHtml = require('he').decode;
 
