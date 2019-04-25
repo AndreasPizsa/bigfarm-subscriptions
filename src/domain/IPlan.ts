@@ -7,10 +7,14 @@ export enum SubscriptionType {
 }
 
 export type IPlan = {
+    allianceName?: string;
+    allianceSubscriberCount?: number;
+    otherAllianceSubscribers?: number;
     boosterTiers: IBoosterTier[];
-    wasCancelled: boolean;
+    isAllianceMember?: boolean;
+    wasCancelled?: boolean;
     checkoutUrl: string;
-    validUntil: string;
+    validUntil?: string;
     id: SubscriptionType,
     price: number,
     currency: string,
