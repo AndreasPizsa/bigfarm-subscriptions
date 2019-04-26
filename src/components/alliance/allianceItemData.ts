@@ -1,8 +1,8 @@
 import {IDictionary} from "@/core/IDictionary";
 
-export type IAllianceItemData = string[];
+export type IAlliancePerkTextFormat = [string, string, string?];
 
-export const allianceItemData: IDictionary<IAllianceItemData> = {
+export const allianceItemData: IDictionary<IAlliancePerkTextFormat> = {
     72002: ['contractMaterial', '-', '%'],
     72004: ['fishcontractMaterial', '-', '%'],
     72006: ['xpBooster', '+'],

@@ -51,7 +51,7 @@
     import {Component, Prop} from 'vue-property-decorator';
     import VueScrollingTable from "vue-scrolling-table";
     import {IDictionary} from "@/core/IDictionary";
-    import {allianceItemData, IAllianceItemData} from "@/components/alliance/allianceItemData";
+    import {allianceItemData, IAlliancePerkTextFormat} from "@/components/alliance/allianceItemData";
     import {BonusList} from "@/components/bonus-list";
 
     const decodeHtml = require('he').decode;
@@ -77,7 +77,7 @@
             return decodeHtml(text)
         }
 
-        public itemDataForId(id: number): IAllianceItemData {
+        public itemDataForId(id: number): IAlliancePerkTextFormat {
             return allianceItemData[id];
         }
 
