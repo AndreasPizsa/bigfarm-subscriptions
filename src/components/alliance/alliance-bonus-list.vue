@@ -48,13 +48,11 @@
 </template>
 
 <script lang="ts">
-    import {Component, Prop, Vue} from 'vue-property-decorator';
+    import {Component, Prop} from 'vue-property-decorator';
     import VueScrollingTable from "vue-scrolling-table";
-    import {IPlan} from "@/domain/IPlan";
-    import {IBoosterTier} from "@/domain/IBoosterTier";
     import {IDictionary} from "@/core/IDictionary";
-    import {unique} from "@/core/helpers";
     import {allianceItemData, IAllianceItemData} from "@/components/alliance/allianceItemData";
+    import {BonusList} from "@/components/bonus-list";
 
     const decodeHtml = require('he').decode;
 
@@ -69,31 +67,8 @@
             }
         },
     })
-    export default class AllianceBonusList extends Vue {
-        @Prop({required: true}) public plan!: IPlan;
+    export default class AllianceBonusList extends BonusList {
         @Prop({required: true}) public text!: IDictionary<string>;
-
-        public get alliancePackBoosterData(): IBoosterTier[] {
-            return this.plan.boosterTiers || [];
-        }
-
-        public get alliancePackBoosterTiers(): number[] {
-            return this
-                .alliancePackBoosterData
-                .reduce<number[]>((set, {from}) => [...set, from], [])
-                .filter(unique)
-                .sort((a, b) => a - b);
-        };
-
-        public get alliancePackPerks(): number[] {
-            return this
-                .alliancePackBoosterData
-                .reduce<number[]>((result, {items}) => ([
-                    ...result,
-                    ...(items.map(([itemId]) => itemId))
-                ]), [])
-                .filter(unique);
-        }
 
         public t(id: string, ...args: string[]): string {
             const text = (args || []).reduce((result, arg, index) => {

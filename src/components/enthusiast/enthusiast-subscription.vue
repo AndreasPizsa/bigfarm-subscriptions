@@ -92,11 +92,12 @@
 <script lang="ts">
     import {Component, Prop, Vue} from 'vue-property-decorator';
     import {enthusiastItemData, IEnthusiastItemData} from "./enthusiastItemData";
-    import {unique} from "@/core/helpers";
+    import {distinct} from "@/core/helpers";
     import VueScrollingTable from "vue-scrolling-table";
     import {IPlan} from "@/domain/IPlan";
     import {IDictionary} from "@/core/IDictionary";
     import moment from "moment";
+    import {currencies} from "@/components/currency";
 
     const decodeHtml = require('he').decode;
 
@@ -106,11 +107,8 @@
             VueScrollingTable,
         },
         filters: {
-            formatCurrency(value: 'EUR' | 'USD'): string {
-                return {
-                    EUR: '€',
-                    USD: '$'
-                }[value] || value
+            formatCurrency(value: string): string {
+                return currencies[value] || value
             },
 
             // todo format according to locale
@@ -124,12 +122,12 @@
         @Prop({required: true}) public text!: IDictionary<string>;
 
         public get perksForHighlightedTier(): number[] {
-            return this.plan.boosterTiers
+            const tiers = this.plan.boosterTiers
                 .reduce<number[]>((result, {items}) => ([
                     ...result,
                     ...(items.filter(([, amount]) => amount).map(([itemId]) => itemId))
-                ]), [])
-                .filter(unique);
+                ]), []);
+            return distinct(tiers);
         }
 
         public get isSubscriptionActive(): boolean {
