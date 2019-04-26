@@ -19,11 +19,11 @@
             <template slot="thead">
               <tr>
                   <th><div class="fill">{{ t('subscription_allianceBonuses') }}</div></th>
-                <th v-for="tier in alliancePackBoosterTiers">{{tier}}</th>
+                <th v-for="tier in boosterTiers">{{tier}}</th>
               </tr>
             </template>
             <template slot="tbody">
-              <tr v-for="perkId in alliancePackPerks">
+              <tr v-for="perkId in perks">
                 <td class="fill">
                   <div class="fill  p-2">
                     <dl>
@@ -36,7 +36,7 @@
                     </dl>
                   </div>
                 </td>
-                <td v-for="tier in alliancePackBoosterTiers">
+                <td v-for="tier in boosterTiers">
                   {{ alliancePackBoosterPerkBoostForTier(perkId, tier) > 0 ? textKeyForItemId(perkId).prefix : '' }}{{ alliancePackBoosterPerkBoostForTier(perkId, tier) | xIfEmptyOrZero }}{{ alliancePackBoosterPerkBoostForTier(perkId, tier) > 0 ? textKeyForItemId(perkId).suffix : ''}}
                 </td>
               </tr>
@@ -54,8 +54,6 @@
     import {allianceItemData, IAlliancePerkTextFormat} from "@/components/alliance/allianceItemData";
     import {BonusList} from "@/components/bonus-list";
 
-    const decodeHtml = require('he').decode;
-
     @Component({
         name: "alliance-bonus-list",
         components: {
@@ -68,14 +66,7 @@
         },
     })
     export default class AllianceBonusList extends BonusList {
-        @Prop({required: true}) public text!: IDictionary<string>;
-
-        public t(id: string, ...args: string[]): string {
-            const text = (args || []).reduce((result, arg, index) => {
-                return result.replace(new RegExp(`\\{${index}\\}`, 'g'), arg)
-            }, this.text[id] || id);
-            return decodeHtml(text)
-        }
+        @Prop({required: true}) protected text!: IDictionary<string>;
 
         public itemDataForId(id: number): IAlliancePerkTextFormat {
             return allianceItemData[id];
@@ -90,7 +81,7 @@
         }
 
         public alliancePackBoosterPerkBoostForTier(perkId: number, tier: number): number | undefined {
-            const tierData = this.alliancePackBoosterData.find(({from}) => from >= tier);
+            const tierData = this.boosterData.find(({from}) => from >= tier);
             if (tierData && tierData.items) {
                 const item = tierData.items.find(([id]) => id == perkId);
                 return item ? item[1] : undefined;

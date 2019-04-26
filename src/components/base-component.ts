@@ -1,8 +1,10 @@
-import {Component, Prop, Vue} from "vue-property-decorator";
+import {Vue} from "vue-property-decorator";
 import {IDictionary} from "@/core/IDictionary";
 
+const decodeHtml = require('he').decode;
+
 export abstract class BaseComponent extends Vue {
-    @Prop({required: true}) public text!: IDictionary<string>;
+    protected text!: IDictionary<string>;
 
     public t(id: string, ...args: string[]): string {
         const text = (args || []).reduce((result, arg, index) => {

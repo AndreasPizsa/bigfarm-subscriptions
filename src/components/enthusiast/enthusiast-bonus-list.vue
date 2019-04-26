@@ -24,14 +24,14 @@
                         <img src="../../assets/images/loyalty_badge_med.svg" class="bigfarm-table-box__badge"/>
                     </div>
                 </th>
-                <th v-for="tier in alliancePackBoosterTiers">
+                <th v-for="tier in boosterTiers">
                   <img src="../../assets/images/calendar_big.svg" class="bigfarm-table-th__badge">
                   <span>{{tier}}</span>
                 </th>
            </tr>
             </template>
             <template slot="tbody">
-              <tr v-for="perkId in alliancePackPerks">
+              <tr v-for="perkId in perks">
                 <td>
                   <div class="fill p-2">
                     <dl>
@@ -47,7 +47,7 @@
                     </dl>
                   </div>
                 </td>
-                <td v-for="tier in alliancePackBoosterTiers">
+                <td v-for="tier in boosterTiers">
                   {{ perkValue(perkId, tier) }}
                 </td>
               </tr>
@@ -65,8 +65,6 @@
     import {enthusiastItemData, IEnthusiastItemData} from "@/components/enthusiast/enthusiastItemData";
     import {BonusList} from "@/components/bonus-list";
 
-    const decodeHtml = require('he').decode;
-
     @Component({
         name: "enthusiast-bonus-list",
         components: {
@@ -75,13 +73,6 @@
     })
     export default class EnthusiastBonusList extends BonusList {
         @Prop({required: true}) public text!: IDictionary<string>;
-
-        public t(id: string, ...args: string[]): string {
-            const text = (args || []).reduce((result, arg, index) => {
-                return result.replace(new RegExp(`\\{${index}\\}`, 'g'), arg)
-            }, this.text[id] || id);
-            return decodeHtml(text)
-        }
 
         public itemDataForId(id: number): IEnthusiastItemData {
             return enthusiastItemData[id];
@@ -98,7 +89,7 @@
         }
 
         private boosterPerkBoostForTier(perkId: number, tier: number): number | undefined {
-            const tierData = this.alliancePackBoosterData.find(({from}) => from >= tier);
+            const tierData = this.boosterData.find(({from}) => from >= tier);
             if (tierData && tierData.items) {
                 const item = tierData.items.find(([id]) => id == perkId);
                 return item ? item[1] : undefined;

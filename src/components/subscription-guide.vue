@@ -23,17 +23,17 @@
 </template>
 
 <script lang="ts">
-    import {Component, Prop, Vue} from "vue-property-decorator";
+    import {Component} from "vue-property-decorator";
+    import {Prop} from "vue-property-decorator";
     import {IDictionary} from "@/core/IDictionary";
-
-    const decodeHtml = require('he').decode;
+    import {BaseComponent} from "@/components/base-component";
 
     @Component({
         name: "subscription-guide",
     })
-    export default class SubscriptionGuide extends Vue {
-        public currentSubscriptionTab: string = 'subscription_infoDialogue_general_header';
+    export default class SubscriptionGuide extends BaseComponent {
         @Prop({required: true}) public text!: IDictionary<string>;
+        public currentSubscriptionTab: string = 'subscription_infoDialogue_general_header';
 
         public changeTab(id: string): void {
             this.currentSubscriptionTab = id;
@@ -56,23 +56,6 @@
                 .split(/\s+/)
                 .map(key => `subscription_infoDialogue_${key}_${suffix}`)
                 .map(key => exceptions[key] || key)
-        }
-
-        public t(id: string, ...args: string[]): string {
-            const text = (args || []).reduce((result, arg, index) => {
-                return result.replace(new RegExp(`\\{${index}\\}`, 'g'), arg)
-            }, this.text[id] || id);
-            return decodeHtml(text)
-        }
-
-        public t_html(id: string, ...args: string[]): string {
-            return this
-                .t(id, ...args)
-                .split(/\n{2}/)
-                .filter(t => t && t.trim().length > 0)
-                .map(t => `<p>${t}</p>`)
-                .join('')
-                .replace(/\n/g, '<br/>')
         }
 
         public tabCopyForTitle(title: string): string {

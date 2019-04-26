@@ -90,7 +90,7 @@
 </template>
 
 <script lang="ts">
-    import {Component, Prop, Vue} from 'vue-property-decorator';
+    import {Component, Prop} from 'vue-property-decorator';
     import {enthusiastItemData, IEnthusiastItemData} from "./enthusiastItemData";
     import {distinct} from "@/core/helpers";
     import VueScrollingTable from "vue-scrolling-table";
@@ -98,8 +98,7 @@
     import {IDictionary} from "@/core/IDictionary";
     import moment from "moment";
     import {currencies} from "@/components/currency";
-
-    const decodeHtml = require('he').decode;
+    import {BaseComponent} from "@/components/base-component";
 
     @Component({
         name: "enthusiast-subscription",
@@ -117,9 +116,9 @@
             }
         },
     })
-    export default class EnthusiastSubscription extends Vue {
+    export default class EnthusiastSubscription extends BaseComponent {
         @Prop({required: true}) public plan!: IPlan;
-        @Prop({required: true}) public text!: IDictionary<string>;
+        @Prop({required: true}) protected text!: IDictionary<string>;
 
         public get perksForHighlightedTier(): number[] {
             const tiers = this.plan.boosterTiers
@@ -132,13 +131,6 @@
 
         public get isSubscriptionActive(): boolean {
             return this.plan.validUntil && moment().diff(this.plan.validUntil) <= 0 || !this.plan.checkoutUrl
-        }
-
-        public t(id: string, ...args: string[]): string {
-            const text = (args || []).reduce((result, arg, index) => {
-                return result.replace(new RegExp(`\\{${index}\\}`, 'g'), arg)
-            }, this.text[id] || id);
-            return decodeHtml(text)
         }
 
         private itemDataForId(id: number): IEnthusiastItemData {

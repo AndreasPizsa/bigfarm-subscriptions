@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts">
-    import {Component, Prop, Vue} from "vue-property-decorator";
+    import {Component, Prop} from "vue-property-decorator";
     import {IDictionary} from "@/core/IDictionary";
     import moment from 'moment';
     import {IPlan} from "@/domain/IPlan";
@@ -31,22 +31,14 @@
         isEnthusiastSubscription,
         isIndividualSubscription
     } from "@/components/big-farm.helpers";
-
-    const decodeHtml = require('he').decode;
+    import {BaseComponent} from "@/components/base-component";
 
     @Component({
         name: "subscription-status",
     })
-    export default class SubscriptionStatus extends Vue {
+    export default class SubscriptionStatus extends BaseComponent {
         @Prop({required: true}) public subscriptions!: IPlan[];
         @Prop({required: true}) public text!: IDictionary<string>;
-
-        public t(id: string, ...args: string[]): string {
-            const text = (args || []).reduce((result, arg, index) => {
-                return result.replace(new RegExp(`\\{${index}\\}`, 'g'), arg)
-            }, this.text[id] || id);
-            return decodeHtml(text)
-        }
 
         private isSubscriptionActive(subscription: IPlan): boolean {
             return subscription.validUntil && moment().diff(subscription.validUntil) <= 0 || !subscription.checkoutUrl;
