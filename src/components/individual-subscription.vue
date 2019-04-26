@@ -95,9 +95,11 @@
 </template>
 
 <script lang="ts">
-    import {Component, Prop, Vue} from 'vue-property-decorator';
+    import {Component, Prop} from 'vue-property-decorator';
     import moment from "moment";
-    const decodeHtml = require('he').decode;
+    import {BaseComponent} from "@/components/base-component";
+    import {IDictionary} from "@/core/IDictionary";
+    import {IPlan} from "@/domain/IPlan";
 
     @Component({
         name: "individual-subscription",
@@ -112,32 +114,18 @@
             // todo format according to locale
             formatPrice(price: string): string {
                 return window.numeral(parseInt(price) / 100).format('0,0[.]00')
-            },
-
-            xIfEmptyOrZero(value: string): string {
-                return value || '–'
             }
         },
     })
-    export default class IndividualSubscription extends Vue {
-        @Prop() private plan!: {
-            wasCancelled: boolean;
-            checkoutUrl: string;
-            validUntil: string;
-            id: string,
-            price: string,
-            currency: string,
-        };
-
-        @Prop() private text!: {
-            [key: string]: string
-        };
+    export default class IndividualSubscription extends BaseComponent {
+        @Prop() private plan!: IPlan;
+        @Prop() protected text!: IDictionary<string>;
 
         public get id(): string {
             return this.plan.id;
         }
 
-        public get price(): string {
+        public get price(): number {
             return this.plan.price;
         }
 
@@ -145,7 +133,7 @@
             return this.plan.currency;
         }
 
-        public get validUntil(): string {
+        public get validUntil(): string | undefined {
             return this.plan.validUntil;
         }
 
@@ -153,19 +141,12 @@
             return this.plan.checkoutUrl;
         }
 
-        public get wasCancelled(): boolean {
+        public get wasCancelled(): boolean | undefined {
             return this.plan.wasCancelled;
         }
 
         public get isUserSubscriptionActiveByType(): boolean {
             return this.validUntil && moment().diff(this.validUntil) <= 0 || !this.checkoutUrl
-        }
-
-        public t(id: string, ...args: string[]): string {
-            const text = (args || []).reduce((result, arg, index) => {
-                return result.replace(new RegExp(`\\{${index}\\}`, 'g'), arg)
-            }, this.text[id] || id);
-            return decodeHtml(text)
         }
     }
 

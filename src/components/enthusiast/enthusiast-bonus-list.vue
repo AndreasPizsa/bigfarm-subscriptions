@@ -15,7 +15,7 @@
                   :sync-footer-scroll="true"
                   :include-footer="true"
                   dead-area-color="transparent"
-                  :class="{ freezeFirstColumn: true, enthusiastPackage: true, 'bigfarm-table_package_enthusiast': true }">
+                  :class="{ freezeFirstColumn: true, 'bigfarm-table_package_enthusiast': true }">
             <template slot="thead">
               <tr>
                 <th class="overflow-visible">
@@ -24,14 +24,14 @@
                         <img src="../../assets/images/loyalty_badge_med.svg" class="bigfarm-table-box__badge"/>
                     </div>
                 </th>
-                <th v-for="tier in alliancePackBoosterTiers">
+                <th v-for="tier in boosterTiers">
                   <img src="../../assets/images/calendar_big.svg" class="bigfarm-table-th__badge">
                   <span>{{tier}}</span>
                 </th>
            </tr>
             </template>
             <template slot="tbody">
-              <tr v-for="perkId in alliancePackPerks">
+              <tr v-for="perkId in perks">
                 <td>
                   <div class="fill p-2">
                     <dl>
@@ -47,7 +47,7 @@
                     </dl>
                   </div>
                 </td>
-                <td v-for="tier in alliancePackBoosterTiers">
+                <td v-for="tier in boosterTiers">
                   {{ perkValue(perkId, tier) }}
                 </td>
               </tr>
@@ -59,14 +59,11 @@
 </template>
 
 <script lang="ts">
-    import {Component, Prop, Vue} from 'vue-property-decorator';
+    import {Component, Prop} from 'vue-property-decorator';
     import VueScrollingTable from "vue-scrolling-table";
-    import {IPlan} from "@/domain/IPlan";
-    import {IBoosterTier} from "@/domain/IBoosterTier";
     import {IDictionary} from "@/core/IDictionary";
     import {enthusiastItemData, IEnthusiastItemData} from "@/components/enthusiast/enthusiastItemData";
-
-    const decodeHtml = require('he').decode;
+    import {BonusList} from "@/components/bonus-list";
 
     @Component({
         name: "enthusiast-bonus-list",
@@ -74,40 +71,8 @@
             VueScrollingTable,
         },
     })
-    export default class EnthusiastBonusList extends Vue {
-        @Prop({required: true}) public plan!: IPlan;
+    export default class EnthusiastBonusList extends BonusList {
         @Prop({required: true}) public text!: IDictionary<string>;
-
-        public get alliancePackBoosterData(): IBoosterTier[] {
-            return this.plan.boosterTiers || [];
-        }
-
-        public get alliancePackBoosterTiers(): number[] {
-            const allTiers = this
-                .alliancePackBoosterData
-                .reduce((set, {from}) => set.add(from), new Set<number>());
-            return Array.from(allTiers).sort((a, b) => a - b);
-        }
-
-        public get alliancePackPerks(): number[] {
-            const allPerks = this
-                .alliancePackBoosterData
-                .reduce<number[]>((result, {items}) => ([
-                    ...result,
-                    ...(items.map(([itemId]) => itemId))
-                ]), []);
-            return Array.from(new Set(allPerks))
-        }
-
-        public t(id: string, ...args: string[]): string {
-            const text = (args || []).reduce((result, arg, index) => {
-                if (!result) {
-                    debugger;
-                }
-                return result.replace(new RegExp(`\\{${index}\\}`, 'g'), arg)
-            }, this.text[id] || id);
-            return decodeHtml(text)
-        }
 
         public itemDataForId(id: number): IEnthusiastItemData {
             return enthusiastItemData[id];
@@ -123,11 +88,23 @@
             return `subscription_perkEnthusiast_${key}_desc`;
         }
 
+        private boosterPerkBoostForTier(perkId: number, tier: number): number | undefined {
+            const tierData = this.boosterData.find(({from}) => from >= tier);
+            if (tierData && tierData.items) {
+                const item = tierData.items.find(([id]) => id == perkId);
+                return item ? item[1] : undefined;
+            }
+        }
+
         public perkValue(perkId: number, tier: number): string {
+            const perk = this.boosterPerkBoostForTier(perkId, tier);
+            if (!perk) {
+                throw new Error(`Cannot find perk for perk = ${perkId}, tier = ${tier}`);
+            }
             const [key, pattern] = this.itemDataForId(perkId);
             let output = '';
             try {
-                output = eval(pattern.replace("$value", tier.toString(10)));
+                output = eval(pattern.replace("$value", perk.toString(10)));
             } catch (e) {
                 throw new Error(`Pattern is incorrect (perkId: ${perkId}, tier: ${tier}, ${pattern})`)
             }

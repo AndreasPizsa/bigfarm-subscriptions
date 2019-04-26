@@ -14,9 +14,11 @@
                             <div class="bigfarm__scroll_container mt-1" data-simplebar>
                                 <ul class="list-unstyled">
                                     <li class="media" v-for="(perkId, index) in alliancePackPerksForHighlightedTier">
-                                        <img class="mr-3" :alt="t(textKeyForItemId(perkId).title)" :src="iconNameForItemId(perkId)"/>
+                                        <img class="mr-3" :alt="t(textKeyForItemId(perkId).title)"
+                                             :src="iconNameForItemId(perkId)"/>
                                         <div class="media-body">
-                                            <h3>{{ t(textKeyForItemId(perkId).title) }}</h3>{{ t(textKeyForItemId(perkId).body) }}
+                                            <h3>{{ t(textKeyForItemId(perkId).title) }}</h3>{{
+                                            t(textKeyForItemId(perkId).body) }}
                                         </div>
                                     </li>
                                 </ul>
@@ -24,17 +26,20 @@
                         </div>
                     </div>
 
-                    <hr class="fullwidth mt-0 mb-2" />
+                    <hr class="fullwidth mt-0 mb-2"/>
 
-                    <div class="btn btn-secondary mb-2 ml-1 mr-1 outline-1px" @click="goToBonusList">{{ t('subscription_AllianceBonusesButton') }}</div>
+                    <div class="btn btn-secondary mb-2 ml-1 mr-1 outline-1px" @click="goToBonusList">{{
+                        t('subscription_AllianceBonusesButton') }}
+                    </div>
                 </div>
             </div>
 
-            <hr class="fullwidth mt-0 mb-2" />
+            <hr class="fullwidth mt-0 mb-2"/>
 
             <div class="row bigfarm__pack_notes mb-2">
                 <div class="col-1">
-                    <img :src="isUserSubscriptionActiveByType(plan.id) ? require('@/assets/images/bigfarm__status_active.svg') : require('@/assets/images/bigfarm__x.svg')" class="ml-1"/>
+                    <img :src="isUserSubscriptionActiveByType(plan.id) ? require('@/assets/images/bigfarm__status_active.svg') : require('@/assets/images/bigfarm__x.svg')"
+                         class="ml-1"/>
                 </div>
                 <div class="col-11">
                     <h3>
@@ -69,7 +74,8 @@
                     <div class="col-5">
                         <div class="vertical-align-center">
                             <div class="bigfarm__subscription_price">
-                                <h3 class="bigfarm__price">{{ plan.price | formatPrice }} {{ plan.currency | formatCurrency }}</h3>
+                                <h3 class="bigfarm__price">{{ plan.price | formatPrice }} {{ plan.currency |
+                                    formatCurrency }}</h3>
                                 <h5 class="bigfarm__price_note">{{ t('subscription_notePerMonth') }}</h5>
                             </div>
                         </div>
@@ -80,11 +86,13 @@
                            target="_blank"
                            class="bigfarm__button align-items-center"
                         >
-                            <div class="bigfarm__button_candy"><span>{{ t('subscription_buyButton_title') }}</span></div>
+                            <div class="bigfarm__button_candy"><span>{{ t('subscription_buyButton_title') }}</span>
+                            </div>
                             <div class="bigfarm__button_shadow"></div>
                         </a>
                         <div v-else class="bigfarm__button bigfarm__button_green align-items-center disabled">
-                            <div class="bigfarm__button_candy"><span>{{ t('subscription_alreadyBooked_title') }}</span></div>
+                            <div class="bigfarm__button_candy"><span>{{ t('subscription_alreadyBooked_title') }}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -94,7 +102,10 @@
 </template>
 
 <script>
+    import {allianceItemData} from "./allianceItemData";
+
     const decodeHtml = require('he').decode;
+
     function last(arr) {
         return arr[arr.length - 1];
     }
@@ -131,7 +142,7 @@
             wasCancelled() {
                 return this.plan.wasCancelled;
             },
-            isAllianceMember () {
+            isAllianceMember() {
                 return Boolean(this.alliancePack.isAllianceMember)
             },
             alliancePackPerksForHighlightedTier() {
@@ -140,7 +151,7 @@
                     .filter(({from}) => from <= highlightedAllianceTier)
                     .reduce((result, {items}) => ([
                         ...result,
-                        ...(items.filter(([,amount])=>amount).map(([itemId]) => itemId))
+                        ...(items.filter(([, amount]) => amount).map(([itemId]) => itemId))
                     ]), []);
                 return Array.from(new Set(allPerks))
             },
@@ -169,11 +180,11 @@
             isUsersAllianceSubscriptionActive() {
                 return this.isUserSubscriptionActiveByType('allianceSubscription')
             },
-            userSubscriptionByType(){
+            userSubscriptionByType() {
                 return (type) => this.plan || {};
             },
             isUserSubscriptionActiveByType() {
-                return (type) => this.userSubscriptionByType(type).validUntil && moment().diff(this.userSubscriptionByType(type).validUntil) <= 0 || !this.userSubscriptionByType(type).checkoutUrl
+                return (type) => this.userSubscriptionByType(type).validUntil && moment().diff(this.userSubscriptionByType(type).validUntil) <= 0 || !this.userSubscriptionByType(type).checkoutUrl
             },
         },
         filters: {
@@ -186,14 +197,18 @@
 
             // todo format according to locale
             formatPrice(price) {
-                return numeral(parseInt(price)/100).format('0,0[.]00')
-            },
-
-            xIfEmptyOrZero(value) {
-                return value || '–'
+                return numeral(parseInt(price) / 100).format('0,0[.]00')
             }
         },
         methods: {
+            t_num(idNone, idSingular, idPlural, value, ...args) {
+                const id = value
+                    ? value == 1
+                        ? idSingular
+                        : idPlural
+                    : idNone;
+                return this.t(id, ...[value, ...args])
+            },
             t(id, ...args) {
                 const text = (args || []).reduce((result, arg, index) => {
                     return result.replace(new RegExp(`\\{${index}\\}`, 'g'), arg)
@@ -201,37 +216,20 @@
                 return decodeHtml(text)
             },
             itemDataForId(id) {
-                return {
-                    72002: ['contractMaterial', '-', '%'],
-                    72004: ['fishcontractMaterial', '-', '%'],
-                    72006: ['xpBooster', '+'],
-                    72014: ['coopVillageConstructionCosts', '-', '%'],
-                    72015: ['coopVillageConstructionDuration', '-', '%'],
-                    72003: ['contractCash', '+', '%'],
-                    72005: ['fishcontractCash', '+', '%'],
-                    72009: ['coopResearchCost', '-', '%'],
-                    72010: ['coopProjectDuration', '+', '%'],
-                    72016: ['coopVillageBoostLumbermill', '+', '%'],
-                    72017: ['coopVillageBoostBrickyard', '+', '%'],
-                    72013: ['seasonSpecialistOutcome', '+', '%'],
-                    72011: ['edgePlantOutcome', '+', '%'],
-                    72012: ['fieldDamageReduce', '-', '%'],
-                    72008: ['horseTrainingCost', '-', '%'],
-                    72007: ['tempConstructionSlot', '-']
-                }[id]
+                return allianceItemData[id];
             },
             textKeyForItemId(id) {
                 const itemData = this.itemDataForId(id)
 
                 return {
                     title: `subscription_perkAlliance_${itemData[0]}_title`,
-                    body:  `subscription_perkAlliance_${itemData[0]}_desc`,
+                    body: `subscription_perkAlliance_${itemData[0]}_desc`,
                     prefix: itemData[1] || '',
                     suffix: itemData[2] || ''
                 }
             },
             iconNameForItemId(id) {
-                return 'images/' + require('lodash.snakecase')(`${this.itemDataForId(id)[0]}_med`)+'.png'
+                return 'images/' + require('lodash.snakecase')(`${this.itemDataForId(id)[0]}_med`) + '.png'
             },
             goToBonusList() {
                 this.$emit('go-to-bonus-list')
@@ -240,7 +238,7 @@
     }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
     .bigfarm__hero-visual_package_alliance {
         background-image: url("../../assets/images/hero-allianceSubscription.svg");
     }

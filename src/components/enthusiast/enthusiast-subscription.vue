@@ -14,9 +14,11 @@
                             <div class="bigfarm__scroll_container mt-1" data-simplebar>
                                 <ul class="list-unstyled">
                                     <li class="media" v-for="(perkId, index) in perksForHighlightedTier">
-                                        <img class="mr-3 media-image_package_enthusiast" :alt="t(textKeyForItemId(perkId).title)" :src="iconNameForItemId(perkId)"/>
+                                        <img class="mr-3 media-image_package_enthusiast"
+                                             :alt="t(perkTitle(perkId))" :src="iconNameForItemId(perkId)"/>
                                         <div class="media-body">
-                                            <h3>{{ t(textKeyForItemId(perkId).title) }}</h3>{{ t(textKeyForItemId(perkId).body) }}
+                                            <h3>{{ t(perkTitle(perkId)) }}</h3>{{
+                                            t(perkDesc(perkId)) }}
                                         </div>
                                     </li>
                                 </ul>
@@ -24,17 +26,20 @@
                         </div>
                     </div>
 
-                    <hr class="fullwidth mt-0 mb-2" />
+                    <hr class="fullwidth mt-0 mb-2"/>
 
-                    <div class="btn btn-secondary mb-2 ml-1 mr-1 outline-1px" @click="goToBonusList">{{ t('subscription_EnthusiastBonusesButton') }}</div>
+                    <div class="btn btn-secondary mb-2 ml-1 mr-1 outline-1px" @click="goToBonusList">{{
+                        t('subscription_EnthusiastBonusesButton') }}
+                    </div>
                 </div>
             </div>
 
-            <hr class="fullwidth mt-0 mb-2" />
+            <hr class="fullwidth mt-0 mb-2"/>
 
             <div class="row bigfarm__pack_notes mb-2">
                 <div class="col-1">
-                    <img :src="isSubscriptionActive ? require('@/assets/images/bigfarm__status_active.svg') : require('@/assets/images/bigfarm__x.svg')" class="ml-1"/>
+                    <img :src="isSubscriptionActive ? require('@/assets/images/bigfarm__status_active.svg') : require('@/assets/images/bigfarm__x.svg')"
+                         class="ml-1"/>
                 </div>
                 <div class="col-11">
                     <h3>
@@ -47,19 +52,6 @@
                         )
                         }}
                         <span v-if="isSubscriptionActive">{{ plan.validUntil | moment("L") }}</span>
-                        <div>
-                            <div v-if="plan.isAllianceMember">
-                                {{ t_num(
-                                'subscription_allianceHasBooked_copy',
-                                'subscription_allianceHasBookedSingular_copy',
-                                'subscription_allianceHasBooked_copy',
-                                plan.allianceSubscriberCount)
-                                }}
-                            </div>
-                            <div v-else>
-                                {{ t('subscription_noAlliance_tt') }}
-                            </div>
-                        </div>
                     </h3>
                     <p class="text-center">{{ t('subscription_cancelable_title') }}</p>
                 </div>
@@ -69,7 +61,8 @@
                     <div class="col-5">
                         <div class="vertical-align-center">
                             <div class="bigfarm__subscription_price">
-                                <h3 class="bigfarm__price">{{ plan.price | formatPrice }} {{ plan.currency | formatCurrency }}</h3>
+                                <h3 class="bigfarm__price">{{ plan.price | formatPrice }} {{ plan.currency |
+                                    formatCurrency }}</h3>
                                 <h5 class="bigfarm__price_note">{{ t('subscription_notePerMonth') }}</h5>
                             </div>
                         </div>
@@ -80,11 +73,13 @@
                            target="_blank"
                            class="bigfarm__button align-items-center"
                         >
-                            <div class="bigfarm__button_candy"><span>{{ t('subscription_buyButton_title') }}</span></div>
+                            <div class="bigfarm__button_candy"><span>{{ t('subscription_buyButton_title') }}</span>
+                            </div>
                             <div class="bigfarm__button_shadow"></div>
                         </a>
                         <div v-else class="bigfarm__button bigfarm__button_green align-items-center disabled">
-                            <div class="bigfarm__button_candy"><span>{{ t('subscription_alreadyBooked_title') }}</span></div>
+                            <div class="bigfarm__button_candy"><span>{{ t('subscription_alreadyBooked_title') }}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -94,103 +89,71 @@
     </div>
 </template>
 
-<script>
-    import {enthusiastItemData} from "./enthusiastItemData";
-    import {unique} from "../../core/helpers";
+<script lang="ts">
+    import {Component, Prop} from 'vue-property-decorator';
+    import {enthusiastItemData, IEnthusiastItemData} from "./enthusiastItemData";
+    import {distinct} from "@/core/helpers";
+    import VueScrollingTable from "vue-scrolling-table";
+    import {IPlan} from "@/domain/IPlan";
+    import {IDictionary} from "@/core/IDictionary";
+    import moment from "moment";
+    import {currencies} from "@/components/currency";
+    import {BaseComponent} from "@/components/base-component";
 
-    const decodeHtml = require('he').decode;
-    function last(arr) {
-        return arr[arr.length - 1];
-    }
-
-
-    export default {
+    @Component({
         name: "enthusiast-subscription",
-        props: {
-            plan: {
-                type: Object,
-                required: true,
-            },
-            text: {
-                type: Object,
-                required: true,
-            },
-        },
-        computed: {
-            id() {
-                return this.plan.id;
-            },
-            price() {
-                return this.plan.price;
-            },
-            currency() {
-                return this.plan.currency;
-            },
-            validUntil() {
-                return this.plan.validUntil;
-            },
-            checkoutUrl() {
-                return this.plan.checkoutUrl;
-            },
-            wasCancelled() {
-                return this.plan.wasCancelled;
-            },
-            perksForHighlightedTier() {
-                return this.plan.boosterTiers
-                    .reduce((result, {items}) => ([
-                        ...result,
-                        ...(items.filter(([,amount])=>amount).map(([itemId]) => itemId))
-                    ]), [])
-                    .filter(unique);
-            },
-            isSubscriptionActive() {
-                return this.plan.validUntil && moment().diff(this.plan.validUntil) <= 0 || !this.plan.checkoutUrl
-            },
+        components: {
+            VueScrollingTable,
         },
         filters: {
-            formatCurrency(value) {
-                return {
-                    EUR: '€',
-                    USD: '$'
-                }[value] || value
+            formatCurrency(value: string): string {
+                return currencies[value] || value
             },
 
             // todo format according to locale
-            formatPrice(price) {
-                return numeral(parseInt(price)/100).format('0,0[.]00')
-            },
-
-            xIfEmptyOrZero(value) {
-                return value || '–'
+            formatPrice(price: string): string {
+                return window.numeral(parseInt(price) / 100).format('0,0[.]00');
             }
         },
-        methods: {
-            t(id, ...args) {
-                const text = (args || []).reduce((result, arg, index) => {
-                    return result.replace(new RegExp(`\\{${index}\\}`, 'g'), arg)
-                }, this.text[id] || id);
-                return decodeHtml(text)
-            },
-            itemDataForId(id) {
-                return enthusiastItemData[id];
-            },
-            textKeyForItemId(id) {
-                const itemData = this.itemDataForId(id);
+    })
+    export default class EnthusiastSubscription extends BaseComponent {
+        @Prop({required: true}) public plan!: IPlan;
+        @Prop({required: true}) protected text!: IDictionary<string>;
 
-                return {
-                    title: `subscription_perkEnthusiast_${itemData[0]}_title`,
-                    body:  `subscription_perkEnthusiast_${itemData[0]}_desc`,
-                    prefix: itemData[1] || '',
-                    suffix: itemData[2] || ''
-                }
-            },
-            iconNameForItemId(id) {
-                return require(`@/assets/images/${this.itemDataForId(id)[0]}.svg`);
-            },
-            goToBonusList() {
-                this.$emit('go-to-bonus-list')
-            }
-        },
+        public get perksForHighlightedTier(): number[] {
+            const tiers = this.plan.boosterTiers
+                .reduce<number[]>((result, {items}) => ([
+                    ...result,
+                    ...(items.filter(([, amount]) => amount).map(([itemId]) => itemId))
+                ]), []);
+            return distinct(tiers);
+        }
+
+        public get isSubscriptionActive(): boolean {
+            return this.plan.validUntil && moment().diff(this.plan.validUntil) <= 0 || !this.plan.checkoutUrl
+        }
+
+        private itemDataForId(id: number): IEnthusiastItemData {
+            return enthusiastItemData[id];
+        }
+
+        public perkTitle(perkId: number): string {
+            const [key, ...rest] = this.itemDataForId(perkId);
+            return `subscription_perkEnthusiast_${key}_title`;
+        }
+
+        public perkDesc(perkId: number): string {
+            const [key, ...rest] = this.itemDataForId(perkId);
+            return `subscription_perkEnthusiast_${key}_desc`;
+        }
+
+        public iconNameForItemId(id: number): string {
+            return require(`@/assets/images/${this.itemDataForId(id)[0]}.svg`);
+        }
+
+        public goToBonusList(): void {
+            this.$emit('go-to-bonus-list')
+        }
     }
 </script>
 
@@ -205,12 +168,12 @@
 
     .bigfarm-pack__badge {
         position: absolute;
-        top: 0.5rem;
-        left: 0;
+        top: 2rem;
+        left: 0.5rem;
     }
 
     .pack-badge {
-        height: 4rem;
+        height: 3.5rem;
     }
 
     .media-image_package_enthusiast {
