@@ -5665,11 +5665,6 @@ klaw-sync@^4.0.0:
   dependencies:
     graceful-fs "^4.1.11"
 
-ky@^0.5.0:
-  version "0.5.1"
-  resolved "https://registry.npmjs.org/ky/-/ky-0.5.1.tgz#83947ea74955654100565ad19b525fcb129b472b"
-  integrity sha512-1ZGATX+y8kQIMg8jzTQFboqN6XUSdYTtJbVK8h8mXy1HTp04iq78plsDoKkHPnAb1lnaN5P7TDZ95aMB+Mr1zA==
-
 latest-version@^3.0.0:
   version "3.1.0"
   resolved "https://registry.npmjs.org/latest-version/-/latest-version-3.1.0.tgz#a205383fea322b33b5ae3b18abee0dc2f356ee15"
