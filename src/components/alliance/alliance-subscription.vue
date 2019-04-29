@@ -240,6 +240,6 @@
 
 <style scoped lang="scss">
     .bigfarm__hero-visual_package_alliance {
-        background-image: url("../../assets/images/hero-allianceSubscription.svg");
+        background-image: url("../../assets/images/hero-allianceSubscription.jpg");
     }
 </style>

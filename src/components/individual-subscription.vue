@@ -154,6 +154,6 @@
 
 <style scoped>
     .bigfarm__hero-visual_package_individual {
-        background-image: url("../assets/images/hero-individualSubscription.svg");
+        background-image: url("../assets/images/hero-individualSubscription.jpg");
     }
 </style>
