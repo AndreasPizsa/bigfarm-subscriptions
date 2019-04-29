@@ -3,7 +3,7 @@ import {IBoosterTier} from "@/domain/IBoosterTier";
 export enum SubscriptionType {
     Individual = 'individualSubscription',
     Alliance = 'allianceSubscription',
-    Enthusiast = 'enthusiastSubscription',
+    Enthusiast = 'loyaltySubscription',
 }
 
 export type IPlan = {
