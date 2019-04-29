@@ -80,12 +80,12 @@
 
         public perkTitle(perkId: number): string {
             const [key, ...rest] = this.itemDataForId(perkId);
-            return `subscription_perkEnthusiast_${key}_title`;
+            return `subscription_perkLoyalty_${key}_title`;
         }
 
         public perkDesc(perkId: number): string {
             const [key, ...rest] = this.itemDataForId(perkId);
-            return `subscription_perkEnthusiast_${key}_desc`;
+            return `subscription_perkLoyalty_${key}_desc`;
         }
 
         private boosterPerkBoostForTier(perkId: number, tier: number): number | undefined {
