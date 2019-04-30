@@ -85,7 +85,6 @@
                 </div>
             </div>
         </div>
-        <img src="../../assets/images/loyalty_badge_med.svg" class="bigfarm-pack__badge pack-badge"/>
     </div>
 </template>
 
@@ -159,21 +158,11 @@
 
 <style scoped>
     .bigfarm__hero-visual_package_enthusiast {
-        background-image: url("../../assets/images/hero-enthusiastSubscription.svg");
+        background-image: url("../../assets/images/hero-enthusiastSubscription.jpg");
     }
 
     .bigfarm__pack_type_enthusiast {
         position: relative;
-    }
-
-    .bigfarm-pack__badge {
-        position: absolute;
-        top: 2rem;
-        left: 0.5rem;
-    }
-
-    .pack-badge {
-        height: 3.5rem;
     }
 
     .media-image_package_enthusiast {
