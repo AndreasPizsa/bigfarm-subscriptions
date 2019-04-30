@@ -1,10 +1,10 @@
 <template>
     <div class="bigfarm__pack bigfarm__pack_v2 bigfarm__convenience_pack bigfarm__pack_type_enthusiast bigfarm__fit_height">
         <div class="bigfarm__pack_inner bigfarm__fit_height">
-            <h2>{{t('subscription_packageEnthusiast_title')}}</h2>
+            <h2>{{t('subscription_packageLoyalty_title')}}</h2>
             <div class="bigfarm__hero_visual bigfarm__hero-visual_package_enthusiast" :class="plan.id"></div>
             <div class="bigfarm__shade_brown fullwidth">
-                <h4>{{t('subscription_teaserEnthusiast_title')}}</h4>
+                <h4>{{t('subscription_teaserloyalty_title')}}</h4>
             </div>
 
             <div class="bigfarm__grow allianceSubscription">
@@ -29,7 +29,7 @@
                     <hr class="fullwidth mt-0 mb-2"/>
 
                     <div class="btn btn-secondary mb-2 ml-1 mr-1 outline-1px" @click="goToBonusList">{{
-                        t('subscription_EnthusiastBonusesButton') }}
+                        t('subscription_loyaltyBonusesButton') }}
                     </div>
                 </div>
             </div>
@@ -139,12 +139,12 @@
 
         public perkTitle(perkId: number): string {
             const [key, ...rest] = this.itemDataForId(perkId);
-            return `subscription_perkEnthusiast_${key}_title`;
+            return `subscription_perkLoyalty_${key}_title`;
         }
 
         public perkDesc(perkId: number): string {
             const [key, ...rest] = this.itemDataForId(perkId);
-            return `subscription_perkEnthusiast_${key}_desc`;
+            return `subscription_perkLoyalty_${key}_desc`;
         }
 
         public iconNameForItemId(id: number): string {

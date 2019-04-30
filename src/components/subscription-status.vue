@@ -16,7 +16,7 @@
             <img :src="isEnthusiastSubscriptionActive
                     ? require('@/assets/images/bigfarm__status_active.svg')
                     : require('@/assets/images/bigfarm__x.svg')" alt="Subscribed" />
-            <span class="ml-2">{{ t('subscription_packageEnthusiast_title') }}</span>
+            <span class="ml-2">{{ t('subscription_packageLoyalty_title') }}</span>
         </div>
     </div>
 </template>
