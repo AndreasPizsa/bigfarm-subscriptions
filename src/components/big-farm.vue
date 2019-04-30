@@ -92,7 +92,6 @@
   import EnthusiastBonusList from "./enthusiast/enthusiast-bonus-list";
   import SubscriptionGuide from "./subscription-guide";
   import SubscriptionStatus from "./subscription-status";
-  import enthusiastSubscription from "./enthusiast/enthusiast-payout.json";
 
   import 'swiper/dist/css/swiper.css';
   import simplebar from 'simplebar-vue';
@@ -209,10 +208,7 @@
               .then(response => response.json())
               .then(({i18n, payoutTypes}) => {
                 this.text = i18n;
-                this.payoutTypes = [
-                    ...payoutTypes,
-                    enthusiastSubscription,
-                ];
+                this.payoutTypes = payoutTypes;
               })
           }
         },
