@@ -166,6 +166,6 @@
     }
 
     .media-image_package_enthusiast {
-        height: 2rem;
+        width: 32px;
     }
 </style>
