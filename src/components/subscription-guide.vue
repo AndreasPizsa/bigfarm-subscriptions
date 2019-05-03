@@ -2,19 +2,68 @@
   <span class="bigfarm__grow">
     <div class="row h-100">
       <div class="col-3">
-          <div class="bigfarm__pack bigfarm__pack_v2 pt-3 pb-2 mt-0 mb-0 h-100">
-          <div v-for="key in tabTitleKeys"
-               class="btn btn-secondary w-100 mb-2 outline-1px"
-               :class="{ current: currentSubscriptionTab === key}"
-               @click="changeTab(key)">{{ t(key) }}
+        <div class="bigfarm__pack bigfarm__pack_v2 pt-3 pb-2 mt-0 mb-0 h-100">
+          <div class="btn btn-secondary w-100 mb-2 outline-1px"
+               :class="{ current: isActive('general')}"
+               @click="changeTab('general')">{{ t("subscription_infoDialogue_general_header") }}
+          </div>
+          <div class="btn btn-secondary w-100 mb-2 outline-1px"
+               :class="{ current: isActive('monthlyPayment')}"
+               @click="changeTab('monthlyPayment')">{{ t("subscription_infoDialogue_monthlyPayment_header") }}
+          </div>
+          <div class="btn btn-secondary w-100 mb-2 outline-1px"
+               :class="{ current: isActive('multiSubscriptions')}"
+               @click="changeTab('multiSubscriptions')">{{ t("dialog_subscription_multiSubscriptions_header") }}
+          </div>
+          <div class="btn btn-secondary w-100 mb-2 outline-1px"
+               :class="{ current: isActive('cancelSubscription')}"
+               @click="changeTab('cancelSubscription')">{{ t("subscription_infoDialogue_cancelSubscription_header") }}
+          </div>
+          <div class="btn btn-secondary w-100 mb-2 outline-1px"
+               :class="{ current: isActive('allianceSubscription')}"
+               @click="changeTab('allianceSubscription')">{{ t("subscription_infoDialogue_allianceSubscription_header") }}
+          </div>
+          <div class="btn btn-secondary w-100 mb-2 outline-1px"
+               :class="{ current: isActive('convenienceSubscription')}"
+               @click="changeTab('convenienceSubscription')">{{ t("subscription_infoDialogue_convenienceSubscription_header") }}
+          </div>
+          <div class="btn btn-secondary w-100 mb-2 outline-1px"
+               :class="{ current: isActive('loyaltySubscription')}"
+               @click="changeTab('loyaltySubscription')">{{ t("subscription_infoDialogue_loyaltySubscription_header") }}
           </div>
         </div>
       </div>
       <div class="col-9">
         <div class="bigfarm__pack bigfarm__description_text h-100 mt-0" ref="descriptionText">
-            <div
-                    class="bigfarm__description_text_inner h-100" data-simplebar>
-              <div v-html="t_html(tabCopyForTitle(currentSubscriptionTab))"></div>
+            <div class="bigfarm__description_text_inner h-100">
+              <div
+                      v-if="isActive('general')"
+                      v-html="t_html('subscription_infoDialogue_general_copy')"
+              ></div>
+              <div
+                      v-if="isActive('monthlyPayment')"
+                      v-html="t_html('dialog_subscription_monthlyPayment_copy')"
+              ></div>
+              <div
+                      v-if="isActive('multiSubscriptions')"
+                      v-html="t_html('subscription_infoDialogue_multiSubscriptions_copy')"
+              ></div>
+              <div
+                      v-if="isActive('cancelSubscription')"
+                      v-html="t_html('subscription_infoDialogue_cancelSubscription_copy')"
+              ></div>
+              <div
+                      v-if="isActive('allianceSubscription')"
+                      v-html="t_html('subscription_infoDialogue_allianceSubscription_copy')"
+              ></div>
+              <div
+                      v-if="isActive('convenienceSubscription')"
+                      v-html="t_html('subscription_infoDialogue_convenienceSubscription_copy')"
+              ></div>
+              <div
+                      v-if="isActive('loyaltySubscription')"
+                      v-html="t_html('subscription_infoDialogue_loyaltySubscription_copy', '20')"
+              ></div>
             </div>
         </div><!-- /.bigfarm__description_text -->
       </div>
@@ -23,48 +72,24 @@
 </template>
 
 <script lang="ts">
-    import {Component} from "vue-property-decorator";
-    import {Prop} from "vue-property-decorator";
-    import {IDictionary} from "@/core/IDictionary";
-    import {BaseComponent} from "@/components/base-component";
+  import {Component, Prop} from "vue-property-decorator";
+  import {IDictionary} from "@/core/IDictionary";
+  import {BaseComponent} from "@/components/base-component";
 
-    @Component({
+  @Component({
         name: "subscription-guide",
     })
     export default class SubscriptionGuide extends BaseComponent {
         @Prop({required: true}) public text!: IDictionary<string>;
-        public currentSubscriptionTab: string = 'subscription_infoDialogue_general_header';
+        public currentSubscriptionTab: string = 'general';
 
         public changeTab(id: string): void {
             this.currentSubscriptionTab = id;
             (this.$refs.descriptionText as HTMLElement).scrollTo(0, 0);
         }
 
-        public get tabTitleKeys(): string[] {
-            return this.tabTextKeys('header');
-        }
-
-        private tabTextKeys(suffix: string): string[] {
-            const exceptions: IDictionary<string> = {
-                'subscription_infoDialogue_multiSubscriptions_header'
-                    : 'dialog_subscription_multiSubscriptions_header',
-                'subscription_infoDialogue_monthlyPayment_copy'
-                    : 'dialog_subscription_monthlyPayment_copy'
-            };
-
-            return 'general monthlyPayment multiSubscriptions cancelSubscription allianceSubscription convenienceSubscription'
-                .split(/\s+/)
-                .map(key => `subscription_infoDialogue_${key}_${suffix}`)
-                .map(key => exceptions[key] || key)
-        }
-
-        public tabCopyForTitle(title: string): string {
-            const copyIndex = this.tabTitleKeys.indexOf(title);
-            return this.tabCopyKeys()[copyIndex];
-        }
-
-        public tabCopyKeys(): string[] {
-            return this.tabTextKeys('copy');
+        public isActive(key: string): boolean {
+            return this.currentSubscriptionTab === key;
         }
     }
 </script>
