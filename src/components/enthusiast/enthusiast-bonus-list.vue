@@ -24,31 +24,31 @@
                         <img src="../../assets/images/loyalty_badge_med.svg" class="bigfarm-table-box__badge"/>
                     </div>
                 </th>
-                <th v-for="tier in boosterTiers">
+                <th v-for="month in monthList">
                   <img src="../../assets/images/calendar_big.svg" class="bigfarm-table-th__badge">
-                  <span>{{tier}}</span>
+                  <span>{{month}}</span>
                 </th>
            </tr>
             </template>
             <template slot="tbody">
-              <tr v-for="perkId in perks">
+              <tr v-for="perk in bonusList">
                 <td>
                   <div class="fill p-2">
                     <dl>
                       <dt>
                           <div class="thumbnail">
-                              <img class="thumbnail__image" alt="" :src="iconNameForItemId(perkId)"/>
+                              <img class="thumbnail__image" alt="" :src="iconNameForItemId(perk.name)"/>
                           </div>
                       </dt>
                       <dd>
-                        <h3>{{ t(perkTitle(perkId)) }}</h3>
-                        <p>{{ t(perkDesc(perkId)) }}</p>
+                        <h3>{{ t(perkTitle(perk.name)) }}</h3>
+                        <p>{{ t(perkDesc(perk.name)) }}</p>
                       </dd>
                     </dl>
                   </div>
                 </td>
-                <td v-for="tier in boosterTiers">
-                  {{ perkValue(perkId, tier) }}
+                <td v-for="tier in perk.values">
+                  {{ t(tier.value) }}
                 </td>
               </tr>
             </template>
@@ -62,7 +62,7 @@
     import {Component, Prop} from 'vue-property-decorator';
     import VueScrollingTable from "vue-scrolling-table";
     import {IDictionary} from "@/core/IDictionary";
-    import {enthusiastItemData, IEnthusiastItemData} from "@/components/enthusiast/enthusiastItemData";
+    import {ILoyaltyBonus, loyaltyBonusList} from "@/components/enthusiast/enthusiastItemData";
     import {BonusList} from "@/components/bonus-list";
 
     @Component({
@@ -74,50 +74,29 @@
     export default class EnthusiastBonusList extends BonusList {
         @Prop({required: true}) public text!: IDictionary<string>;
 
-        public itemDataForId(id: number): IEnthusiastItemData {
-            return enthusiastItemData[id];
+        public perkTitle(perkId: string): string {
+            return `subscription_perkLoyalty_${perkId}_title`;
         }
 
-        public perkTitle(perkId: number): string {
-            const [key, ...rest] = this.itemDataForId(perkId);
-            return `subscription_perkLoyalty_${key}_title`;
+        public perkDesc(perkId: string): string {
+            return `subscription_perkLoyalty_${perkId}_desc`;
         }
 
-        public perkDesc(perkId: number): string {
-            const [key, ...rest] = this.itemDataForId(perkId);
-            return `subscription_perkLoyalty_${key}_desc`;
-        }
-
-        private boosterPerkBoostForTier(perkId: number, tier: number): number | undefined {
-            const tierData = this.boosterData.find(({from}) => from >= tier);
-            if (tierData && tierData.items) {
-                const item = tierData.items.find(([id]) => id == perkId);
-                return item ? item[1] : undefined;
-            }
-        }
-
-        public perkValue(perkId: number, tier: number): string {
-            const perk = this.boosterPerkBoostForTier(perkId, tier);
-            if (!perk) {
-                throw new Error(`Cannot find perk for perk = ${perkId}, tier = ${tier}`);
-            }
-            const [key, pattern] = this.itemDataForId(perkId);
-            let output = '';
-            try {
-                output = eval(pattern.replace("$value", perk.toString(10)));
-            } catch (e) {
-                throw new Error(`Pattern is incorrect (perkId: ${perkId}, tier: ${tier}, ${pattern})`)
-            }
-
-            return output;
-        }
-
-        public iconNameForItemId(id: number): string {
-            return require(`@/assets/images/${this.itemDataForId(id)[0]}.svg`);
+        public iconNameForItemId(id: string): string {
+            return require(`@/assets/images/${id}.svg`);
         }
 
         public goToBonusList(): void {
             this.$emit('go-to-bonus-list');
+        }
+
+        public get bonusList(): ILoyaltyBonus[] {
+            return loyaltyBonusList;
+        }
+
+        public get monthList(): number[] {
+            let numbers = loyaltyBonusList[0].values.map(({monthFrom}) => monthFrom);
+            return numbers;
         }
     }
 </script>

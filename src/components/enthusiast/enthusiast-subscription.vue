@@ -13,7 +13,7 @@
                         <div class="bigfarm__fit_height">
                             <div class="bigfarm__scroll_container mt-1" data-simplebar>
                                 <ul class="list-unstyled">
-                                    <li class="media" v-for="(perkId, index) in perksForHighlightedTier">
+                                    <li class="media" v-for="perkId in bonusList">
                                         <img class="mr-3 media-image_package_enthusiast"
                                              :alt="t(perkTitle(perkId))" :src="iconNameForItemId(perkId)"/>
                                         <div class="media-body">
@@ -90,8 +90,7 @@
 
 <script lang="ts">
     import {Component, Prop} from 'vue-property-decorator';
-    import {enthusiastItemData, IEnthusiastItemData} from "./enthusiastItemData";
-    import {distinct} from "@/core/helpers";
+    import {loyaltyBonusList} from "./enthusiastItemData";
     import VueScrollingTable from "vue-scrolling-table";
     import {IPlan} from "@/domain/IPlan";
     import {IDictionary} from "@/core/IDictionary";
@@ -119,39 +118,28 @@
         @Prop({required: true}) public plan!: IPlan;
         @Prop({required: true}) protected text!: IDictionary<string>;
 
-        public get perksForHighlightedTier(): number[] {
-            const tiers = this.plan.boosterTiers
-                .reduce<number[]>((result, {items}) => ([
-                    ...result,
-                    ...(items.filter(([, amount]) => amount).map(([itemId]) => itemId))
-                ]), []);
-            return distinct(tiers);
-        }
-
         public get isSubscriptionActive(): boolean {
             return this.plan.validUntil && moment().diff(this.plan.validUntil) <= 0 || !this.plan.checkoutUrl
         }
 
-        private itemDataForId(id: number): IEnthusiastItemData {
-            return enthusiastItemData[id];
+        public perkTitle(perkId: string): string {
+            return `subscription_perkLoyalty_${perkId}_title`;
         }
 
-        public perkTitle(perkId: number): string {
-            const [key, ...rest] = this.itemDataForId(perkId);
-            return `subscription_perkLoyalty_${key}_title`;
+        public perkDesc(perkId: string): string {
+            return `subscription_perkLoyalty_${perkId}_desc`;
         }
 
-        public perkDesc(perkId: number): string {
-            const [key, ...rest] = this.itemDataForId(perkId);
-            return `subscription_perkLoyalty_${key}_desc`;
-        }
-
-        public iconNameForItemId(id: number): string {
-            return require(`@/assets/images/${this.itemDataForId(id)[0]}.svg`);
+        public iconNameForItemId(id: string): string {
+            return require(`@/assets/images/${id}.svg`);
         }
 
         public goToBonusList(): void {
             this.$emit('go-to-bonus-list')
+        }
+
+        public get bonusList(): string[] {
+            return loyaltyBonusList.map(({name}) => name);
         }
     }
 </script>
