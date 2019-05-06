@@ -6,6 +6,7 @@ import StatusChangedModal from './components/status-changed.vue'
 import * as moment from "moment";
 import SubscriptionLoyaltyBonus from "@/components/enthusiast/subscription-loyalty-bonus.vue";
 import {prepareGlobalVars} from "@/prepareGlobalVars";
+import {dataProvider} from "@/services/dataProvider";
 
 Vue.config.productionTip = false;
 Vue.use(require('vue-moment'), {moment});
@@ -24,6 +25,21 @@ const routes = {
 } as any;
 
 prepareGlobalVars(window);
+const {
+    gameid = 15,
+    networkid = 1,
+    instanceid = 251,
+    playerid = 2794098,
+    sid = Math.random().toString(36).substr(2),
+    locale = 'en'
+} = (window.location as any).query;
+dataProvider.catalogUrl = [
+    process.env.VUE_APP_API_BASE_URL,
+    gameid,
+    networkid,
+    instanceid,
+    playerid,
+].join('/')+`?sid=${sid}&locale=${locale}`;
 
 new Vue({
     el: '#app',

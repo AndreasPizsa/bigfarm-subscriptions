@@ -1,5 +1,3 @@
-import * as moment from "./main";
-
 export function prepareGlobalVars(mainWindow: Window): void {
     ;(function parseWindowLocationQuery(w){
         var d=decodeURIComponent,
@@ -13,5 +11,5 @@ export function prepareGlobalVars(mainWindow: Window): void {
     })(mainWindow);
     const locale = (mainWindow.location as any).query.language || (mainWindow.location as any).query.locale || 'en';
     if(mainWindow.numeral.locales[locale]) mainWindow.numeral.locale(locale);
-    (moment as any).locale(locale);
+    (window as any).moment.locale(locale);
 }

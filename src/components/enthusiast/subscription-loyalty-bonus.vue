@@ -4,13 +4,15 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Loyalty Bonus</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">{{t('subscription_bonusGoldConfirmation_title')}}</h5>
                     <button type="button" class="close" @click="closeWindow()">
                         <span aria-hidden="true">&times</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p>Nice! {{amount}}</p>
+                    <p>{{t('subscription_bonusGoldConfirmation_copy')}}</p>
+
+                    <h5 class="text-center">x{{amount}}</h5>
 
                     <button type="button" class="btn btn-primary btn-block" @click="closeWindow()">Okay</button>
                 </div>
@@ -20,12 +22,16 @@
 </template>
 
 <script lang="ts">
-    import {Component, Vue} from 'vue-property-decorator';
+    import {Component} from 'vue-property-decorator';
+    import {dataProvider} from "@/services/dataProvider";
+    import {BaseComponent} from "@/components/base-component";
+    import {IDictionary} from "@/core/IDictionary";
 
     @Component({
         name: "subscription-loyalty-bonus"
     })
-    export default class SubscriptionLoyaltyBonus extends Vue {
+    export default class SubscriptionLoyaltyBonus extends BaseComponent {
+        protected text: IDictionary<string> = {};
         public amount!: number;
 
         public closeWindow(): void {
@@ -37,6 +43,11 @@
 
         public created(): void {
             this.amount = (window.location as any).query.amount;
+            dataProvider.fetch()
+                .then(() => {
+                    this.text = dataProvider.text;
+                })
+
         }
     }
 </script>
