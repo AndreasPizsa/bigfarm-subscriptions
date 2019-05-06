@@ -5,6 +5,7 @@ import BigFarm from './components/big-farm.vue'
 import StatusChangedModal from './components/status-changed.vue'
 import * as moment from "moment";
 import SubscriptionLoyaltyBonus from "@/components/enthusiast/subscription-loyalty-bonus.vue";
+import {prepareGlobalVars} from "@/prepareGlobalVars";
 
 Vue.config.productionTip = false;
 Vue.use(require('vue-moment'), {moment});
@@ -21,6 +22,8 @@ const routes = {
     '/subscriptionStatusChange': StatusChangedModal,
     '/loyalty-bonus': SubscriptionLoyaltyBonus
 } as any;
+
+prepareGlobalVars(window);
 
 new Vue({
     el: '#app',

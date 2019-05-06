@@ -10,7 +10,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p>Nice!</p>
+                    <p>Nice! {{amount}}</p>
 
                     <button type="button" class="btn btn-primary btn-block" @click="closeWindow()">Okay</button>
                 </div>
@@ -26,11 +26,17 @@
         name: "subscription-loyalty-bonus"
     })
     export default class SubscriptionLoyaltyBonus extends Vue {
+        public amount!: number;
+
         public closeWindow(): void {
             window.parent.postMessage({
                 name: 'cxf.subscriptions.close',
                 frameId: (window.location as any).query.elementid
             }, '*');
+        }
+
+        public created(): void {
+            this.amount = (window.location as any).query.amount;
         }
     }
 </script>

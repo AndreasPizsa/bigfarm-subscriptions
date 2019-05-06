@@ -101,25 +101,6 @@
 
   const decodeHtml = require('he').decode
 
-    /**
-    * sets window.location.query, which is a hash with all parameters
-    * param names are all lowercase
-    * reference as window.location.query.myparameter
-    */
-    ;(function parseWindowLocationQuery(w){
-      var d=decodeURIComponent,
-          q=w.location.query=w.location.query||{},
-          pairs=w.location.search.substr(1).split('&'),
-          i;
-      while(i=pairs.pop()) {
-        var keyValue=i.match(/([^=]*)=?(.*)/);
-        if(keyValue) q[d(keyValue[1]).toLowerCase()]=d(keyValue[2]);
-      }
-    })(window);
-    const locale = window.location.query.language || window.location.query.locale || 'en';
-    if(numeral.locales[locale]) numeral.locale(locale);
-    moment.locale(locale);
-
     export default {
         name: 'BigFarm',
         components: {
