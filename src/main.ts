@@ -4,6 +4,7 @@ import './assets/scss/main.scss'
 import BigFarm from './components/big-farm.vue'
 import StatusChangedModal from './components/status-changed.vue'
 import * as moment from "moment";
+import SubscriptionLoyaltyBonus from "@/components/enthusiast/subscription-loyalty-bonus.vue";
 
 Vue.config.productionTip = false;
 Vue.use(require('vue-moment'), {moment});
@@ -17,7 +18,8 @@ if (process.env.VUE_APP_ANALYTICS_KEY) {
 
 const routes = {
     '/': BigFarm,
-    '/subscriptionStatusChange': StatusChangedModal
+    '/subscriptionStatusChange': StatusChangedModal,
+    '/loyalty-bonus': SubscriptionLoyaltyBonus
 } as any;
 
 new Vue({
