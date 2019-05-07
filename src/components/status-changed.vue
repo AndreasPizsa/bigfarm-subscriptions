@@ -470,17 +470,6 @@ function isTrue(str) {
   return /^true|1$/i.test(str)
 }
 
-;(function parseWindowLocationQuery(w){
-  var d=decodeURIComponent,
-      q=w.location.query=w.location.query||{},
-      pairs=w.location.search.substr(1).split('&'),
-      i;
-  while(i=pairs.pop()) {
-    var keyValue=i.match(/([^=]*)=?(.*)/)
-    if(keyValue) q[d(keyValue[1]).toLowerCase()]=d(keyValue[2]);
-  }
-})(window);
-
 export default {
   name: 'StatusChangedModal',
 
