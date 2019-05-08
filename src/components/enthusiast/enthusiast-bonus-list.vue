@@ -4,7 +4,7 @@
         <div class="d-flex flex-row">
           <img class="flex-shrink-1" style="cursor: pointer; bottom: -2px"
                :src="require('@/assets/images/bigfarm__icon_back.svg')" alt="Back" @click="goToBonusList"/>
-          <span class="flex-grow-1 text-center align-middle">{{ t('subscription_allianceProgress') }}</span>
+          <span class="flex-grow-1 text-center align-middle">{{ t('subscription_packageLoyalty_loyalty_tt') }}</span>
         </div>
 
         <div class="bigfarm__table_box">
