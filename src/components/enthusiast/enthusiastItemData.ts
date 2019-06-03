@@ -43,27 +43,27 @@ export const loyaltyBonusList: ILoyaltyBonus[] = [
         values: [
             {
                 monthFrom: 1,
-                value: 'level 1',
+                value: 'Level 1',
             },
             {
                 monthFrom: 2,
-                value: 'level 2',
+                value: 'Level 2',
             },
             {
                 monthFrom: 3,
-                value: 'level 3',
+                value: 'Level 3',
             },
             {
                 monthFrom: 4,
-                value: 'level 4',
+                value: 'Level 4',
             },
             {
                 monthFrom: 5,
-                value: 'level 5',
+                value: 'Level 5',
             },
             {
                 monthFrom: 6,
-                value: 'level 6',
+                value: 'Level 6',
             }
         ]
     },
@@ -72,27 +72,27 @@ export const loyaltyBonusList: ILoyaltyBonus[] = [
         values: [
             {
                 monthFrom: 1,
-                value: 'access',
+                value: 'Access',
             },
             {
                 monthFrom: 2,
-                value: 'access',
+                value: 'Access',
             },
             {
                 monthFrom: 3,
-                value: 'access',
+                value: 'Access',
             },
             {
                 monthFrom: 4,
-                value: 'access',
+                value: 'Access',
             },
             {
                 monthFrom: 5,
-                value: 'access',
+                value: 'Access',
             },
             {
                 monthFrom: 6,
-                value: 'access',
+                value: 'Access',
             }
         ]
     },
@@ -130,27 +130,27 @@ export const loyaltyBonusList: ILoyaltyBonus[] = [
         values: [
             {
                 monthFrom: 1,
-                value: 'access',
+                value: 'Access',
             },
             {
                 monthFrom: 2,
-                value: 'access',
+                value: 'Access',
             },
             {
                 monthFrom: 3,
-                value: 'access',
+                value: 'Access',
             },
             {
                 monthFrom: 4,
-                value: 'access',
+                value: 'Access',
             },
             {
                 monthFrom: 5,
-                value: 'access',
+                value: 'Access',
             },
             {
                 monthFrom: 6,
-                value: 'access',
+                value: 'Access',
             }
         ]
     },
